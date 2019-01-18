@@ -1,7 +1,8 @@
 # Stirring
-Website for Free Pictures or Videos.
+A Website for Free Pictures or Videos.
 
 <FrontEnd>
+vue
 
 <BackEnd>
 --save
@@ -10,4 +11,5 @@ cors
 body-parser
 mongodb
 
+-dev
 nodemon
