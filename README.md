@@ -1,5 +1,5 @@
 # Stirring
-Website for Free Pictures or Videos.
+A Website for Free Pictures or Videos.
 
 <FrontEnd>
 
@@ -10,4 +10,5 @@ cors
 body-parser
 mongodb
 
+-dev
 nodemon
