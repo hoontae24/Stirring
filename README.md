@@ -7,7 +7,6 @@ vue-router
 vuex
 
 <BackEnd>
---save
 expess
 cors
 body-parser

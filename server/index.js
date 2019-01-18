@@ -10,4 +10,4 @@ app.use(cors())
 
 const port = process.env.PORT || 3000
 
-app.listen(port, () => console.log(`The Server started on port ${port}`))
+app.listen(port, () => console.log(`\nThe Server started on port :${port} at ${new Date().toLocaleString()}\n`))
