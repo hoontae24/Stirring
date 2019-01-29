@@ -1,0 +1,13 @@
+{
+  "search": { "en": "Search", "ko": "검색" },
+  "upload": { "en": "Upload", "ko": "업로드" },
+  "login": { "en": "Login", "ko": "로그인" },
+  "signup": { "en": "Signup", "ko": "회원가입" },
+  "logout": { "en": "Logout", "ko": "로그아웃" },
+  "profile": { "en": "Profile", "ko": "프로필" },
+  "email": { "en": "Email", "ko": "이메일" },
+  "password": { "en": "Password", "ko": "패스워드" },
+  "name": { "en": "Name", "ko": "이름" },
+  "language": { "en": "Korean", "ko": "영어" },
+  "collections": { "en": "Collections", "ko": "컬렉션" }
+}

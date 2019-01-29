@@ -1,48 +1,75 @@
 <template>
   <div id="header">
-    <div id="logo" class="btn" @click="routeTo('home')">
+    <div id="main-logo" class="btn" @click="linkTo('home')">
       <img alt="Vue logo" src="@/assets/logo.png">
     </div>
     <div id="nav">
-      <div
-      v-for="nav in navs"
-        class="item btn"
-        :key="nav.text"
-        @click="routeTo(nav.route)"
-        >
-        {{ nav.text }}
+      <div class="nav2">
+        <div
+          v-for="nav in postNavs"
+          v-show="nav.show"
+          class="item btn post"
+          :key="nav.name"
+          @click="linkTo(nav.route)"
+          >
+          {{ text(nav.name) | upperCase }}
+        </div>
+      </div>
+      <div class="nav2">
+        <div
+          v-for="nav in userNavs"
+          v-show="nav.show"
+          class="item btn user"
+          :key="nav.name"
+          @click="linkTo(nav.route)"
+          >
+          {{ text(nav.name) | upperCase }}
+        </div>
+        <div id="changeLan" class="item btn" @click="changeLan">
+          {{ text(language.name) | upperCase }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { routes } from '@/mixins/routes'
+
 export default {
-  data () {
-    return {
-      navs: [
-        { text: 'SEARCH', route: 'search' },
-        { text: 'UPLOAD', route: 'upload' },
-        { text: 'LOGIN', route: 'login' },
-        { text: 'SIGNUP', route: 'signup' }
-      ]
+  computed: {
+    ...mapGetters(['text'])
+  },
+  data: () =>({
+    postNavs: [
+        { name: 'search', route: 'search', show: true },
+        { name: 'upload', route: 'upload', show: true },
+        { name: 'collections', route: 'collections', show: true }
+    ],
+    userNavs: [
+        { name: 'login', route: 'login', show: true },
+        { name: 'signup', route: 'signup', show:true, },
+        { name: 'logout', route: 'logout', show:false },
+        { name: 'profile', route: 'profile', show:false }
+    ],
+    language: { name: 'language' }
+  }),
+  methods: {
+    changeLan () {
+      this.$store.dispatch('changeLan')
     }
   },
-  methods: {
-    routeTo (route) {
-      this.$router.push({name: route})
-    }
-  }
+  mixins: [ routes ]
 }
 </script>
 
 <style lang="css" scoped>
 #header  {
-  font-family: 'Nunito', Helvetica, Arial, sans-serif;
+  /* font-family: 'Nunito', Helvetica, Arial, sans-serif; */
   background-color: white;
-  width: 99%;
+  width: 100%;
   height: 70px;
-  position: fixed;
   margin: 0;
   padding: 0px 10px 0px 10px;
   border-bottom: 1px solid lightgrey;
@@ -53,9 +80,9 @@ export default {
 #header * {
   background-color: white;
 }
-#logo {
-  width: auto;
+#main-logo {
   height: 100%;
+
   align-self: center;
   padding: 0px;
   margin: 0px;
@@ -64,16 +91,30 @@ export default {
   justify-content: center;
   align-items: center;
 }
-img {
+#main-logo img {
+  display: block;
+  padding: 0px;
+  margin: 0px;
+  width: 260px;
   height: 80%;
 }
 #nav{
-  display: flex;
+  width: 100%;
   margin-right: 10px;
+  margin-left: 10px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.nav2{
+  display: flex;
+  align-self: center;
 }
 .item {
   align-self: center;
   padding: 15px 10px;
+
 }
 .btn:hover, .btn:active {
   cursor: pointer;
@@ -81,9 +122,9 @@ img {
   color: Steelblue;
 }
 
-@media (max-width: 580px) {
+@media (max-width: 800px) {
   #header {
-    font-family: 'Nunito', Helvetica, Arial, sans-serif;
+    /* font-family: 'Nunito', Helvetica, Arial, sans-serif; */
 
     height: 50px;
     margin: 0;

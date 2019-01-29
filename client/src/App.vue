@@ -1,25 +1,29 @@
 <template>
-<div id="app">
-  <Header></Header>
-  <router-view />
-</div>
+  <div id="app">
+    <Header></Header>
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import Header from '@/components/Header'
+import Text from "@/text/index.json"
+import Header from "@/components/Header"
+
 export default {
   components: {
     Header
+  },
+  created: function() {
+    this.$store.commit("initText", Text)
   }
-
 }
 </script>
 
 <style>
 * {
-  margin: 0;
-  padding: 0;
-  font-family: 'Nunito semibold', sans-serif !important;
-  background-color: whitesmoke;
+  font-family: "Nunito semibold", "Noto Sans KR", sans-serif !important;
+}
+body {
+  /* background-color: whitesmoke; */
 }
 </style>
