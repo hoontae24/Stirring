@@ -1,7 +1,17 @@
-import axios from "axios"
-import { apiAddress, apiPort } from "@/config"
+import axios from 'axios'
+import { apiAddress, apiPort } from '@/config'
 
 export default {
+  get: (url, params, token) => {
+    return axios
+      .create({
+        baseURL: `http://${apiAddress}:${apiPort}/`
+      })
+      .get(url, {
+        headers: { 'x-access-token': token },
+        params
+      })
+  },
   post: (url, payload) => {
     return axios
       .create({
@@ -9,11 +19,18 @@ export default {
       })
       .post(url, payload)
   },
-  get: (url, payload) => {
+  put: (url, payload) => {
     return axios
       .create({
         baseURL: `http://${apiAddress}:${apiPort}/`
       })
-      .get(url, { params: payload })
+      .put(url, payload)
+  },
+  delete: (url, payload) => {
+    return axios
+      .create({
+        baseURL: `http://${apiAddress}:${apiPort}/`
+      })
+      .delete(url, payload)
   }
 }

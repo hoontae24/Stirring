@@ -1,51 +1,109 @@
 <template>
   <div class="login">
     <div class="container">
-      <img class="btn" alt="Vue logo" src="@/assets/logo.png" @click="linkTo('home')">
-      <div class="space1"></div>
-      <md-field class="item">
-        <label>EMAIL</label>
-        <md-input v-model="email"></md-input>
-        <!-- <span class="md-helper-text">Helper text</span> -->
+      <div class="item" style="font-size: 3rem; text-align: center;">
+        <span>{{ text('Login') }}</span>
+      </div>
+      <div class="space" style="height: 20px"></div>
+      <div class="item" style="text-align: center; color: red; font-size: 1rem;">
+        <span>{{ error }}</span>
+      </div>
+      <md-field class="item" md-clearable>
+        <label class="label">{{ text('email') }}</label>
+        <md-input v-model="email.value" type="email"></md-input>
+        <span
+          class="md-helper-text helper"
+          v-if="email.helper"
+          style="color: green;"
+        >{{ email.helper }}</span>
+        <span class="md-helper-text error" v-if="email.error" style="color: red;">{{ email.error }}</span>
       </md-field>
+      <div class="space" style="height: 20px"></div>
       <md-field class="item">
-        <label>PASSWORD</label>
-        <md-input v-model="password"></md-input>
-        <!-- <span class="md-helper-text">Helper text</span> -->
+        <label class="label">{{ text('password') }}</label>
+        <md-input v-model="password.value" type="password"></md-input>
+        <span
+          class="md-helper-text helper"
+          v-if="password.helper"
+          style="color: green;"
+        >{{ password.helper }}</span>
+        <span
+          class="md-helper-text error"
+          v-if="password.error"
+          style="color: red;"
+        >{{ password.error }}</span>
       </md-field>
-      <div class="space2"></div>
-      <md-button class="item btn md-raised" @click="login">
-        <span>Login</span>
+      <div class="space" style="height: 40px"></div>
+      <md-button
+        class="item btn md-raised"
+        style="background-color: black; color:white;"
+        @click="login"
+      >
+        <span>{{ text('login') }}</span>
       </md-button>
-      <md-button class="item btn md-raised">
-        <span>Signup</span>
+      <md-button class="item btn md-raised" @click="$router.push({name: 'signup'})">
+        <span>{{ text('signup') }}</span>
       </md-button>
+      <div class="oauth">
+        <md-button class="md-raised item">
+          <span>with Google</span>
+        </md-button>
+        <md-button class="md-raised item">
+          <span>with Facebook</span>
+        </md-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { routes } from "@/mixins/routes"
-import service from "@/services/AuthenticationService"
+import { mixins } from "@/mixins/mixins"
+import service from "@/services/AuthService"
+import { mapGetters, mapActions } from "vuex"
 
 export default {
   name: "login",
   component: {},
   data() {
     return {
-      email: null,
-      password: null
+      email: {
+        value: '',
+        helper: null,
+        error: null,
+        valid: false
+      },
+      password: {
+        value: '',
+        helper: null,
+        error: null,
+        valid: false
+      },
+      error: null
     }
+  },
+  computed: {
+    ...mapGetters(["text"])
   },
   methods: {
+    ...mapActions({ vLogin: "login" }),
     async login() {
-      const response = await service.login({
-        email: this.email,
-        password: this.password
+      if (this.email.value.length === 0 || this.password.value.length === 0) {
+        this.error = this.text('Loginerror')
+        return
+      }
+      const res = await service.login({
+        email: this.email.value,
+        password: this.password.value
       })
+      if (res.data.success) {
+        this.error = null
+        this.vLogin(res.data)
+        this.$router.go(-1)
+      }
+      this.error = res.data.message
     }
   },
-  mixins: [routes]
+  mixins: [mixins]
 }
 </script>
 
@@ -79,14 +137,20 @@ export default {
 .login .item {
   margin: 10px;
 }
+.item .label {
+  color: darkgrey;
+}
 .login .btn {
   font-size: 1.5rem;
 }
-.space1 {
-  height: 50px;
+.oauth {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
 }
-.space2 {
-  height: 30px;
+.oauth > .item {
+  flex-grow: 1;
 }
 
 @media screen {
