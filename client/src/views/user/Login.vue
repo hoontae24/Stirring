@@ -98,7 +98,7 @@ export default {
       if (res.data.success) {
         this.error = null
         this.vLogin(res.data)
-        this.$router.go(-1)
+        this.$router.push({ name: 'home' })
       }
       this.error = res.data.message
     }

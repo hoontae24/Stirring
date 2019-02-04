@@ -12,6 +12,7 @@ export default new Vuex.Store({
   state: {
     userInfo: {
       isLogined: false,
+      id: null,
       name: null,
       token: null
     },
@@ -34,11 +35,13 @@ export default new Vuex.Store({
     },
     login: (state, payload) => {
       state.userInfo.isLogined = true
+      state.userInfo.id = payload.id
       state.userInfo.name = payload.name
       state.userInfo.token = payload.token
     },
     logout: (state) => {
       state.userInfo.isLogined = false
+      state.userInfo.id = null
       state.userInfo.name = null
       state.userInfo.token = null
     }

@@ -1,7 +1,6 @@
-const User = require('../../models/user')
+const User = require('../models/user')
 
 exports.signup = (req, res) => {
-  console.log('/signup', req.body)
   const newUser = {
     email: req.body.email,
     password: req.body.password,

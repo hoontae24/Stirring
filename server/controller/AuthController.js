@@ -1,4 +1,4 @@
-const User = require('../../models/user')
+const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 exports.login = (req, res) => {
@@ -10,7 +10,7 @@ exports.login = (req, res) => {
       throw new Error('Email does not exist.')
     } else {
       if (user.verify(password)) {
-        const p = new Promise((resolve, reject) => {
+        const promise = new Promise((resolve, reject) => {
           jwt.sign(
             {
               _id: user._id,
@@ -18,7 +18,7 @@ exports.login = (req, res) => {
             },
             secret,
             {
-              expiresIn: '10m',
+              expiresIn: '1d',
               issuer: 'stirring.com',
               subject: 'userInfo'
             },
@@ -26,12 +26,11 @@ exports.login = (req, res) => {
               if (err) {
                 reject(err)
               }
-              console.log('Logined:', user.email)
-              resolve({ name: user.name, token })
+              resolve({ id: user._id, name: user.name, token })
             }
           )
         })
-        return p
+        return promise
       } else {
         throw new Error('The password is wrong.')
       }
@@ -42,6 +41,7 @@ exports.login = (req, res) => {
     res.json({
       success: true,
       message: 'logged in successfully.',
+      id: payload.id,
       name: payload.name,
       token: payload.token
     })
@@ -67,7 +67,7 @@ exports.refresh = (req, res) => {
     if (!user) {
       throw new Error('Email does not exist.')
     } else {
-      const p = new Promise((resolve, reject) => {
+      const promise = new Promise((resolve, reject) => {
         jwt.sign(
           {
             _id: user._id,
@@ -84,11 +84,11 @@ exports.refresh = (req, res) => {
               reject(err)
             }
             console.log('Refreshed:', user.email)
-            resolve({ name: user.name, token })
+            resolve({ id: user._id, name: user.name, token })
           }
         )
       })
-      return p
+      return promise
     }
   }
 
@@ -96,6 +96,7 @@ exports.refresh = (req, res) => {
     res.json({
       success: true,
       message: 'Refreshing token.',
+      id: payload.id,
       name: payload.name,
       token: payload.token
     })
@@ -114,6 +115,7 @@ exports.refresh = (req, res) => {
 }
 
 exports.check = (req, res) => {
+  console.log('/check')
   res.json({
     success: true,
     info: req.decoded

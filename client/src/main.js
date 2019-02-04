@@ -19,13 +19,13 @@ new Vue({
   router,
   store,
   beforeCreate() {
-    const token = localStorage.getItem('token')
     service
-      .refresh(null, token)
+      .refresh(localStorage.getItem('token'))
       .then(res => {
         this.$store.dispatch('login', res.data)
       })
       .catch(() => {
+        console.log('Failed refreshing.')
       })
   },
   render: h => h(App)

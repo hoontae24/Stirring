@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import service from "@/services/AuthService"
+import service from "@/services/UserService"
 import { mixins } from "@/mixins/mixins"
 import { mapGetters } from "vuex"
 

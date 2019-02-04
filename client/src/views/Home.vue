@@ -28,7 +28,6 @@ export default {
   },
   watch: {
     searchWord () {
-      console.log(this.searchWord)
     }
   }
 }

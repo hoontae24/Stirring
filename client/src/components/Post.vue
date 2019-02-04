@@ -1,23 +1,25 @@
 <template>
   <md-card class="post">
-    <md-card-header class="header">
-      <div class="md-title item btn">Author</div>
+    <md-card-header class="top">
+      <div class="md-title item btn" style="padding: 0 auto 0 0; margin: 0;">
+        <span style="margin: auto 5px;">Author</span>
+      </div>
       <div class="item">
-        <div class="item2">
-          <md-avatar>
-            <i class="fas fa-heart btn"></i>
+        <div class="item2 btn">
+          <md-avatar style="margin: 0;">
+            <i class="fas fa-heart"></i>
             <md-tooltip md-direction="top">Like</md-tooltip>
           </md-avatar>
         </div>
-        <div class="item2">
-          <md-avatar>
-            <i class="fas fa-plus btn"></i>
+        <div class="item2 btn">
+          <md-avatar style="margin: 0;">
+            <i class="fas fa-plus"></i>
             <md-tooltip md-direction="top">Add collections</md-tooltip>
           </md-avatar>
         </div>
-        <div class="item2">
-          <md-avatar>
-            <i class="fas fa-arrow-down btn"></i>
+        <div class="item2 btn">
+          <md-avatar style="margin: 0;">
+            <i class="fas fa-arrow-down"></i>
             <md-tooltip md-direction="top">Download</md-tooltip>
           </md-avatar>
         </div>
@@ -43,19 +45,21 @@ export default {}
   flex-grow: 1;
   display: inline-block;
 } */
-.post > .header {
+.post > .top {
   padding: 5px;
+  padding-left: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.header > .item {
+.top > .item {
   box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
   /* font-size: 4px; */
   text-align: center;
   vertical-align: middle;
+  font-size: 1rem;
 }
 .md-avatar {
   margin: 0;
@@ -66,14 +70,6 @@ export default {}
 
   display: inline-block;
   font-size: 1rem;
-}
-.header > .md-title {
-  margin-top: 0px;
-  margin-left: 10px;
-  font-size: 1rem;
-  vertical-align: top;
-  text-align: start;
-  /* flex-grow: 50; */
 }
 .image-btn:hover,
 .image-btn:active {

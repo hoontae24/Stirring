@@ -17,6 +17,7 @@ const User = new Schema({
   password: { type: String, required: true, trim: true },
   name: { type: String, required: true },
   image: { type: String, default: null },
+  posts: [String],
   followings: [String],
   followers: [String],
   collections: [String],
@@ -31,7 +32,7 @@ User.statics.create = function(user) {
     .createHmac('sha1', config.secret)
     .update(user.password)
     .digest('base64')
-    user.password = hashPassword
+  user.password = hashPassword
   const newUser = new this(user)
   return newUser.save()
 }
@@ -48,6 +49,11 @@ User.methods.verify = function(password) {
     .update(password)
     .digest('base64')
   return this.password === hashPassword
+}
+
+User.statics.addPost = function(_id, post, cb) {
+  console.log('addPost')
+  this.update({ _id }, { $push: { posts: post._id } }, cb)
 }
 
 module.exports = mongoose.model('User', User)
