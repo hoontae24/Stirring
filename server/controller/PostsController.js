@@ -3,16 +3,41 @@ const Post = require('../models/post')
 const User = require('../models/user')
 
 module.exports = {
-  post: (req, res) => {
-    const author = req.body.id
+  getAll: (req, res) => {
+    const respond = payload => {
+      res.json({
+        success: true,
+        posts: payload
+      })
+    }
+
+    const onError = error => {
+      res.json({
+        message: error.message
+      })
+    }
+
+    Post.findAll()
+      .then(respond)
+      .catch(onError)
+  },
+
+  uploadPost: (req, res) => {
+    const id = req.body.authorId
+    const name = req.body.authorName
     const { filename, size } = req.files.img[0]
-    const tags = req.body.tags.split(',')
+    let tags = req.body.tags.split(',')
     const _data = sizeOf('./server/uploads/posts/' + filename)
     const { width, height } = _data
     const format = _data.type
 
+    if (!tags[0]) tags = []
+
     newPost = {
-      author,
+      author: {
+        id,
+        name
+      },
       tags,
       data: {
         filename,
@@ -22,9 +47,8 @@ module.exports = {
       }
     }
     const addPostOnUser = post => {
-      return User.addPost(author, post, (err, result) => {
+      return User.addPost(id, post, (err, result) => {
         const promise = new Promise((resolve, reject) => {
-          console.log("promise")
           if (err) {
             console.log(err)
             reject(err)
@@ -32,7 +56,6 @@ module.exports = {
             console.log('No result')
             reject('no result')
           } else {
-            console.log(result)
             resolve()
           }
         })

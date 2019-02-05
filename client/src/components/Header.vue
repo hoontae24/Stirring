@@ -1,7 +1,10 @@
 <template>
   <div id="header">
-    <div id="main-logo" class="btn" @click="$router.push({name: 'home'})">
-      <img alt="Vue logo" src="@/assets/logo.png">
+    <!-- <div id="main-logo" class="btn" @click="$router.push({name: 'home'})"> -->
+    <div id="main-logo" class="btn">
+      <a href="./">
+        <img alt="Vue logo" src="@/assets/logo.png">
+      </a>
     </div>
     <div id="nav">
       <div class="nav2">
@@ -30,7 +33,6 @@
         >{{ text(language.name) | upperCase }}</div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -147,5 +149,4 @@ export default {
     width: auto;
   }
 }
-
 </style>

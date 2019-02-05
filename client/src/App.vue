@@ -17,6 +17,7 @@ export default {
 
 <style>
 * {
-  font-family: "Nunito semibold", "Noto Sans KR", sans-serif ;
+  font-family: "Nunito", "Noto Sans KR", sans-serif ;
+  font-weight: 600;
 }
 </style>

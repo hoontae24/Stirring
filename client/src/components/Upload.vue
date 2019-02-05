@@ -3,26 +3,29 @@
     <div>{{ text('upload') | upperCase }}</div>
 
     <md-dialog class="md-dialog" :md-active.sync="showDialog">
-      <md-dialog-title class="title">Upload the Post.</md-dialog-title>
+      <md-toolbar class="md-primary" style="margin-bottom: 15px;">
+        <span class="title md-title">Upload the Post.</span>
+      </md-toolbar>
 
       <md-field>
-        <label>Post your images</label>
+        <label>Click here to add your images</label>
         <md-file v-model="uploadImg.name" @md-change="onFileUpload($event)" accept="image/*"/>
       </md-field>
       <div class="tags" style="display: flex; margin-left: 30px;">
-        <md-button
+        <md-chip
           class="md-primary"
           :md-ripple="false"
-          style="margin: auto 0; padding: 0px;"
+          style="margin: auto 5px; padding: 0 10px;"
           v-for="(tag, index) in tags"
           :key="tag"
           @click="tags.splice(index, 1)"
-        >#{{ tag }}</md-button>
+        >#{{ tag }}</md-chip>
         <input
           v-model="inputTag"
           @keypress.enter="addTag"
+          @focusout="addTag()"
           v-show="tags.length < 5"
-          style="width: 100px; height: 40px; text-align: center;"
+          style="width: 100px; height: 40px; text-align: start; padding: 0 10px;"
           placeholder="Add tags"
         >
       </div>
@@ -57,7 +60,7 @@ export default {
   }),
   methods: {
     addTag() {
-      if (!this.inputTag) return
+      if (!this.inputTag.trim()) return
       const isDup = false
       this.tags.forEach(value => {
         if (value == this.inputTag) isDup = true
@@ -91,8 +94,10 @@ export default {
       }
       let formData = new FormData()
       formData.append("img", this.uploadImg)
-      formData.append("id", this.$store.state.userInfo.id)
       formData.append("tags", this.tags)
+      formData.append("authorId", this.$store.state.userInfo.id)
+      formData.append("authorName", this.$store.state.userInfo.name)
+
       const res = await PostService.post(formData)
       console.log(res.data)
       this.close()
@@ -124,6 +129,11 @@ export default {
 }
 .md-dialog .title {
   font-size: 2rem;
+}
+
+.tags * {
+  font-size: 1rem;
+  font-weight: 200;
 }
 
 .error {

@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Post = new Schema({
-  author: { type: String, required: true },
+  author: {
+    id: { type: String, required: true },
+    name: { type: String, required: true }
+  },
   data: {
     filename: { type: String, required: true },
     size: Number,
@@ -11,7 +14,7 @@ const Post = new Schema({
     location: String
   },
   tags: [String],
-  likes: [String],
+  likes: Number,
   downloads: Number,
   views: Number,
   created_at: { type: Date, default: Date.now },

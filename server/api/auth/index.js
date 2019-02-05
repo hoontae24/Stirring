@@ -9,4 +9,6 @@ router.get('/refresh', authCheck, controller.refresh)
 
 router.get('/check', authCheck, controller.check)
 
+// router.get('/me', authCheck, controller.me)
+
 module.exports = router

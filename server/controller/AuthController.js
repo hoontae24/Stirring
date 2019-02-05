@@ -18,7 +18,7 @@ exports.login = (req, res) => {
             },
             secret,
             {
-              expiresIn: '1d',
+              expiresIn: '1h',
               issuer: 'stirring.com',
               subject: 'userInfo'
             },
@@ -121,3 +121,24 @@ exports.check = (req, res) => {
     info: req.decoded
   })
 }
+
+// exports.me = (req, res) => {
+//   const { email } = req.decoded
+
+//   const respond = payload => {
+//     payload.password = null
+//     res.json({
+//       success: true,
+//       user: payload
+//     })
+//   }
+//   const onError = error => {
+//     res.status(409).json({
+//       message: error.message
+//     })
+//   }
+
+//   User.findOneByEmail(email)
+//     .then(respond)
+//     .catch(onError)
+// }

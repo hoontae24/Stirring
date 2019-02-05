@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const path = require('path')
 
 // :Load  the Config
 const port = process.env.PORT || 3000
@@ -15,6 +16,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
+app.use('/static', express.static('server/uploads/posts'))
 
 app.set('jwt-secret', config.secret)
 
@@ -26,9 +28,13 @@ app.listen(port, () =>
   )
 )
 
-mongoose.connect(config.mongodbUri)
+mongoose.connect(
+  config.mongodbUri,
+  { useNewUrlParser: true }
+)
+mongoose.set('useCreateIndex', true)
 const db = mongoose.connection
 db.on('error', console.error)
 db.once('open', () => {
-  console.log('Connected to mongoDB server.')
+  console.log('Connected to mongoDB server.\n')
 })

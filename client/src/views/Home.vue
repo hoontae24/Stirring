@@ -9,26 +9,36 @@
         <i class="btn item1 fas fa-search"></i>
       </div>
     </div>
-    <PostsBoard class="item board" v-bind:searchWord="searchWord">
-    </PostsBoard>
+    <PostsBoard class="item board" v-bind:posts="posts"></PostsBoard>
   </div>
 </template>
 
 <script>
 import PostsBoard from "@/components/PostsBoard"
+import PostService from "@/services/PostService"
 export default {
   name: "home",
   components: {
     PostsBoard
   },
-  data () {
+  data() {
     return {
-      searchWord: null
+      searchWord: null,
+      posts: []
     }
   },
   watch: {
-    searchWord () {
-    }
+    searchWord() {}
+  },
+  created() {
+    PostService.getAll()
+      .then(res => {
+        if (!res.data.success) return
+        this.posts = res.data.posts
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 </script>
@@ -56,7 +66,6 @@ export default {
   min-width: 300px;
 
   display: flex;
-
 }
 .item1 {
   flex-grow: 1;
@@ -64,7 +73,7 @@ export default {
 .fas {
   font-size: 2rem;
   align-self: center;
-  margin: 10px
+  margin: 10px;
 }
 .btn:hover,
 .btn:active {
@@ -73,6 +82,5 @@ export default {
 }
 .board {
   align-self: center;
-  
 }
 </style>

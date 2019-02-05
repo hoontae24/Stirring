@@ -25,6 +25,7 @@ new Vue({
         this.$store.dispatch('login', res.data)
       })
       .catch(() => {
+        this.$store.dispatch('logout')
         console.log('Failed refreshing.')
       })
   },

@@ -51,9 +51,8 @@ User.methods.verify = function(password) {
   return this.password === hashPassword
 }
 
-User.statics.addPost = function(_id, post, cb) {
-  console.log('addPost')
-  this.update({ _id }, { $push: { posts: post._id } }, cb)
+User.statics.addPost = function(id, post, cb) {
+  this.updateOne({ _id: id }, { $push: { posts: post._id } }, cb)
 }
 
 module.exports = mongoose.model('User', User)
