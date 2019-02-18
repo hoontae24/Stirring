@@ -57,23 +57,24 @@
 </template>
 
 <script>
-import { mixins } from "@/mixins/mixins"
+import { mixins } from "@/mixins/validations"
 import service from "@/services/AuthService"
 import { mapGetters, mapActions } from "vuex"
 
 export default {
   name: "login",
+  props: ["required"],
   component: {},
   data() {
     return {
       email: {
-        value: '',
+        value: "",
         helper: null,
         error: null,
         valid: false
       },
       password: {
-        value: '',
+        value: "",
         helper: null,
         error: null,
         valid: false
@@ -88,7 +89,7 @@ export default {
     ...mapActions({ vLogin: "login" }),
     async login() {
       if (this.email.value.length === 0 || this.password.value.length === 0) {
-        this.error = this.text('Loginerror')
+        this.error = this.text("Loginerror")
         return
       }
       const res = await service.login({
@@ -98,7 +99,7 @@ export default {
       if (res.data.success) {
         this.error = null
         this.vLogin(res.data)
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: "home" })
       }
       this.error = res.data.message
     }

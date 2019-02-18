@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import text from './text'
 
+import UserService from '@/services/UserService'
+
 Vue.use(Vuex)
 
 const lan = () => {
@@ -12,51 +14,86 @@ export default new Vuex.Store({
   state: {
     userInfo: {
       isLogined: false,
-      id: null,
-      name: null,
-      token: null
+      token: null,
+      user: null
     },
     language: lan(),
     text
   },
   getters: {
-    text: (state) => (word) => {
+    text: state => word => {
       return state.text[state.language][word.toLowerCase()]
     },
-    isLogined: (state) => {
+    isLogined: state => {
       return state.userInfo.isLogined
+    },
+    isLike: state => post => {
+      if (!state.userInfo.isLogined) return false
+      let result = false
+      state.userInfo.user.likes.forEach(item => {
+        if (item === post._id) result = true
+      })
+      return result
     }
   },
   mutations: {
     changeLan: state => {
-      if ( state.language == 'ko' ) state.language = 'en'
+      if (state.language == 'ko') state.language = 'en'
       else state.language = 'ko'
       localStorage.setItem('language', state.language)
     },
     login: (state, payload) => {
       state.userInfo.isLogined = true
-      state.userInfo.id = payload.id
-      state.userInfo.name = payload.name
       state.userInfo.token = payload.token
+      state.userInfo.user = payload.user
     },
-    logout: (state) => {
+    logout: state => {
       state.userInfo.isLogined = false
-      state.userInfo.id = null
-      state.userInfo.name = null
       state.userInfo.token = null
+      state.userInfo.user = null
+    },
+    actionLike: (state, post) => {
+      state.userInfo.user.likes.push(post._id)
+    },
+    actionUnlike: (state, post) => {
+      state.userInfo.user.likes.pop(post._id)
     }
   },
   actions: {
-    changeLan ({ commit }) {
+    changeLan({ commit }) {
       commit('changeLan')
     },
-    login({ commit }, payload)  {
-      commit('login', payload)
+    login({ commit }, payload) {
       localStorage.setItem('token', payload.token)
+      commit('login', payload)
     },
     logout({ commit }) {
-      commit('logout')
       localStorage.removeItem('token')
+      commit('logout')
+    },
+    actionLike({ state, commit }, post) {
+      commit('actionLike', post)
+      UserService.updateUser(state.userInfo.user)
+    },
+    actionUnlike({ state, commit }, post) {
+      commit('actionUnlike', post)
+      UserService.updateUser(state.userInfo.user)
+    },
+    createCollection({ state }, title) {
+      return new Promise((resolve, reject) => {
+        UserService.createCollection({
+          title,
+          user: state.userInfo.user
+        })
+          .then(res => {
+            if (!res.data.success) throw new Error('Fail to create Collection')
+            state.userInfo.user = res.data.user
+            resolve(true)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
     }
   }
 })

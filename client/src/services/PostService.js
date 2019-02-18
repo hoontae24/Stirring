@@ -1,11 +1,16 @@
-import service from "@/services/Service"
+import service from '@/services/Service'
 
 export default {
   post(payload) {
     return service.post('/api/posts', payload)
   },
-  getAll() {
-    return service.get('/api/posts')
+  getAll(payload) {
+    return service.get('/api/posts', payload)
+  },
+  getOne(id, payload) {
+    return service.get(`/api/posts/${id}`, payload)
+  },
+  updatePost(post) {
+    return service.put(`/api/posts/${post._id}`, post)
   }
-  
 }

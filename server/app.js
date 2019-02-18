@@ -16,7 +16,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
-app.use('/static', express.static('server/uploads/posts'))
+app.use('/static', express.static('server/uploads/'))
 
 app.set('jwt-secret', config.secret)
 

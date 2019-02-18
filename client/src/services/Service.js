@@ -36,7 +36,8 @@ export default {
       url,
       method: 'delete',
       baseURL: `http://${apiAddress}:${apiPort}/`,
-      headers: { 'x-access-token': token }
+      headers: { 'x-access-token': token },
+      data: payload
     })
   }
 }

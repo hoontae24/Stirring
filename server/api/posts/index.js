@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const controller = require('../../controller/PostsController')
+const controller = require('../../controllers/PostsController')
 const multer = require('multer')
 const path = require('path')
 const upload = multer({
@@ -21,5 +21,9 @@ router.post(
 )
 
 router.get('/', controller.getAll)
+
+router.get('/:id', controller.getOne)
+
+router.put('/:id', controller.update)
 
 module.exports = router

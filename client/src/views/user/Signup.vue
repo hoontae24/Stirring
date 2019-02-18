@@ -5,9 +5,6 @@
         <span>{{text('SIGNUP')}}</span>
       </div>
       <div class="space" style="height: 20px"></div>
-      <div class="item" style="text-align: center; color: green; font-size: 1.5rem;">
-        <span>{{ success }}</span>
-      </div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
         <span>{{ error }}</span>
       </div>
@@ -79,15 +76,23 @@
         </md-button>
       </div>
     </div>
+    <SnackAlert
+      v-bind:duration="3000"
+      :message="'Sign up successfully'"
+      :showSnackAlert="isSuccess"
+    />
   </div>
 </template>
 
 <script>
 import service from "@/services/UserService"
-import { mixins } from "@/mixins/mixins"
+import { mixins } from "@/mixins/validations"
 import { mapGetters } from "vuex"
+import SnackAlert from "@/components/SnackAlert"
 
 export default {
+  name: "signup",
+  components: { SnackAlert },
   computed: {
     ...mapGetters(["text"])
   },
@@ -113,7 +118,7 @@ export default {
         valid: false
       },
       error: null,
-      success: null
+      isSuccess: false
     }
   },
   methods: {
@@ -137,8 +142,10 @@ export default {
         email: this.email.value,
         password: this.password.value
       })
+      if (!res.data.success) this.error = res.data.message
       if (res.data.success) {
-        this.success = "Signed up successfully."
+        this.error = null
+        this.isSuccess = true
         setTimeout(() => {
           this.$router.push({ name: "home" })
         }, 2000)

@@ -1,19 +1,23 @@
 <template >
   <div class="board row">
     <div class="column" v-for="posts in resizePosts" :key="resizePosts.indexOf(posts)">
-      <Post v-for="post in posts" :key="post._id" :item="post"/>
+      <Post v-for="post in posts" :key="post._id" :item="post" :collections="collections"/>
     </div>
   </div>
 </template>
 
 <script>
-import Post from "./Post"
+import Post from "@/components/Post"
+import CollectionService from "@/services/CollectionService"
+import { EventBus } from "@/mixins/EventBus"
+
 export default {
-  props: ["posts"],
+  props: ["posts", "sort"],
   components: { Post },
   data() {
     return {
-      windowWidth: window.innerWidth
+      windowWidth: window.innerWidth,
+      collections: []
     }
   },
   beforeCreate() {
@@ -30,12 +34,42 @@ export default {
       if (this.windowWidth > 800) resizeP = [[], []]
       if (this.windowWidth > 1280) resizeP = [[], [], []]
       let col = 0
+      // 각 칼럼의 높이를 구해서 가장 낮은 칼럼에 추가하기
       this.posts.forEach(item => {
-        resizeP[col++].push(item)
-        if (col === resizeP.length) col = 0
+        let heightSum = new Array(resizeP.length).fill(0)
+        resizeP.forEach((column, index) => {
+          column.forEach(p => {
+            heightSum[index] +=
+              p.data.resolution.height / p.data.resolution.width
+          })
+        })
+        // console.log(heightSum)
+        col = heightSum.indexOf(Math.min(...heightSum))
+        // console.log(col)
+        resizeP[col].push(item)
+        // if (col === resizeP.length) col = 0
       })
       return resizeP
     }
+  },
+  methods: {
+    loadCollections() {
+      if (!this.$store.state.userInfo.isLogined) return
+      CollectionService.getByAuthor(this.$store.state.userInfo.user._id)
+        .then(res => {
+          if (!res.data.success) throw new Error("Failed to load collections")
+          this.collections = res.data.collections
+        })
+        .catch(err => {
+          console.log(err.message)
+        })
+    }
+  },
+  created() {
+    EventBus.$on("loadCollections",() => {
+      this.loadCollections()
+    })
+    this.loadCollections()
   }
 }
 </script>
@@ -43,7 +77,7 @@ export default {
 <style lang="css" scoped>
 .board {
   margin-bottom: 50px;
-  width: 90%;
+  width: 97%;
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-around; */
@@ -52,6 +86,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   padding: 0 4px;
+  align-items: flex-start;
 }
 
 /* Create four equal columns that sits next to each other */
@@ -60,6 +95,8 @@ export default {
   max-width: 40%;
   padding: 0 4px;
   margin: 0 5px;
+
+  display: inline;
 }
 
 .column .post {

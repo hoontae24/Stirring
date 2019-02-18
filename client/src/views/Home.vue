@@ -1,21 +1,30 @@
 <template>
   <div class="home">
-    <div class="search-area">
-      <div class="item">
-        <md-field class="item1">
-          <label>Search Here.</label>
-          <md-input v-model="searchWord"></md-input>
+    <div class="item mode">
+      <md-card style="padding: 30px; margin: 10px;">
+        <md-field style="margin: 0px; ">
+          <label for="sort">Sort By</label>
+          <md-select v-model="sort" name="sort" id="sort" @md-selected="loadPosts(sort, count)">
+            <md-option value="latest">The Latest</md-option>
+            <md-option value="popularity">Popularity</md-option>
+          </md-select>
         </md-field>
-        <i class="btn item1 fas fa-search"></i>
-      </div>
+      </md-card>
     </div>
-    <PostsBoard class="item board" v-bind:posts="posts"></PostsBoard>
+    <PostsBoard class="item board" v-bind:posts="posts" :sort="sort"></PostsBoard>
+    <md-button
+      class="md-elevation-4"
+      style="border: 1px solid lightblue; width: 95%; height: 50px; margin: 10px auto 30px auto;"
+      @click="count += 30; loadPosts(sort, count)"
+    >more</md-button>
   </div>
 </template>
 
 <script>
 import PostsBoard from "@/components/PostsBoard"
 import PostService from "@/services/PostService"
+import { actions } from "@/mixins/actionsPosts"
+import { EventBus } from "@/mixins/EventBus"
 export default {
   name: "home",
   components: {
@@ -23,23 +32,16 @@ export default {
   },
   data() {
     return {
-      searchWord: null,
+      sort: "latest", // default: latest, options: popularity
+      count: 30,
       posts: []
     }
   },
-  watch: {
-    searchWord() {}
-  },
   created() {
-    PostService.getAll()
-      .then(res => {
-        if (!res.data.success) return
-        this.posts = res.data.posts
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+    this.loadPosts(this.sort, this.count, this.posts)
+    EventBus.$emit('loadCollections')
+  },
+  mixins: [actions]
 }
 </script>
 
@@ -49,31 +51,9 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.search-area {
-  width: auto;
-  margin: 50px 100px;
-  padding: 20px;
-  border: 1px solid lightgray;
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.search-area > .item {
-  margin: 10px;
-  width: auto;
-  min-width: 300px;
-
-  display: flex;
-}
-.item1 {
-  flex-grow: 1;
-}
-.fas {
-  font-size: 2rem;
-  align-self: center;
-  margin: 10px;
+.mode {
+  width: 90%;
+  margin: 10px auto;
 }
 .btn:hover,
 .btn:active {

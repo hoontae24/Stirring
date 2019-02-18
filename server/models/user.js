@@ -12,20 +12,21 @@ const config = require('../config')
   interests: Array of tags
   likes: Array of ID of posts
 */
-const User = new Schema({
-  email: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true, trim: true },
-  name: { type: String, required: true },
-  image: { type: String, default: null },
-  posts: [String],
-  followings: [String],
-  followers: [String],
-  collections: [String],
-  interests: [String],
-  likes: [String],
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now }
-})
+const User = new Schema(
+  {
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true, trim: true },
+    name: { type: String, required: true },
+    image: { type: String, default: 'face-default.png' },
+    posts: [String],
+    followings: [String],
+    followers: [String],
+    collections: [String],
+    interests: [String],
+    likes: [String]
+  },
+  { timestamps: true }
+)
 
 User.statics.create = function(user) {
   const hashPassword = crypto
@@ -38,9 +39,13 @@ User.statics.create = function(user) {
 }
 
 User.statics.findOneByEmail = function(email) {
-  return this.findOne({
-    email
-  }).exec()
+  return this.findOne({ email }).exec()
+}
+
+User.statics.findOneById = function(_id) {
+  return this.findById(_id)
+    .select('-password')
+    .exec()
 }
 
 User.methods.verify = function(password) {
@@ -53,6 +58,18 @@ User.methods.verify = function(password) {
 
 User.statics.addPost = function(id, post, cb) {
   this.updateOne({ _id: id }, { $push: { posts: post._id } }, cb)
+}
+
+User.statics.createCollection = function(collection) {
+  return this.findOneAndUpdate(
+    { _id: collection.author },
+    { $push: { collections: collection._id } }
+  ).exec()
+}
+
+User.statics.update = function(_id, user) {
+  delete user.password
+  return this.findOneAndUpdate({ _id }, user).exec()
 }
 
 module.exports = mongoose.model('User', User)

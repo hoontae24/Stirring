@@ -2,7 +2,7 @@
   <div id="header">
     <!-- <div id="main-logo" class="btn" @click="$router.push({name: 'home'})"> -->
     <div id="main-logo" class="btn">
-      <a href="./">
+      <a href="/" class="link">
         <img alt="Vue logo" src="@/assets/logo.png">
       </a>
     </div>
@@ -12,7 +12,7 @@
           class="item btn post"
           @click="$router.push({ name: 'search' })"
         >{{ text('search') | upperCase }}</div>
-        <Upload class="item btn post"/>
+        <UploadDialog class="item btn post"/>
         <div
           class="item btn post"
           @click="$router.push({ name: 'collections'})"
@@ -33,25 +33,33 @@
         >{{ text(language.name) | upperCase }}</div>
       </div>
     </div>
+    <CollectDialog ref="collectDialog"/>
   </div>
 </template>
 
 <script>
+// import components
+import UploadDialog from "@/components/UploadDialog"
+import CollectDialog from "@/components/CollectDialog"
+
+// import services
 import { mapGetters } from "vuex"
-import { mixins } from "@/mixins/mixins"
 import PostService from "@/services/PostService"
-import Upload from "@/components/Upload"
+import { EventBus } from "@/mixins/EventBus"
 
 export default {
-  components: { Upload },
+  components: { UploadDialog, CollectDialog },
   computed: {
     ...mapGetters(["text", "isLogined"]),
     userNavs() {
+      let userId = " "
+      if (this.$store.state.userInfo.isLogined)
+        userId = this.$store.state.userInfo.user._id
       return [
         { name: "login", route: { name: "login" }, show: !this.isLogined },
         { name: "signup", route: { name: "signup" }, show: !this.isLogined },
         { name: "logout", route: { name: "logout" }, show: this.isLogined },
-        { name: "mypage", route: { name: "mypage" }, show: this.isLogined }
+        { name: "mypage", route: { path: `/${userId}` }, show: this.isLogined }
       ]
     }
   },
@@ -63,7 +71,11 @@ export default {
       this.$store.dispatch("changeLan")
     }
   },
-  mixins: [mixins]
+  created() {
+    EventBus.$on("showCollections", post => {
+      this.$refs.collectDialog.open(post)
+    })
+  }
 }
 </script>
 
@@ -84,22 +96,22 @@ export default {
   background-color: white;
 }
 #main-logo {
-  height: 100%;
+  width: 260px;
+  height: 69px;
 
-  align-self: center;
+  /* align-self: center; */
   padding: 0px;
   margin: 0px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+#main-logo > .link {
+  display: block;
+  margin: auto;
+  width: 260px;
+  height: 68px;
 }
 #main-logo img {
-  display: block;
-  padding: 0px;
-  margin: 0px;
+  height: 68px;
   width: 260px;
-  height: 80%;
 }
 #nav {
   width: 100%;
@@ -121,32 +133,10 @@ export default {
 .btn:hover,
 .btn:active {
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 600;
   color: Steelblue;
 }
 
-@media (max-width: 800px) {
-  #header {
-    /* font-family: 'Nunito', Helvetica, Arial, sans-serif; */
-
-    height: 50px;
-    margin: 0;
-    padding: 0px 5px;
-  }
-  #logo {
-    width: auto;
-    height: 80%;
-    align-self: center;
-    padding: 0px;
-    margin: 0px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  img {
-    height: 60%;
-    width: auto;
-  }
+@media screen and (max-width: 800px) {
 }
 </style>
