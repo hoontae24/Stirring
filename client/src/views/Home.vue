@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="item mode">
+    <!-- <div class="item mode">
       <md-card style="padding: 30px; margin: 10px;">
         <md-field style="margin: 0px; ">
           <label for="sort">Sort By</label>
@@ -16,49 +16,26 @@
       class="md-elevation-4"
       style="border: 1px solid lightblue; width: 95%; height: 50px; margin: 10px auto 30px auto;"
       @click="count += 30; loadPosts(sort, count)"
-    >more</md-button>
+    >more</md-button>-->
+    <Board/>
   </div>
 </template>
 
 <script>
-import PostsBoard from "@/components/PostsBoard"
-import PostService from "@/services/PostService"
-import { actions } from "@/mixins/actionsPosts"
-import { EventBus } from "@/mixins/EventBus"
+import Board from "@/components/Board"
 export default {
   name: "home",
   components: {
-    PostsBoard
-  },
-  data() {
-    return {
-      sort: "latest", // default: latest, options: popularity
-      count: 30,
-      posts: []
-    }
-  },
-  created() {
-    this.loadPosts(this.sort, this.count, this.posts)
-    EventBus.$emit('loadCollections')
-  },
-  mixins: [actions]
+    Board
+  }
 }
 </script>
 
-<style media="screen">
+<style media="screen" scoped>
 .home {
   position: 0px 100%;
   display: flex;
   flex-direction: column;
-}
-.mode {
-  width: 90%;
-  margin: 10px auto;
-}
-.btn:hover,
-.btn:active {
-  cursor: pointer;
-  color: darkslategray;
 }
 .board {
   align-self: center;

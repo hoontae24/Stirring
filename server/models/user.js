@@ -22,7 +22,7 @@ const User = new Schema(
     followings: [String],
     followers: [String],
     collections: [String],
-    interests: [String],
+    interests: { type: [String], uppercase: true },
     likes: [String]
   },
   { timestamps: true }
@@ -42,10 +42,24 @@ User.statics.findOneByEmail = function(email) {
   return this.findOne({ email }).exec()
 }
 
-User.statics.findOneById = function(_id) {
-  return this.findById(_id)
+User.statics.findById = function(ids) {
+  return this.find({ _id: ids })
     .select('-password')
     .exec()
+}
+
+User.statics.findByWord = function(word) {
+  return this.find({
+    $or: [
+      { name: { $regex: word, $options: 'i' } },
+      { email: { $regex: word, $options: 'i' } },
+      { interests: { $in: word[0].toUpperCase() } }
+    ]
+  }).exec()
+}
+
+User.statics.findAll = function() {
+  return this.find().exec()
 }
 
 User.methods.verify = function(password) {
@@ -60,16 +74,34 @@ User.statics.addPost = function(id, post, cb) {
   this.updateOne({ _id: id }, { $push: { posts: post._id } }, cb)
 }
 
+User.statics.deletePost = function(post) {
+  return this.findOneAndUpdate(
+    { _id: post.author.id },
+    { $pull: { posts: post._id } }
+  ).exec()
+}
+
 User.statics.createCollection = function(collection) {
   return this.findOneAndUpdate(
-    { _id: collection.author },
+    { _id: collection.author.id },
     { $push: { collections: collection._id } }
+  ).exec()
+}
+
+User.statics.deleteCollection = function(collection) {
+  return this.findOneAndUpdate(
+    { _id: collection.author.id },
+    { $pull: { collections: collection._id } }
   ).exec()
 }
 
 User.statics.update = function(_id, user) {
   delete user.password
   return this.findOneAndUpdate({ _id }, user).exec()
+}
+
+User.statics.findOneProfileImageById = function(id) {
+  return this.findOne({ _id: id }, 'image').exec()
 }
 
 module.exports = mongoose.model('User', User)

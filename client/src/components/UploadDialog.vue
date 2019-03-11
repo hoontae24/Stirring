@@ -1,19 +1,31 @@
 <template>
-  <div class="upload" @click="showD">
-    <div>{{ text('upload') | upperCase }}</div>
-
+  <div class="upload">
     <md-dialog class="md-dialog" :md-active.sync="showDialog">
-      <md-toolbar class="md-primary" style="margin-bottom: 15px;">
-        <span class="title md-title">Upload the Post.</span>
-      </md-toolbar>
+      <span class="title" style="margin: 10px auto 20px 10px;">Upload the Post.</span>
 
-      <md-field style="margin: 15px; width:90%;">
+      <div class="area" @click="$refs.file.click()">
+        <div class="cover guide" v-if="!previewImg"></div>
+        <div
+          v-else
+          class="cover "
+          :style="previewImg ? `background-image: url(${previewImg});` : `background-image: url('../assets/plus.png');`"
+        ></div>
+      </div>
+      <input
+        id="file"
+        ref="file"
+        type="file"
+        multiple="false"
+        accept="image/*"
+        @change="onFileUpload($event)"
+      >
+      <!-- <md-field style="margin: 15px; width:90%;">
         <label>Click here to add your images</label>
         <md-file v-model="uploadImg.name" @md-change="onFileUpload($event)" accept="image/*"/>
-      </md-field>
+      </md-field>-->
       <div class="tags" style="display: flex; margin-left: 30px;">
         <md-chip
-          class="md-primary"
+          class="md-teal"
           :md-ripple="false"
           style="margin: auto 5px; padding: 0 10px;"
           v-for="(tag, index) in tags"
@@ -21,6 +33,7 @@
           @click="tags.splice(index, 1)"
         >#{{ tag }}</md-chip>
         <input
+          class="input"
           v-model="inputTag"
           @keypress.enter="addTag"
           @focusout="addTag()"
@@ -52,7 +65,8 @@ export default {
     ...mapGetters(["text", "isLogined"])
   },
   data: () => ({
-    uploadImg: { name: "" },
+    uploadImg: null,
+    previewImg: null,
     tags: [],
     inputTag: "",
     showDialog: false,
@@ -71,8 +85,17 @@ export default {
       this.inputTag = ""
     },
     onFileUpload(evt) {
-      this.uploadImg = evt[0]
-      console.log(evt[0])
+      const file = evt.target.files[0]
+      this.uploadImg = file
+
+      const input = evt.target
+      if (input.files && input.files[0]) {
+        const reader = new FileReader()
+        reader.onload = e => {
+          this.previewImg = e.target.result
+        }
+        reader.readAsDataURL(input.files[0])
+      }
     },
     showA() {
       this.showAlert = true
@@ -80,19 +103,18 @@ export default {
         this.showAlert = false
       }, 1500)
     },
-    showD() {
-      if (!this.$store.state.userInfo.isLogined) {
-        this.showA()
-        this.$router.push({ name: "login" })
-        return
-      }
-      this.showDialog = true
-    },
     async upload() {
-      if (!this.uploadImg.name) {
+      if (!this.uploadImg) {
         this.error = "Select your image to upload."
         return
       }
+      if (!this.tags.length) {
+        this.error = "Add tags."
+        return
+      }
+      this.tags.forEach((value, index, array) => {
+        array[index] = value.toUpperCase()
+      })
       let formData = new FormData()
       formData.append("img", this.uploadImg)
       formData.append("tags", this.tags)
@@ -100,12 +122,22 @@ export default {
       formData.append("authorName", this.$store.state.userInfo.user.name)
 
       const res = await PostService.post(formData)
-      console.log(res.data)
       // TODO: 업로드 후 홈 또는 마이페이지(posts) 로 연결하기
       this.close()
+      window.location.href = "/"
+    },
+    open() {
+      if (!this.$store.state.userInfo.isLogined) {
+        this.showA()
+        this.$router.push({ name: "login" })
+        return
+      }
+      this.showDialog = true
+      this.$refs.file
     },
     close() {
-      this.uploadImg = { name: "" }
+      this.uploadImg = null
+      this.previewImg = null
       this.showDialog = false
       this.error = ""
       this.tags = []
@@ -123,16 +155,55 @@ export default {
 <style scoped>
 .md-dialog {
   position: absolute;
-  top: 200px;
+  top: 300px;
   width: 70%;
   max-width: 800px;
-  max-height: 300px;
+  max-height: 500px;
   padding: 15px;
 }
 .md-dialog .title {
   font-size: 2rem;
+  font-weight: 400;
 }
-
+.area {
+  width: 100%;
+  height: 400px;
+  margin: 10px auto;
+  border: 2px dashed lightgray;
+  display: flex;
+  justify-content: center;
+}
+.area:hover,
+.area:active {
+  cursor: pointer;
+  /* filter: brightness(110%); */
+  background-color: rgba(135, 206, 250, 0.295);
+}
+.cover {
+  margin: auto auto;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../assets/plus.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.guide {
+  height: 70%;
+}
+img {
+  object-fit: contain;
+  display: block;
+  max-width: 100%;
+  max-height: 200px;
+}
+#file {
+  display: none;
+}
 .tags * {
   font-size: 1rem;
   font-weight: 200;
@@ -141,6 +212,18 @@ export default {
 .error {
   color: red;
   margin-right: 30px;
+}
+
+@media screen and (max-width: 800px) {
+  .md-dialog {
+    position: absolute;
+    top: 100px;
+    margin: 0px auto;
+    width: 95%;
+  }
+  .title {
+    font-weight: 500;
+  }
 }
 </style>
 

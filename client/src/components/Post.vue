@@ -1,8 +1,12 @@
 <template>
-  <md-card class="post md-elevation-7">
+  <md-card class="post md-elevation-2">
     <md-card-header class="top">
-      <div class="md-title item btn" style="padding: 0 auto 0 0; margin: 0;">
-        <span style="margin: auto 5px;">{{ item.author.name }} </span>
+      <div
+        class="md-title item btn"
+        style="padding: 0 auto 0 0; margin: 0;"
+        @click="$router.push(`/${item.author.id}`)"
+      >
+        <span style="margin: auto 5px;">{{ item.author.name }}</span>
         <md-tooltip md-direction="top">Show Profile</md-tooltip>
       </div>
       <div class="item">
@@ -42,7 +46,7 @@
 
 <script>
 import { apiAddress, apiPort } from "@/config"
-import { actions } from "@/mixins/actionsPosts"
+import { actions } from "@/mixins/actions"
 import { mapGetters } from "vuex"
 export default {
   props: ["item", "collections"],
@@ -61,6 +65,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.post {
+  border-radius: 1em;
+}
 .post > .top {
   padding: 5px;
   padding-left: 10px;
@@ -87,6 +94,9 @@ i {
   display: inline-block;
   font-size: 1.5rem;
 }
+.image-btn {
+  border-radius: 1em;
+}
 .image-btn:hover,
 .image-btn:active {
   cursor: pointer;
@@ -106,5 +116,11 @@ i {
 }
 .green {
   color: green;
+}
+
+@media screen and (max-width: 800px) {
+  .md-tooltip {
+    display: none;
+  }
 }
 </style>

@@ -18,7 +18,7 @@ exports.login = (req, res) => {
             },
             secret,
             {
-              expiresIn: '1h',
+              expiresIn: 1000 * 60 * 60 * 24 * 7,
               issuer: 'stirring.com',
               subject: 'userInfo'
             },
@@ -114,7 +114,6 @@ exports.refresh = (req, res) => {
 }
 
 exports.check = (req, res) => {
-  console.log('/check')
   res.json({
     success: true,
     info: req.decoded

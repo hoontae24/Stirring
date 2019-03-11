@@ -1,7 +1,7 @@
 import Mypage from '@/views/Mypage'
-import Profile from '@/components/Profile'
 import Board from '@/components/Board'
-import Collections from '@/components/Collections'
+import CollectionBoard from '@/components/CollectionBoard'
+import UserBoard from '@/components/UserBoard'
 import Likes from '@/components/Likes'
 
 // import authGuard from '@/mixins/authGuard'
@@ -10,15 +10,10 @@ export default {
   path: '/:id',
   name: 'mypage',
   // beforeEnter: authGuard.checkBeforeEnter,
-  redirect: '/:id/profile/',
+  redirect: '/:id/posts/',
   component: Mypage,
   props: true,
   children: [
-    {
-      path: 'profile/',
-      name: 'profile',
-      component: Profile
-    },
     {
       path: 'posts',
       name: 'posts',
@@ -27,7 +22,7 @@ export default {
     {
       path: 'collections',
       name: 'collections',
-      component: Collections
+      component: CollectionBoard
     },
     {
       path: 'likes',
@@ -37,11 +32,11 @@ export default {
     {
       path: 'followings',
       name: 'followings',
-      component: Board
+      component: UserBoard
     },
     {
       path: '*',
-      redirect: 'profile'
+      redirect: 'posts'
     }
   ]
 }

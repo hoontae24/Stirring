@@ -55,7 +55,14 @@ module.exports = {
   },
 
   getUser: (req, res) => {
-    const { id } = req.params
+    const { mode } = req.query
+
+    const find = mode => {
+      let { id } = req.params
+      id = id.split(',')
+      if (mode === 'id') return User.findById(id)
+      else if (mode === 'word') return User.findByWord(id)
+    }
 
     const respond = user => {
       res.json({
@@ -67,8 +74,44 @@ module.exports = {
     const onError = error => {
       res.json({ message: error.message })
     }
+    find(mode)
+      .then(respond)
+      .catch(onError)
+  },
 
-    User.findOneById(id)
+  getAllUsers: (req, res) => {
+    const respond = user => {
+      if (user.length === 1) user = user[0]
+      res.json({
+        success: true,
+        user
+      })
+    }
+
+    const onError = error => {
+      res.json({ message: error.message })
+    }
+
+    User.findAll()
+      .then(respond)
+      .catch(onError)
+  },
+
+  getUserProfileImage: (req, res) => {
+    const { id } = req.params
+
+    const respond = image => {
+      res.json({
+        success: true,
+        image: image.image
+      })
+    }
+
+    const onError = error => {
+      res.json({ message: error.message })
+    }
+
+    User.findOneProfileImageById(id)
       .then(respond)
       .catch(onError)
   }

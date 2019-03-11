@@ -22,8 +22,10 @@ router.post(
 
 router.get('/', controller.getAll)
 
-router.get('/:id', controller.getOne)
+router.get('/:id', controller.getByIds)
 
 router.put('/:id', controller.update)
+
+router.delete('/:id', controller.deleteOne)
 
 module.exports = router

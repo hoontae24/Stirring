@@ -6,7 +6,9 @@ import Home from '@/views/Home'
 import Login from '@/views/user/Login'
 import Signup from '@/views/user/Signup'
 import PostDetails from '@/views/PostDetails'
+import CollectionDetails from '@/views/CollectionDetails'
 
+import search from '@/router/search'
 import mypage from '@/router/mypage'
 
 Vue.use(Router)
@@ -28,20 +30,15 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: Login
     },
     {
       path: '/logout',
       name: 'logout',
       beforeEnter: (to, from, next) => {
         store.dispatch('logout')
-        next({ name: 'home' })
+        next(from.path)
       }
-    },
-    {
-      path: '/search',
-      name: 'search',
-      component: Home
     },
     {
       path: '/posts/:id',
@@ -49,6 +46,13 @@ const router = new Router({
       component: PostDetails,
       props: true
     },
+    {
+      path: '/collections/:id',
+      name: 'collection-details',
+      component: CollectionDetails,
+      props: true
+    },
+    search,
     mypage
   ],
   scrollBehavior(to, from, savedPosition) {

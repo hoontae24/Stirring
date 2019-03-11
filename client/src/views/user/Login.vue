@@ -44,7 +44,7 @@
       <md-button class="item btn md-raised" @click="$router.push({name: 'signup'})">
         <span>{{ text('signup') }}</span>
       </md-button>
-      <div class="oauth">
+      <div class="oauth item">
         <md-button class="md-raised item">
           <span>with Google</span>
         </md-button>
@@ -99,7 +99,7 @@ export default {
       if (res.data.success) {
         this.error = null
         this.vLogin(res.data)
-        this.$router.push({ name: "home" })
+        this.$router.go(-1)
       }
       this.error = res.data.message
     }
@@ -126,11 +126,6 @@ export default {
   cursor: pointer;
   font-weight: 400;
 }
-.login img {
-  margin-bottom: 20px;
-  width: 400px;
-  align-self: center;
-}
 .login .title {
   font-size: 2rem;
   text-align: center;
@@ -154,7 +149,19 @@ export default {
   flex-grow: 1;
 }
 
-@media screen {
+@media screen and (max-width: 800px) {
+  .container {
+    width: 95%;
+    padding: 20px;
+  }
+  .login .item {
+    width: 95%;
+    margin: 10px auto;
+    padding: 10px 0;
+  }
+  .login .btn {
+    font-size: 1rem;
+  }
 }
 </style>
 

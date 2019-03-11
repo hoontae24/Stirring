@@ -54,7 +54,10 @@ export default {
   },
   methods: {
     loadCollections() {
-      if (!this.$store.state.userInfo.isLogined) return
+      if (!this.$store.state.userInfo.isLogined) {
+        this.collections = []
+        return
+      }
       CollectionService.getByAuthor(this.$store.state.userInfo.user._id)
         .then(res => {
           if (!res.data.success) throw new Error("Failed to load collections")
@@ -66,7 +69,7 @@ export default {
     }
   },
   created() {
-    EventBus.$on("loadCollections",() => {
+    EventBus.$on("loadCollections", () => {
       this.loadCollections()
     })
     this.loadCollections()

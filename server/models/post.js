@@ -14,7 +14,7 @@ const Post = new Schema(
       format: String,
       location: String
     },
-    tags: [String],
+    tags: { type: [String], uppercase: true },
     likes: { type: Number, default: 0 },
     downloads: { type: Number, default: 0 },
     views: { type: Number, default: 0 }
@@ -29,8 +29,12 @@ Post.statics.create = function(post) {
 
 Post.statics.findAll = function(condition) {
   let posts = this.find()
-  if (condition.authorId) posts = this.find({'author.id': condition.authorId})
-  if (condition.sort === 'popularity') posts.sort({ views: -1 })
+  if (condition.authorId) posts = this.find({ 'author.id': condition.authorId })
+  if (condition.likes) posts = this.find({ _id: condition.likes })
+  if (condition.search)
+    posts = this.find({ tags: { $in: condition.search.toUpperCase() } })
+
+  if (condition.sort === 'popularity') posts.sort({ likes: -1 })
   else if (condition.sort === 'latest') posts.sort({ createdAt: -1 })
 
   posts.limit(condition.count * 1)
@@ -41,10 +45,16 @@ Post.statics.findOneById = function(_id) {
   return this.findOne({ _id }).exec()
 }
 
+Post.statics.findById = function(id) {
+  return this.find({ _id: id }).exec()
+}
+
 Post.statics.updateOneById = function(_id, post) {
   return this.findOneAndUpdate({ _id }, post).exec()
 }
 
-Post.statics.deleteOneById = function() {}
+Post.statics.deleteOne = function(_id) {
+  return this.findOneAndDelete({_id}).exec()
+}
 
 module.exports = mongoose.model('Post', Post)

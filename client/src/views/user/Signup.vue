@@ -215,5 +215,19 @@ export default {
 .oauth > .item {
   flex-grow: 1;
 }
+@media screen and (max-width: 800px) {
+  .container {
+    width: 95%;
+    padding: 20px;
+  }
+  .signup .item {
+    width: 95%;
+    margin: 10px auto;
+    padding: 10px 0;
+  }
+  .signup .btn {
+    font-size: 1rem;
+  }
+}
 </style>
 

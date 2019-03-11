@@ -3,12 +3,12 @@
     <md-dialog
       :md-active.sync="showDialog"
       md-clicked-outside="close"
-      style="width:80%; max-width: 800px; min-width: 550px; max-height: 600px;"
+      class="dialog"
       @click="$event.cancelBubble = true; isAdd = false; error = ''"
     >
-      <md-dialog-title style="display: flex; justify-content: space-between;">
-        <span style="font-size:1.5rem;">Collections</span>
-        <span style="font-size:0.8rem; color: red">{{error}}</span>
+      <md-dialog-title style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size:1.5rem; vertical-align: middle;">Collections</span>
+        <md-button class="md-primary" @click="close">close</md-button>
       </md-dialog-title>
       <md-content
         style="margin: 30px 10px; display: flex; flex-direction: column; align-items: center; overflow: auto;"
@@ -67,9 +67,7 @@
           </div>
         </div>
       </md-content>
-      <md-dialog-actions>
-        <md-button class="md-primary" @click="close">close</md-button>
-      </md-dialog-actions>
+      <span style="font-size:0.8rem; color: red; margin: 10px auto; text-align: center;">{{error}}</span>
     </md-dialog>
   </div>
 </template>
@@ -77,7 +75,7 @@
 <script>
 import CollectionService from "@/services/CollectionService"
 import authGuard from "@/mixins/authGuard"
-import { actions } from "@/mixins/actionsPosts"
+import { actions } from "@/mixins/actions"
 import { EventBus } from "@/mixins/EventBus"
 
 export default {
@@ -149,13 +147,25 @@ export default {
       this.showDialog = false
       this.post = null
       this.collections = []
+      EventBus.$emit("loadUser")
     }
+  },
+  created() {
+    EventBus.$on("showCollections", post => {
+      this.open(post)
+    })
   },
   mixins: [actions]
 }
 </script>
 
 <style scoped>
+.dialog {
+  width: 80%;
+  max-width: 800px;
+  min-width: 550px;
+  /* max-height: 500px; */
+}
 .collection {
   min-width: 300px;
   min-height: 80px;
@@ -178,5 +188,13 @@ export default {
   font-weight: 700;
   color: Steelblue;
   background-color: cornsilk;
+}
+
+@media screen and (max-width: 800px) {
+  .dialog {
+    min-width: 95%;
+    width: 95%;
+    height: 70%;
+  }
 }
 </style>

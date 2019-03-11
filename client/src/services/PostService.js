@@ -10,7 +10,13 @@ export default {
   getOne(id, payload) {
     return service.get(`/api/posts/${id}`, payload)
   },
+  getByIds(id, payload) {
+    return service.get(`/api/posts/${id}`, payload)
+  },
   updatePost(post) {
     return service.put(`/api/posts/${post._id}`, post)
+  },
+  deleteOne(id) {
+    return service.delete(`/api/posts/${id}`)
   }
 }

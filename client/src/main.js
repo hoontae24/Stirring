@@ -5,7 +5,8 @@ import store from './store'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
-import service from '@/services/AuthService'
+import AuthService from '@/services/AuthService'
+import { EventBus } from '@/mixins/EventBus'
 
 Vue.config.productionTip = false
 
@@ -19,10 +20,11 @@ new Vue({
   router,
   store,
   beforeCreate() {
-    service
+    AuthService
       .refresh(localStorage.getItem('token'))
       .then(res => {
         this.$store.dispatch('login', res.data)
+        EventBus.$emit('loadCollections')
       })
       .catch(() => {
         this.$store.dispatch('logout')

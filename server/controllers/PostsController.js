@@ -3,6 +3,29 @@ const Post = require('../models/post')
 const User = require('../models/user')
 
 module.exports = {
+  deleteOne: (req, res) => {
+    const { id } = req.params
+
+    const deletePostOnUser = post => {
+      return User.deletePost(post)
+    }
+
+    const respond = post => {
+      res.json({
+        success: true,
+        post
+      })
+    }
+
+    const onError = error => {
+      res.json({ message: error.message })
+    }
+
+    Post.deleteOne(id)
+      .then(deletePostOnUser)
+      .then(respond)
+      .catch(onError)
+  },
   update: (req, res) => {
     const { id } = req.params
     const post = req.body
@@ -22,8 +45,9 @@ module.exports = {
       .catch(onError)
   },
 
-  getOne: (req, res) => {
+  getByIds: (req, res) => {
     const { id } = req.params
+    const ids = id.split(',')
 
     const respond = post => {
       res.json({
@@ -36,13 +60,14 @@ module.exports = {
       res.json({ message: error.message })
     }
 
-    Post.findOneById(id)
+    Post.findById(ids)
       .then(respond)
       .catch(onError)
   },
 
   getAll: (req, res) => {
     const mode = req.query
+
     const respond = posts => {
       res.json({
         success: true,

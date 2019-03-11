@@ -2,8 +2,8 @@
   <div class="post-details" style="width: 100%;">
     <md-card class="card" v-if="author && post">
       <md-card-header class="top">
-        <div class="author item btn">
-          <md-avatar class="item profile-image">
+        <div class="author item btn" @click="$router.push(`../${author._id}`)">
+          <md-avatar class="item profile-image" style="border-radius: 1em;">
             <img
               :src="`http://${apiAddress}:${apiPort}/static/profile-images/`+ author.image "
               alt="Avatar"
@@ -29,16 +29,9 @@
             <span v-if="!isCollected(post, collections)">&nbsp;Collect</span>
             <span v-else>&nbsp;Collected</span>
           </div>
-          <div class="item btn">
-            <a
-              style="color: black; text-decoration: none; color: inherit;"
-              :href="`http://${apiAddress}:${apiPort}/static/posts/`+ post.data.filename"
-              target="_blank"
-              download
-            >
-              <i class="fas fa-arrow-down"></i>
-              <span>&nbsp;Download</span>
-            </a>
+          <div class="item btn" @click="actionDownload(post)">
+            <i class="fas fa-arrow-down"></i>
+            <span>&nbsp;Download</span>
           </div>
         </div>
       </md-card-header>
@@ -50,16 +43,25 @@
         >
       </md-card-media>
 
-      <md-card-content>
-        <div class="item author">Author: {{author.name}}</div>
-        <div class="item tags">
-          Tags:
-          <span v-for="tag in post.tags" :key="tag">#{{tag}}</span>
+      <md-card-content style="display:flex; justify-content: space-between;">
+        <div style="display:inline-block;">
+          <div class="item author">Author: {{author.name}}</div>
+          <div class="item tags">
+            Tags:
+            <span
+              class="btn"
+              style="color:steelblue"
+              v-for="tag in post.tags"
+              :key="tag"
+              @click="linkByTag(tag)"
+            >#{{tag}}</span>
+          </div>
+          <div class="item likes">Likes: {{post.likes}}</div>
+          <div class="item downloads">Downloads: {{post.downloads}}</div>
+          <div class="item views">Views: {{post.views}}</div>
+          <div class="item updated-at">Updated at: {{post.updatedAt.toLocaleString()}}</div>
         </div>
-        <div class="item likes">Likes: {{post.likes}}</div>
-        <div class="item downloads">Downloads: {{post.downloads}}</div>
-        <div class="item views">Views: {{post.views}}</div>
-        <div class="item updated-at">Updated at: {{post.updatedAt.toLocaleString()}}</div>
+        <md-button v-if="isMe(post.author.id)" flat class="md-accent" @click="deletePost">DELETE</md-button>
       </md-card-content>
     </md-card>
   </div>
@@ -71,7 +73,7 @@ import UserService from "@/services/UserService"
 import CollectionService from "@/services/CollectionService"
 import { apiAddress, apiPort } from "@/config"
 import { mapGetters } from "vuex"
-import { actions } from "@/mixins/actionsPosts"
+import { actions } from "@/mixins/actions"
 import { EventBus } from "@/mixins/EventBus"
 export default {
   props: ["id"],
@@ -85,20 +87,26 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isLike"])
+    ...mapGetters(["isLike", "isMe"])
   },
   methods: {
+    deletePost() {
+      PostService.deleteOne(this.id).then(res => {
+        this.$router.go(-1)
+      })
+    },
     async loadPost() {
       const res = await PostService.getOne(this.id)
       if (!res.data.success) return
-      this.post = res.data.post
+      this.post = res.data.post[0]
       this.post.createdAt = new Date(this.post.createdAt)
       this.post.updatedAt = new Date(this.post.updatedAt)
       const resUser = await UserService.getUser(this.post.author.id)
-      this.author = resUser.data.user
+      this.author = resUser.data.user[0]
       this.actionView(this.post)
     },
     loadCollections() {
+      if (!this.$store.getters.isLogined) return
       CollectionService.getByAuthor(this.$store.state.userInfo.user._id)
         .then(res => {
           if (!res.data.success) throw new Error("Failed to load collections")
@@ -124,7 +132,7 @@ export default {
 .card {
   width: 95%;
   margin: 20px auto;
-  min-width: 425px;
+  min-width: 375px;
 }
 .card > .top {
   display: flex;
@@ -160,11 +168,24 @@ export default {
 .btn:hover,
 .btn:active {
   cursor: pointer;
-  color: lightcoral;
+  color: steelblue;
   filter: brightness(110%);
 }
 a {
   color: black;
+}
+
+@media screen and (max-width: 400px) {
+  .top > .actions > .item {
+    margin: 0 5px;
+    font-size: 1.5rem;
+    padding: 5px;
+    border: 1px none lightblue;
+    border-radius: 0.5em;
+  }
+  .top > .actions > .item > span {
+    display: none;
+  }
 }
 </style>
 
