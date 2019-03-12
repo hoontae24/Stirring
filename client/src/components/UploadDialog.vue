@@ -1,7 +1,7 @@
 <template>
   <div class="upload">
     <md-dialog class="md-dialog" :md-active.sync="showDialog">
-      <span class="title" style="margin: 10px auto 20px 10px;">Upload the Post.</span>
+      <span class="title" style>Select Image</span>
 
       <div class="area" @click="$refs.file.click()">
         <div class="cover guide" v-if="!previewImg"></div>
@@ -11,41 +11,32 @@
           :style="previewImg ? `background-image: url(${previewImg});` : `background-image: url('../assets/plus.png');`"
         ></div>
       </div>
-      <input
-        id="file"
-        ref="file"
-        type="file"
-        multiple="false"
-        accept="image/*"
-        @change="onFileUpload($event)"
-      >
+      <input id="file" ref="file" type="file" accept="image/*" @change="onFileUpload($event)">
       <!-- <md-field style="margin: 15px; width:90%;">
         <label>Click here to add your images</label>
         <md-file v-model="uploadImg.name" @md-change="onFileUpload($event)" accept="image/*"/>
       </md-field>-->
-      <div class="tags" style="display: flex; margin-left: 30px;">
-        <md-chip
-          class="md-teal"
+      <div class="tags" style>
+        <span
+          class="tag"
           :md-ripple="false"
-          style="margin: auto 5px; padding: 0 10px;"
           v-for="(tag, index) in tags"
           :key="tag"
           @click="tags.splice(index, 1)"
-        >#{{ tag }}</md-chip>
+        >#{{ tag | upperCase }}</span>
         <input
           class="input"
           v-model="inputTag"
           @keypress.enter="addTag"
           @focusout="addTag()"
           v-show="tags.length < 5"
-          style="width: 100px; height: 40px; text-align: start; padding: 0 10px;"
-          placeholder="Add tags"
+          placeholder="TAGS"
         >
       </div>
 
       <md-dialog-actions>
         <span class="error">{{error}}</span>
-        <md-button class="md-primary" @click="close()">Close</md-button>
+        <md-button class="md-accent" @click="close()">Close</md-button>
         <md-button class="md-primary" @click.native="upload()">Upload</md-button>
       </md-dialog-actions>
     </md-dialog>
@@ -156,14 +147,15 @@ export default {
 .md-dialog {
   position: absolute;
   top: 300px;
-  width: 70%;
+  width: 500px;
   max-width: 800px;
   max-height: 500px;
   padding: 15px;
 }
 .md-dialog .title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 400;
+  margin: 10px;
 }
 .area {
   width: 100%;
@@ -204,17 +196,57 @@ img {
 #file {
   display: none;
 }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0px;
+  margin-bottom: 10px;
+}
+.tags .tag {
+  margin: auto 5px;
+  padding: 0 10px;
+  color: steelblue;
+  cursor: not-allowed;
+}
+.tags .input {
+  width: 100px;
+  height: 40px;
+  text-align: start;
+  padding: 0 10px;
+  border: 1px dashed steelblue;
+  color: steelblue;
+}
+.tags .input:focus {
+  border: 1px none steelblue;
+}
+.tags .input::placeholder,
+.tags .input::-webkit-input-placeholder {
+  color: steelblue;
+  font-family: "Nunito";
+  font-weight: 400;
+}
 .tags * {
   font-size: 1rem;
-  font-weight: 200;
+  font-weight: 400;
 }
 
 .error {
   color: red;
   margin-right: 30px;
 }
-
 @media screen and (max-width: 800px) {
+  .md-dialog {
+    position: absolute;
+    top: 300px;
+    margin: 0px auto;
+    width: 95%;
+  }
+  .title {
+    font-weight: 500;
+  }
+}
+
+@media screen and (max-width: 600px) {
   .md-dialog {
     position: absolute;
     top: 100px;
@@ -223,6 +255,13 @@ img {
   }
   .title {
     font-weight: 500;
+  }
+  .tags * {
+    font-size: 0.5rem;
+    font-weight: 400;
+  }
+  .tags .input {
+    height: 30px;
   }
 }
 </style>

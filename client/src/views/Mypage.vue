@@ -165,10 +165,6 @@ export default {
     min-height: 100px;
     padding: 0px;
   }
-  .selected {
-    /* border: 1px solid lightblue; */
-    /* background-color: azure; */
-  }
   .btn {
     font-size: 1rem;
     text-emphasis: center;

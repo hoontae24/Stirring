@@ -3,7 +3,10 @@
     <md-card class="card" v-if="author && post">
       <md-card-header class="top">
         <div class="author item btn" @click="$router.push(`../${author._id}`)">
-          <md-avatar class="item profile-image" style="border-radius: 1em;">
+          <md-avatar
+            class="item profile-image"
+            style="border-radius: 1em; border: 1px solid lightgray;"
+          >
             <img
               :src="`http://${apiAddress}:${apiPort}/static/profile-images/`+ author.image "
               alt="Avatar"
@@ -175,7 +178,7 @@ a {
   color: black;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
   .top > .actions > .item {
     margin: 0 5px;
     font-size: 1.5rem;

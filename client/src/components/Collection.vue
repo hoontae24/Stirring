@@ -25,6 +25,7 @@
         <div class="author item btn" @click="$router.push(`/${collection.author.id}`)">
           <img
             class="profile-image"
+            style="border: 1px solid lightgray; border-radius: 50%;"
             :src="`http://${apiAddress}:${apiPort}/static/profile-images/`+ profileImage "
             alt="Avatar"
           >
@@ -32,7 +33,7 @@
         </div>
         <div
           class="item count"
-        >{{collection.posts.length}} {{(collection.posts.length < 2) ? 'Post':'Posts'}}</div>
+        >{{collection.posts.length}} {{collection.posts.length == 1 ? 'Post':'Posts'}}</div>
         <div class="item title">{{collection.title}}</div>
       </div>
     </md-card>

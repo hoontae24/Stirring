@@ -5,7 +5,7 @@
         <div class="title">
           <md-field>
             <label>Collection Title</label>
-            <md-input v-model="collection.title"></md-input>
+            <md-input v-model="title"></md-input>
           </md-field>
         </div>
       </div>
@@ -26,18 +26,21 @@ export default {
   props: ["collection"],
   data() {
     return {
-      showDialog: false
+      showDialog: false,
+      title: ''
     }
   },
   methods: {
     open() {
       this.showDialog = true
+      this.title = this.collection.title
     },
     close() {
       this.showDialog = false
       EventBus.$emit("loadUser")
     },
     submit() {
+      this.collection.title = this.title
       CollectionService.update({ collection: this.collection }).then(res => {
         this.close()
       })
@@ -53,8 +56,9 @@ export default {
 
 <style scoped>
 .md-dialog {
-  width: 50%;
-  min-width: 420px;
+  width: 310px;
+  min-width: 310px;
+  height: 170px;
 }
 .content {
   margin: 20px 50px;

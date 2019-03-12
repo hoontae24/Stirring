@@ -13,7 +13,7 @@
             ></i>
           </div>
           <div class="item author btn" @click="$router.push(`/${collection.author.id}`)">
-            <md-avatar class="item profile-image" style="border-radius: 1em;">
+            <md-avatar class="item profile-image" style="border-radius: 1em; border: 1px solid lightgray;">
               <img
                 :src="`http://${apiAddress}:${apiPort}/static/profile-images/${authorImage}`"
                 alt="Avatar"
@@ -121,9 +121,9 @@ export default {
 
 @media screen and (max-width: 800px) {
   .card {
-    width: 95%;
+    width: 99%;
     margin: 20px auto;
-    min-width: 370px;
+    min-width: 320px;
     padding: 5px;
   }
   .container {

@@ -32,7 +32,7 @@
             <input type="file" ref="profileInput" @change="submitProfileImage" hidden>
             
             <span
-              :class="isMe(user._id)? '' : isFollow(user) ? 'following btn': 'btn'"
+              :class="isMe(user._id)? 'followme' : isFollow(user) ? 'following btn': 'btn'"
               class="follow"
               @click="actionFollow(isFollow(user), user, isMe(user._id))"
             >
@@ -132,6 +132,7 @@ export default {
   object-fit: cover;
   width: 100px;
   height: 100px;
+  border: 1px solid lightgray;
   border-radius: 50%;
 }
 
@@ -154,6 +155,9 @@ export default {
   vertical-align: middle;
   border: 1px solid lightskyblue;
   border-radius: 1em;
+}
+.followme {
+  border: none;
 }
 
 .following {
@@ -182,7 +186,7 @@ export default {
 .btn:hover {
   cursor: pointer;
   color: steelblue;
-  background-color: lightgray;
+  background-color: rgba(211, 211, 211, 0.397);
 }
 
 @media screen and (max-width: 800px) {

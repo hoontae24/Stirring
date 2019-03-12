@@ -11,7 +11,7 @@
         <md-button class="md-primary" @click="close">close</md-button>
       </md-dialog-title>
       <md-content
-        style="margin: 30px 10px; display: flex; flex-direction: column; align-items: center; overflow: auto;"
+        style="margin: 30px 5px; display: flex; flex-direction: column; align-items: center; overflow: auto;"
       >
         <div
           class="collection btn"
@@ -192,9 +192,13 @@ export default {
 
 @media screen and (max-width: 800px) {
   .dialog {
-    min-width: 95%;
+    min-width: 320px;
     width: 95%;
     height: 70%;
+  }
+  .collection {
+    margin: 3px;
+    padding: 3px;
   }
 }
 </style>

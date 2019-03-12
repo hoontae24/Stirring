@@ -11,7 +11,7 @@
           >
         </div>
         <div class="info">
-          <div style="font-size: 2rem; margin: 5px;">{{user.name}}</div>
+          <div class="name">{{user.name}}</div>
           <div style="display: flex;">
             <div style="margin: 5px;">Posts: {{user.posts.length}}</div>
             <div style="margin: 5px;">Followers: {{user.followers.length}}</div>
@@ -68,19 +68,25 @@ export default {
   display: flex;
 }
 .image {
-  margin: auto 10px;
+  margin: auto 5px;
   /* width: 100px; */
   /* height: 100px; */
   overflow: hidden;
 }
 .img {
-  object-fit: contain;
+  display: block;
+  object-fit: cover;
+  border: 1px solid lightgray;
   border-radius: 50%;
-  margin: auto 0px;
+  margin: 0px;
   min-width: 3rem;
   min-height: 3rem;
   width: 3rem;
   height: 3rem;
+}
+.name {
+  font-size: 2rem;
+  margin: 5px;
 }
 
 @media screen and (max-width: 1280px) {
@@ -94,6 +100,9 @@ export default {
   .user {
     width: 100%;
     max-width: 100%;
+  }
+  .info > .name {
+    font-size: 1.5rem;
   }
   .info > div {
     font-size: 1rem;

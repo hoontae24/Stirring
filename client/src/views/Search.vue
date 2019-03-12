@@ -18,21 +18,21 @@
     <md-card class="card md-elevation-1">
       <div class="result">
         <div class="menu">
-          <md-button
+          <span
             :class="$route.name === 'search-posts' ? 'selected' : ''"
             class="item"
             @click="$router.push(`/search/posts`+ `?word=${search}`)"
-          >POSTS</md-button>
-          <md-button
+          >POSTS</span>
+          <span
             :class="$route.name === 'search-authors' ? 'selected' : ''"
             class="item"
             @click="$router.push(`/search/authors`+ `?word=${search}`)"
-          >AUTHORS</md-button>
-          <md-button
+          >AUTHORS</span>
+          <span
             :class="$route.name == 'search-collections' ? 'selected' : ''"
             class="item"
             @click="$router.push(`/search/collections`+ `?word=${search}`)"
-          >COLLECTIONS</md-button>
+          >COLLECTIONS</span>
         </div>
         <div class="content">
           <router-view :search="search"></router-view>
@@ -199,10 +199,13 @@ input {
 }
 .menu {
   border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: center;
 }
 .menu > .item {
   display: inline-block;
-  margin: 5px;
+  margin: 10px;
+  padding: 5px;
   border-radius: 1em;
 }
 .menu > .selected {
@@ -210,7 +213,7 @@ input {
   background-color: mintcream;
 }
 /* .menu > .item:active, */
-.menu > .item:hover{
+.menu > .item:hover {
   cursor: pointer;
   color: steelblue;
 }
@@ -218,4 +221,22 @@ input {
 .btn {
   cursor: pointer;
 }
+
+@media screen and (max-width: 800px) {
+.cover {
+  margin: 10px 2px;
+}
+.card {
+  margin: 10px 2px;
+  padding: 2px;
+}
+.result {
+  border: none;
+}
+  .menu {
+    justify-content: center;
+  }
+.menu > .item {
+  margin: 5px;
+}}
 </style>
