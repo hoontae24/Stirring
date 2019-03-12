@@ -209,8 +209,8 @@ input {
   color: steelblue;
   background-color: mintcream;
 }
-.menu > .item:hover,
-.menu > .item:active {
+/* .menu > .item:active, */
+.menu > .item:hover{
   cursor: pointer;
   color: steelblue;
 }

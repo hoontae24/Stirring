@@ -7,7 +7,7 @@
         <div class="cover guide" v-if="!previewImg"></div>
         <div
           v-else
-          class="cover "
+          class="cover"
           :style="previewImg ? `background-image: url(${previewImg});` : `background-image: url('../assets/plus.png');`"
         ></div>
       </div>
@@ -173,8 +173,8 @@ export default {
   display: flex;
   justify-content: center;
 }
-.area:hover,
-.area:active {
+/* .area:active, */
+.area:hover {
   cursor: pointer;
   /* filter: brightness(110%); */
   background-color: rgba(135, 206, 250, 0.295);

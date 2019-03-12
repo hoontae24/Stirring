@@ -116,7 +116,16 @@ export default {
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
+  .board {
+    margin-bottom: 50px;
+    width: 99%;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-around; */
+  }
   .column {
+    padding: 0 1px;
+    margin: 0 1px;
     flex: 100%;
     max-width: 100%;
   }

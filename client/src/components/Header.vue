@@ -184,8 +184,8 @@ export default {
   align-self: center;
   padding: 15px 10px;
 }
-.btn:hover,
-.btn:active {
+/* .btn:active, */
+.btn:hover {
   cursor: pointer;
   color: Steelblue;
 }
@@ -220,7 +220,7 @@ export default {
     display: block;
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 15px;
     font-size: 30px;
   }
   #small-menu .item:hover,

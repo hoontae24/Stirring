@@ -182,8 +182,8 @@ export default {
   background-color: lightgreen;
 }
 
-.btn:hover,
-.btn:active {
+/* .btn:active, */
+.btn:hover {
   cursor: pointer;
   font-weight: 700;
   color: Steelblue;

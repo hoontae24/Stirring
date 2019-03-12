@@ -18,7 +18,7 @@
           <md-option value="popularity">Popularity</md-option>
         </md-select>
       </md-field>
-      <div style="margin: 0 auto; text-align: center;">
+      <div class="radio" style="margin: 0 auto; text-align: center;">
         <md-radio v-model="sort" value="latest">The Latest</md-radio>
         <md-radio v-model="sort" value="popularity" class="md-primary">Popularity</md-radio>
       </div>
@@ -84,5 +84,13 @@ export default {
 <style>
 .board {
   margin: 10px auto;
+}
+@media screen and (max-width: 800px) {
+  .radio {
+    height: 30px;
+  }
+  .md-radio-label {
+    font-size: 0.5rem;
+  }
 }
 </style>

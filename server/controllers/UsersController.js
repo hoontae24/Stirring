@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const fs = require('fs')
 
 module.exports = {
   update: (req, res) => {
@@ -112,6 +113,45 @@ module.exports = {
     }
 
     User.findOneProfileImageById(id)
+      .then(respond)
+      .catch(onError)
+  },
+
+  setUserProfileImage: (req, res) => {
+    const { filename } = req.files.img[0]
+    const { userId } = req.body
+    console.log(filename, userId)
+
+    const set = (userId, filename) => {
+      return User.updateProfileImageById(userId, filename)
+    }
+
+    const deleteOldImageFile = user => {
+      return new Promise((resolve, reject) => {
+        fs.unlink('./server/uploads/profile-images/' + user.image, function(err) {
+          if (err) {
+            console.log(err)
+            reject(err)
+            return
+          }
+          resolve(user)
+        })
+      })
+    }
+
+    const respond = user => {
+      res.json({
+        success: true,
+        user
+      })
+    }
+
+    const onError = error => {
+      res.json({ message: error.message })
+    }
+
+    set(userId, filename)
+      .then(deleteOldImageFile)
       .then(respond)
       .catch(onError)
   }

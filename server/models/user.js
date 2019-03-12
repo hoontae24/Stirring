@@ -103,5 +103,8 @@ User.statics.update = function(_id, user) {
 User.statics.findOneProfileImageById = function(id) {
   return this.findOne({ _id: id }, 'image').exec()
 }
+User.statics.updateProfileImageById = function(id, filename) {
+  return this.findOneAndUpdate({ _id: id }, { $set: { image: filename } }).exec()
+}
 
 module.exports = mongoose.model('User', User)

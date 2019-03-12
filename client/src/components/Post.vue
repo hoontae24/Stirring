@@ -97,13 +97,13 @@ i {
 .image-btn {
   border-radius: 1em;
 }
-.image-btn:hover,
-.image-btn:active {
+/* .image-btn:active, */
+.image-btn:hover {
   cursor: pointer;
   filter: brightness(120%);
 }
-.btn:hover,
-.btn:active {
+/* .btn:active, */
+.btn:hover {
   cursor: pointer;
   color: darkslategray;
   /* border: 1px solid lightgray; */

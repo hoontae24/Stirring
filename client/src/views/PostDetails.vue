@@ -132,7 +132,7 @@ export default {
 .card {
   width: 95%;
   margin: 20px auto;
-  min-width: 375px;
+  min-width: 320px;
 }
 .card > .top {
   display: flex;
@@ -165,8 +165,8 @@ export default {
   color: green;
 }
 
-.btn:hover,
-.btn:active {
+/* .btn:active, */
+.btn:hover {
   cursor: pointer;
   color: steelblue;
   filter: brightness(110%);

@@ -12,26 +12,42 @@
       <div class="tabs-container">
         <div class="tabs-navs">
           <!-- <md-button v-bind:class="isActive('profile')" @click="$router.push(`/${id}/profile`)">profile</md-button> -->
-          <md-button
-            v-bind:class="isActive('posts')"
-            class="btn"
-            @click="$router.push(`/${id}/posts`)"
-          >posts {{user.posts.length}}</md-button>
-          <md-button
+          <span v-bind:class="isActive('posts')" class="btn" @click="$router.push(`/${id}/posts`)">
+            <span class="large">POSTS</span>
+            <span class="small">
+              <i class="far fa-image"></i>
+            </span>
+            {{user.posts.length}}
+          </span>
+          <span
             v-bind:class="isActive('collections')"
             class="btn"
             @click="$router.push(`/${id}/collections`)"
-          >collections {{user.collections.length}}</md-button>
-          <md-button
-            v-bind:class="isActive('likes')"
-            class="btn"
-            @click="$router.push(`/${id}/likes`)"
-          >likes {{user.likes.length}}</md-button>
-          <md-button
+          >
+            <span class="large">COLLECTIONS</span>
+            <span class="small">
+              <i class="far fa-star"></i>
+            </span>
+            {{user.collections.length}}
+          </span>
+          <span v-bind:class="isActive('likes')" class="btn" @click="$router.push(`/${id}/likes`)">
+            <span class="large">LIKES</span>
+            <span class="small">
+              <i class="far fa-heart"></i>
+            </span>
+            {{user.likes.length}}
+          </span>
+          <span
             v-bind:class="isActive('followings')"
             class="btn"
             @click="$router.push(`/${id}/followings`)"
-          >followings {{user.followings.length}}</md-button>
+          >
+            <span class="large">FOLLOWINGS</span>
+            <span class="small">
+              <i class="fas fa-walking"></i>
+            </span>
+            {{user.followings.length}}
+          </span>
         </div>
         <div class="tabs-content">
           <router-view :id="id" :user="user"></router-view>
@@ -95,6 +111,7 @@ export default {
 }
 .tabs-navs {
   border-bottom: 1px solid lightgray;
+  display: flex;
 }
 .tabs-content {
   min-height: 100px;
@@ -102,11 +119,27 @@ export default {
 }
 .selected {
   /* border: 1px solid lightblue; */
-  /* background-color: ghostwhite; */
+  background-color: ghostwhite;
+  color: steelblue;
 }
 .btn {
+  display: inline-block;
   border-radius: 1em;
   overflow: hidden;
+  padding: 10px;
+  margin: 5px;
+  font-size: 1rem;
+}
+/* .btn:active, */
+.btn:hover {
+  cursor: pointer;
+  color: steelblue;
+}
+.large {
+  display: inline;
+}
+.small {
+  display: none;
 }
 
 @media screen and (max-width: 800px) {
@@ -116,27 +149,16 @@ export default {
   }
   .tabs-view {
     padding: 0px;
-    border-radius: 1em;
-    overflow: hidden;
   }
   .tabs-container {
     border: 1px solid lightgray;
-    margin: 20px 10px;
+    margin: 10px 5px;
     border-radius: 1em;
     overflow: hidden;
   }
   .tabs-navs {
     border-bottom: 1px solid lightgray;
-    overflow: auto;
-  }
-  .md-button {
-    overflow: hidden;
-    margin: 2px;
-    padding: 0px;
-    font-size: 1rem;
-  }
-  .md-ripple {
-    padding: 0px;
+    justify-content: center;
   }
 
   .tabs-content {
@@ -148,8 +170,16 @@ export default {
     /* background-color: azure; */
   }
   .btn {
-    border-radius: 1em;
-    overflow: hidden;
+    font-size: 1rem;
+    text-emphasis: center;
+    margin: 5px 2px;
+    padding: 5px 10px;
+  }
+  .large {
+    display: none;
+  }
+  .small {
+    display: inline;
   }
 }
 </style>

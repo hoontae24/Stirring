@@ -112,8 +112,8 @@ export default {
   margin: 0px 5px;
 }
 
-.btn:hover,
-.btn:active {
+/* .btn:active, */
+.btn:hover {
   cursor: pointer;
   filter: brightness(110%);
   color: steelblue;

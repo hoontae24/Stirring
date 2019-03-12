@@ -121,8 +121,8 @@ export default {
   flex-direction: column;
   /* align-items: center; */
 }
-.btn:hover,
-.btn:active {
+/* .btn:active, */
+.btn:hover {
   cursor: pointer;
   font-weight: 400;
 }

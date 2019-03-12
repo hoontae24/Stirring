@@ -57,8 +57,8 @@ export default {
   overflow: hidden;
   padding: 10px;
 }
-.card:hover,
-.card:active {
+/* .card:active, */
+.card:hover {
   cursor: pointer;
   background-color: honeydew;
 }

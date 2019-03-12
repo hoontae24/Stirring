@@ -7,7 +7,7 @@ export default {
   getUser(id) {
     return service.get(`/api/users/${id}?mode=id`)
   },
-  getUserByWord (word) {
+  getUserByWord(word) {
     return service.get(`/api/users/${word}?mode=word`)
   },
   updateUser(user) {
@@ -18,5 +18,11 @@ export default {
   },
   getUserProfileImage(id) {
     return service.get(`/api/users/profile-image/${id}`)
+  },
+  setUserProfileImage(formData) {
+    return service.put(
+      `/api/users/profile-image/${formData.get('userId')}`,
+      formData
+    )
   }
 }
