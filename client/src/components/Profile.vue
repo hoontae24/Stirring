@@ -105,7 +105,9 @@ export default {
     },
     changePassword() {},
     editAccount() {},
-    logout() {},
+    logout() {
+      this.$router.push({ name: "logout" })
+    },
     deleteAccount() {}
   },
   mixins: [actions]
@@ -232,7 +234,9 @@ export default {
     border: 1px solid lightskyblue;
     border-radius: 1em;
   }
-
+  .followme {
+    border: none;
+  }
   .following {
     color: steelblue;
     background-color: aliceblue;

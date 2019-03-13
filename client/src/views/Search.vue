@@ -104,8 +104,7 @@ export default {
   background-image: url("../assets/bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+  background-position: center;
 }
 .container {
   background-color: rgba(255, 255, 255, 0.5);
@@ -122,22 +121,6 @@ export default {
   margin: 10px auto;
   overflow: hidden;
 }
-
-@media screen and (max-width: 800px) {
-  .container > .item {
-    width: 95%;
-    margin: 10px auto;
-    overflow: hidden;
-  }
-  .pop > .item:nth-child(1) {
-    display: none;
-  }
-  .pop {
-    justify-content: center;
-    font-size: 1rem;
-  }
-}
-
 .input {
   height: 50px;
   margin-bottom: 0;
@@ -223,20 +206,37 @@ input {
 }
 
 @media screen and (max-width: 800px) {
-.cover {
-  margin: 10px 2px;
-}
-.card {
-  margin: 10px 2px;
-  padding: 2px;
-}
-.result {
-  border: none;
-}
+  .cover {
+    height: 200px;
+    margin: 10px 2px;
+  }
+  .container {
+    height: 200px;
+  }
+  .container > .item {
+    width: 95%;
+    margin: 10px auto;
+    overflow: hidden;
+  }
+  .pop > .item:nth-child(1) {
+    display: none;
+  }
+  .pop {
+    justify-content: center;
+    font-size: 1rem;
+  }
+  .card {
+    margin: 10px 2px;
+    padding: 2px;
+  }
+  .result {
+    border: none;
+  }
   .menu {
     justify-content: center;
   }
-.menu > .item {
-  margin: 5px;
-}}
+  .menu > .item {
+    margin: 5px;
+  }
+}
 </style>

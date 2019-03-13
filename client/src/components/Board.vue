@@ -1,10 +1,6 @@
 <template>
   <div class="board">
-    <div
-      v-if="!posts.length"
-      style="margin: 50px auto; font-size: 2rem; color: gray; text-align: center;"
-    >There is No Post.</div>
-    <div v-else>
+    <div v-if="posts.length">
       <md-field style="margin: 0 0 0 5%; width: 200px; display:none;">
         <label for="sort">Sort By</label>
         <md-select
@@ -86,8 +82,12 @@ export default {
   margin: 10px auto;
 }
 @media screen and (max-width: 800px) {
+  .board {
+    margin: 10px auto;
+    margin-top: -10px;
+  }
   .radio {
-    height: 30px;
+    height: 40px;
   }
   .md-radio-label {
     font-size: 0.5rem;

@@ -30,7 +30,7 @@
           @keypress.enter="addTag"
           @focusout="addTag()"
           v-show="tags.length < 5"
-          placeholder="TAGS"
+          placeholder="#TAGS"
         >
       </div>
 

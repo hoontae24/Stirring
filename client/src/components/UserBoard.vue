@@ -50,4 +50,10 @@ export default {
   flex-wrap: wrap;
   /* justify-content: space-around; */
 }
+@media screen and (max-width: 800px){
+.user-board {
+  padding: 0px;
+}
+  
+}
 </style>

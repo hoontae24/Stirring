@@ -1,23 +1,38 @@
 <template>
   <div id="header">
-    <!-- <div id="main-logo" class="btn" @click="$router.push({name: 'home'})"> -->
-    <div id="main-logo" class="btn">
-      <a href="/" class="link">
-        <img alt="Vue logo" src="@/assets/logo.png">
-      </a>
+    <div class="small-menu">
+      <div class="item" @click="showSmallMenu = true">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+    <div id="main-logo" class="btn" @click="$router.push({name: 'home'})">
+      <!-- <div id="main-logo" class="btn"> -->
+      <!-- <a href="/" class="link"> -->
+      <img alt="Vue logo" src="@/assets/logo.png">
+      <!-- </a> -->
     </div>
     <div id="nav">
       <div class="nav2">
-        <div class="item btn post" @click="$router.push('/search')">{{ text('search') | upperCase }}</div>
-        <div class="item btn post" @click="$router.push('/search/posts')">{{ 'posts' | upperCase }}</div>
-        <div
-          class="item btn post"
-          @click="$router.push('/search/authors')"
-        >{{ 'authors' | upperCase }}</div>
-        <div
-          class="item btn post"
-          @click="$router.push('/search/collections')"
-        >{{ text('collections') | upperCase }}</div>
+        <div class="item btn post" @click="$router.push('/')">{{ 'home' | upperCase }}</div>
+        <div class="item btn post" @click="$router.push('/search')">
+          {{ text('search') | upperCase }}
+          <i class="fas fa-angle-down"></i>
+        </div>
+
+        <div class="drop-down-nav">
+          <div
+            class="item btn post"
+            @click="$router.push('/search/posts')"
+          >{{ 'posts' | upperCase }}</div>
+          <div
+            class="item btn post"
+            @click="$router.push('/search/authors')"
+          >{{ 'authors' | upperCase }}</div>
+          <div
+            class="item btn post"
+            @click="$router.push('/search/collections')"
+          >{{ text('collections') | upperCase }}</div>
+        </div>
       </div>
       <div class="nav2">
         <div
@@ -38,52 +53,76 @@
         >{{ text(language.name) | upperCase }}</div>
       </div>
     </div>
-    <div id="small-menu">
-      <div class="item" @click="showSmallMenu = !showSmallMenu">
-        <i class="fas fa-bars"></i>
+
+    <div class="small-menu" v-if="userNavs[0].show">
+      <div class="item" @click="$router.push(userNavs[0].route)">
+        <i class="far fa-user"></i>
       </div>
     </div>
-    <div id="small-nav" v-if="showSmallMenu">
-      <div
-        class="item btn post"
-        @click="showSmallMenu = false; $router.push('/search')"
-      >{{ text('search') | upperCase }}</div>
-      <div class="divider" style></div>
-      <div
-        class="item btn post"
-        @click="showSmallMenu = false; $router.push('/search/posts')"
-      >{{ 'posts' | upperCase }}</div>
-      <div class="divider" style></div>
-      <div
-        class="item btn post"
-        @click="showSmallMenu = false; $router.push('/search/authors')"
-      >{{ 'authors' | upperCase }}</div>
-      <div class="divider" style></div>
-      <div
-        class="item btn post"
-        @click="showSmallMenu = false; $router.push('/search/collections')"
-      >{{ text('collections') | upperCase }}</div>
+    <div class="small-menu" v-if="userNavs[3].show">
+      <div class="item" @click="$router.push(userNavs[3].route)">
+        <img
+          class="profile-image"
+          :src="`http://${apiAddress}:${apiPort}/static/profile-images/`+ $store.state.userInfo.user.image "
+          alt="Avatar"
+        >
+      </div>
+    </div>
 
-      <div class="divider" style></div>
-      <div
-        class="item btn post"
-        @click="showSmallMenu = false; $refs.uploadDialog.open()"
-      >{{ text('upload') | upperCase }}</div>
+    <md-drawer :md-active.sync="showSmallMenu">
+      <md-toolbar class="md-transparent" md-elevation="0">
+        <span class="small-title" @click="showSmallMenu = false">Menu</span>
+        <div class="md-toolbar-section-end">
+          <md-button class="md-icon-button md-dense" @click="showSmallMenu = false">
+            <md-icon>keyboard_arrow_left</md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
 
-      <div v-for="nav in userNavs" :key="nav.name" v-show="nav.show">
-        <div class="divider"></div>
-        <div
-          class="item btn user"
+      <md-list class="small-nav">
+        <md-list-item
+          class="item post"
+          @click="showSmallMenu = false; $router.push('/')"
+        >{{ 'home' | upperCase }}</md-list-item>
+        <md-list-item
+          class="item post"
+          @click="showSmallMenu = false; $router.push('/search')"
+        >{{ text('search') | upperCase }}</md-list-item>
+        <md-list-item
+          class="item post"
+          @click="showSmallMenu = false; $router.push('/search/posts')"
+        >{{ 'posts' | upperCase }}</md-list-item>
+        <md-list-item
+          class="item post"
+          @click="showSmallMenu = false; $router.push('/search/authors')"
+        >{{ 'authors' | upperCase }}</md-list-item>
+        <md-list-item
+          class="item post"
+          @click="showSmallMenu = false; $router.push('/search/collections')"
+        >{{ text('collections') | upperCase }}</md-list-item>
+        <md-list-item
+          class="item post"
+          @click="showSmallMenu = false; $refs.uploadDialog.open()"
+        >{{ text('upload') | upperCase }}</md-list-item>
+        <md-list-item
+          v-for="nav in userNavs"
+          :key="nav.name"
+          v-show="nav.show"
+          class="item user"
           @click="showSmallMenu = false; $router.push(nav.route)"
-        >{{ text(nav.name) | upperCase }}</div>
-      </div>
-      <div class="divider"></div>
-      <div
-        id="changeLan"
-        class="item btn"
-        @click="showSmallMenu = false; changeLan()"
-      >{{ text(language.name) | upperCase }}</div>
+        >{{ text(nav.name) | upperCase }}</md-list-item>
+        <md-list-item
+          id="changeLan"
+          class="item"
+          @click="showSmallMenu = false; changeLan()"
+        >{{ text(language.name) | upperCase }}</md-list-item>
+      </md-list>
+    </md-drawer>
+
+    <div id="topBtn" class="top-button btn" @click="scrollTop">
+      <span>TOP</span>
     </div>
+
     <UploadDialog ref="uploadDialog"/>
     <CollectDialog ref="collectDialog"/>
   </div>
@@ -98,6 +137,7 @@ import CollectDialog from "@/components/CollectDialog"
 import { mapGetters } from "vuex"
 import PostService from "@/services/PostService"
 import { EventBus } from "@/mixins/EventBus"
+import { apiPort, apiAddress } from "@/config"
 
 export default {
   components: { UploadDialog, CollectDialog },
@@ -117,12 +157,34 @@ export default {
   },
   data: () => ({
     language: { name: "language" },
-    showSmallMenu: false
+    showSmallMenu: false,
+    apiAddress,
+    apiPort
   }),
   methods: {
     changeLan() {
       this.$store.dispatch("changeLan")
+    },
+    scrollTop() {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      })
+    },
+    checkScroll() {
+      if (
+        document.body.scrollTop > 50 ||
+        document.documentElement.scrollTop > 50
+      ) {
+        document.getElementById("topBtn").style.display = "block"
+      } else {
+        document.getElementById("topBtn").style.display = "none"
+      }
     }
+  },
+  created() {
+    window.onscroll = this.checkScroll
   }
 }
 </script>
@@ -139,33 +201,41 @@ export default {
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
-#header * {
+/* #header * {
   background-color: white;
-}
-#small-menu {
+} */
+.small-menu {
   display: none;
 }
-#small-nav {
+.small-nav {
   display: none;
 }
 #main-logo {
-  width: 260px;
+  width: 240px;
+  max-width: 240px;
+  min-width: 240px;
   height: 69px;
 
   align-self: center;
   padding: 0px;
   margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-#main-logo > .link {
+/* #main-logo > .link {
   display: block;
   margin: auto;
   width: 260px;
   height: 68px;
-}
+} */
 #main-logo img {
-  width: 260px;
-  height: 68px;
+  display: block;
+  width: 240px;
+  height: 60px;
+  /* height: 68px; */
 }
 #nav {
   width: 100%;
@@ -176,6 +246,25 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 }
+.drop-down-nav {
+  position: absolute;
+  top: 60px;
+  left: 325px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.nav2:hover .drop-down-nav {
+  z-index: 100;
+  display: flex;
+}
+/* .nav2:not(:hover),
+.drop-down-nav{
+  display: none;
+} */
+.drop-down-nav > .item {
+  margin: 10px;
+}
 .nav2 {
   display: flex;
   align-self: center;
@@ -184,13 +273,25 @@ export default {
   align-self: center;
   padding: 15px 10px;
 }
+.top-button {
+  z-index: 100;
+  position: fixed;
+  right: 2%;
+  bottom: 2%;
+  padding: 5px;
+  color: green;
+  border: 1px solid limegreen;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
 /* .btn:active, */
 .btn:hover {
   cursor: pointer;
   color: Steelblue;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 800px) {
   #header {
     width: 100%;
     height: 60px;
@@ -216,40 +317,43 @@ export default {
   #nav {
     display: none;
   }
-  #small-menu {
+  .md-drawer {
+    max-width: 150px;
+  }
+  .small-menu {
     display: block;
-    position: absolute;
-    right: 10px;
-    top: 15px;
     font-size: 30px;
   }
-  #small-menu .item:hover,
-  #small-menu .item:active {
+  .small-menu .item:hover,
+  .small-menu .item:active {
     cursor: pointer;
   }
-  #small-nav {
+  .small-menu .profile-image {
+    display: block;
+    width: 35px;
+    max-width: 35px;
+    min-width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .small-title {
+    margin-left: 10px;
+    font-size: 1.5rem;
+  }
+  .small-nav {
     z-index: 100;
     display: block;
     position: absolute;
-    top: 50px;
-    left: 0px;
     width: 100%;
-    background-color: rgb(241, 241, 241);
   }
-  #small-nav > * {
-    background-color: rgb(241, 241, 241);
-  }
-  #small-nav .item {
-    height: 25px;
+  .small-nav .item {
     margin: 5px;
     background-color: rgb(241, 241, 241);
     text-align: right;
     font-size: 20px;
     font-weight: 500;
-  }
-  .divider {
-    height: 1px;
-    border: 0.5px solid lightgray;
   }
 }
 </style>

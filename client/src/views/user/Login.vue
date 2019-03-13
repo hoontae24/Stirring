@@ -4,13 +4,12 @@
       <div class="item" style="font-size: 3rem; text-align: center;">
         <span>{{ text('Login') }}</span>
       </div>
-      <div class="space" style="height: 20px"></div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
         <span>{{ error }}</span>
       </div>
       <md-field class="item" md-clearable>
         <label class="label">{{ text('email') }}</label>
-        <md-input v-model="email.value" type="email"></md-input>
+        <md-input v-model="email.value" type="email" @keyup.enter="$refs.password.$el.focus()"></md-input>
         <span
           class="md-helper-text helper"
           v-if="email.helper"
@@ -21,7 +20,7 @@
       <div class="space" style="height: 20px"></div>
       <md-field class="item">
         <label class="label">{{ text('password') }}</label>
-        <md-input v-model="password.value" type="password"></md-input>
+        <md-input v-model="password.value" type="password" ref="password" @keyup.enter="login"></md-input>
         <span
           class="md-helper-text helper"
           v-if="password.helper"
@@ -44,14 +43,12 @@
       <md-button class="item btn md-raised" @click="$router.push({name: 'signup'})">
         <span>{{ text('signup') }}</span>
       </md-button>
-      <div class="oauth item">
-        <md-button class="md-raised item">
-          <span>with Google</span>
-        </md-button>
-        <md-button class="md-raised item">
-          <span>with Facebook</span>
-        </md-button>
-      </div>
+      <md-button class="md-raised item">
+        <span>with Google</span>
+      </md-button>
+      <md-button class="md-raised item">
+        <span>with Facebook</span>
+      </md-button>
     </div>
   </div>
 </template>
@@ -152,6 +149,7 @@ export default {
 @media screen and (max-width: 800px) {
   .container {
     width: 95%;
+    margin-top: 10px;
     padding: 20px;
   }
   .login .item {

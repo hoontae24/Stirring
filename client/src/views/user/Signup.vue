@@ -4,13 +4,12 @@
       <div class="item" style="font-size: 3rem; text-align: center;">
         <span>{{text('SIGNUP')}}</span>
       </div>
-      <div class="space" style="height: 20px"></div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
         <span>{{ error }}</span>
       </div>
       <md-field class="item" md-clearable>
         <label class="label">{{ text('name') }}</label>
-        <md-input v-model="name.value"></md-input>
+        <md-input v-model="name.value" @keyup.enter="$refs.email.$el.focus()"></md-input>
         <span
           class="md-helper-text helper"
           v-if="name.helper"
@@ -21,7 +20,12 @@
       <div class="space" style="height: 20px"></div>
       <md-field class="item" md-clearable>
         <label class="label">{{ text('EMAIL') }}</label>
-        <md-input v-model="email.value" type="email"></md-input>
+        <md-input
+          v-model="email.value"
+          type="email"
+          ref="email"
+          @keyup.enter="$refs.password.$el.focus()"
+        ></md-input>
         <span
           class="md-helper-text helper"
           v-if="email.helper"
@@ -32,7 +36,12 @@
       <div class="space" style="height: 20px"></div>
       <md-field class="item">
         <label class="label">{{ text('PASSWORD') }}</label>
-        <md-input v-model="password.value" type="password"></md-input>
+        <md-input
+          v-model="password.value"
+          type="password"
+          ref="password"
+          @keyup.enter="$refs.passwordConfirm.$el.focus()"
+        ></md-input>
         <span
           class="md-helper-text helper"
           v-if="password.helper"
@@ -47,7 +56,12 @@
       <div class="space" style="height: 20px"></div>
       <md-field class="item">
         <label class="label">{{ text('PASSWORD_Confirm') }}</label>
-        <md-input v-model="password.confirm" type="password" @keyup.enter="signup"></md-input>
+        <md-input
+          v-model="password.confirm"
+          type="password"
+          ref="passwordConfirm"
+          @keyup.enter="signup"
+        ></md-input>
         <span
           class="md-helper-text helper"
           v-if="password.helper"
@@ -67,14 +81,12 @@
       >
         <span>{{ text('Signup') }}</span>
       </md-button>
-      <div class="oauth">
-        <md-button class="md-raised item">
-          <span>with Google</span>
-        </md-button>
-        <md-button class="md-raised item">
-          <span>with Facebook</span>
-        </md-button>
-      </div>
+      <md-button class="md-raised item">
+        <span>with Google</span>
+      </md-button>
+      <md-button class="md-raised item">
+        <span>with Facebook</span>
+      </md-button>
     </div>
     <SnackAlert
       v-bind:duration="3000"
@@ -218,6 +230,7 @@ export default {
 @media screen and (max-width: 800px) {
   .container {
     width: 95%;
+    margin-top: 10px;
     padding: 20px;
   }
   .signup .item {
