@@ -110,7 +110,9 @@ export default {
     logout() {
       this.$router.push({ name: "logout" })
     },
-    deleteAccount() {}
+    deleteAccount() {
+      this.$router.push({ name: "delete-account" })
+    }
   },
   mixins: [actions]
 }

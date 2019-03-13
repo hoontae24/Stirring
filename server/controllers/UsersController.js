@@ -163,7 +163,6 @@ module.exports = {
     const { oldPassword, newPassword } = req.body
 
     const verify = user => {
-      console.log(user.verify(oldPassword))
       if (!user) throw new Error('User does not exist')
       else if (user.verify(oldPassword))
         return User.updatePassword(id, newPassword)
@@ -178,6 +177,30 @@ module.exports = {
     }
 
     User.findOneByIdWithPW(id)
+      .then(verify)
+      .then(respond)
+      .catch(onError)
+  },
+
+  deleteAccount: (req, res) => {
+    const { email } = req.params
+    const { password } = req.body
+
+    const verify = user => {
+      if (!user) throw new Error('User does not exist')
+      else if (user.verify(password)) return User.deleteOneByEmail(email)
+    }
+
+    const respond = () => {
+      res.json({ success: true })
+    }
+
+    const onError = err => {
+      res.json({ message: err.message })
+    }
+
+    User.findOneByEmail(email)
+    //TODO: 계정 제거 후 게시물, 컬렉션, 팔로우 등 삭제하기.
       .then(verify)
       .then(respond)
       .catch(onError)

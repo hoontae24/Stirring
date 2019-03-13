@@ -6,6 +6,7 @@ import Home from '@/views/Home'
 import Login from '@/views/user/Login'
 import Signup from '@/views/user/Signup'
 import ChangePassword from '@/views/user/ChangePassword'
+import DeleteAccount from '@/views/user/DeleteAccount'
 import PostDetails from '@/views/PostDetails'
 import CollectionDetails from '@/views/CollectionDetails'
 
@@ -45,6 +46,10 @@ const router = new Router({
       path: '/change-password',
       name: 'change-password',
       component: ChangePassword
+    },{
+      path: '/delete-account',
+      name: 'delete-account',
+      component: DeleteAccount
     },
     {
       path: '/posts/:id',

@@ -1,6 +1,8 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
+const expiresIn = 1000 * 60 * 60 * 24 * 7
+
 exports.login = (req, res) => {
   const { email, password } = req.body
   const secret = req.app.get('jwt-secret')
@@ -18,7 +20,7 @@ exports.login = (req, res) => {
             },
             secret,
             {
-              expiresIn: 1000 * 60 * 60 * 24 * 7,
+              expiresIn,
               issuer: 'stirring.com',
               subject: 'userInfo'
             },
@@ -75,7 +77,7 @@ exports.refresh = (req, res) => {
           },
           secret,
           {
-            expiresIn: '10m',
+            expiresIn,
             issuer: 'stirring.com',
             subject: 'userInfo'
           },

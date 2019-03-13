@@ -27,5 +27,8 @@ export default {
   },
   changePassword(user) {
     return service.put(`/api/users/password/${user.id}`, user)
+  },
+  deleteAccount(user) {
+    return service.delete(`/api/users/delete/${user.email}`, user)
   }
 }

@@ -124,4 +124,8 @@ User.statics.updatePassword = function(id, newPassword) {
   ).exec()
 }
 
+User.statics.deleteOneByEmail = function(email) {
+  return this.findOneAndDelete({ email }).exec()
+}
+
 module.exports = mongoose.model('User', User)
