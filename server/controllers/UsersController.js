@@ -128,7 +128,9 @@ module.exports = {
 
     const deleteOldImageFile = user => {
       return new Promise((resolve, reject) => {
-        fs.unlink('./server/uploads/profile-images/' + user.image, function(err) {
+        fs.unlink('./server/uploads/profile-images/' + user.image, function(
+          err
+        ) {
           if (err) {
             console.log(err)
             reject(err)
@@ -152,6 +154,31 @@ module.exports = {
 
     set(userId, filename)
       .then(deleteOldImageFile)
+      .then(respond)
+      .catch(onError)
+  },
+
+  changePassword: (req, res) => {
+    const { id } = req.params
+    const { oldPassword, newPassword } = req.body
+
+    const verify = user => {
+      console.log(user.verify(oldPassword))
+      if (!user) throw new Error('User does not exist')
+      else if (user.verify(oldPassword))
+        return User.updatePassword(id, newPassword)
+    }
+
+    const respond = () => {
+      res.json({ success: true })
+    }
+
+    const onError = err => {
+      res.json({ message: err.message })
+    }
+
+    User.findOneByIdWithPW(id)
+      .then(verify)
       .then(respond)
       .catch(onError)
   }

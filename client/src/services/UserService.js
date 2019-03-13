@@ -24,5 +24,8 @@ export default {
       `/api/users/profile-image/${formData.get('userId')}`,
       formData
     )
+  },
+  changePassword(user) {
+    return service.put(`/api/users/password/${user.id}`, user)
   }
 }

@@ -255,6 +255,7 @@ export default {
   justify-content: space-around;
 }
 .nav2:hover .drop-down-nav {
+  background-color: white;
   z-index: 100;
   display: flex;
 }
@@ -274,14 +275,15 @@ export default {
   padding: 15px 10px;
 }
 .top-button {
+  display: none;
   z-index: 100;
   position: fixed;
   right: 2%;
   bottom: 2%;
   padding: 5px;
   color: green;
-  border: 1px solid limegreen;
-  border-radius: 0.5rem;
+  border: 1px solid lightgray;
+  border-radius: 0.4rem;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -350,7 +352,7 @@ export default {
   }
   .small-nav .item {
     margin: 5px;
-    background-color: rgb(241, 241, 241);
+    background-color: rgb(255, 255, 255);
     text-align: right;
     font-size: 20px;
     font-weight: 500;

@@ -128,7 +128,8 @@ export default {
   text-align: center;
 }
 .login .item {
-  margin: 10px;
+  width: 80%;
+  margin: 10px auto;
 }
 .item .label {
   color: darkgrey;

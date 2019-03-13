@@ -28,7 +28,7 @@ export const mixins = {
       email.error = 'This email is NOT available.'
     },
     validatePassword(password) {
-      if (password.confirm !== password.value) {
+      if (password.confirm !== password.value && password.confirm !== "oldPassword") {
         password.valid = false
         password.helper = null
         password.error = 'Passwords is not matched.'

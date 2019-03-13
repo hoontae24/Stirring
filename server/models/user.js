@@ -47,6 +47,9 @@ User.statics.findById = function(ids) {
     .select('-password')
     .exec()
 }
+User.statics.findOneByIdWithPW = function(id) {
+  return this.findOne({ _id: id }).exec()
+}
 
 User.statics.findByWord = function(word) {
   return this.find({
@@ -104,7 +107,21 @@ User.statics.findOneProfileImageById = function(id) {
   return this.findOne({ _id: id }, 'image').exec()
 }
 User.statics.updateProfileImageById = function(id, filename) {
-  return this.findOneAndUpdate({ _id: id }, { $set: { image: filename } }).exec()
+  return this.findOneAndUpdate(
+    { _id: id },
+    { $set: { image: filename } }
+  ).exec()
+}
+
+User.statics.updatePassword = function(id, newPassword) {
+  const hashPassword = crypto
+    .createHmac('sha1', config.secret)
+    .update(newPassword)
+    .digest('base64')
+  return this.findOneAndUpdate(
+    { _id: id },
+    { $set: { password: hashPassword } }
+  ).exec()
 }
 
 module.exports = mongoose.model('User', User)

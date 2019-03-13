@@ -103,7 +103,9 @@ export default {
       }
       EventBus.$emit("loadUser")
     },
-    changePassword() {},
+    changePassword() {
+      this.$router.push({ name: "change-password" })
+    },
     editAccount() {},
     logout() {
       this.$router.push({ name: "logout" })

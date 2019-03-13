@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '../store'
+import store from '@/store'
 
 import Home from '@/views/Home'
 import Login from '@/views/user/Login'
 import Signup from '@/views/user/Signup'
+import ChangePassword from '@/views/user/ChangePassword'
 import PostDetails from '@/views/PostDetails'
 import CollectionDetails from '@/views/CollectionDetails'
 
@@ -39,6 +40,11 @@ const router = new Router({
         store.dispatch('logout')
         next(from.path)
       }
+    },
+    {
+      path: '/change-password',
+      name: 'change-password',
+      component: ChangePassword
     },
     {
       path: '/posts/:id',

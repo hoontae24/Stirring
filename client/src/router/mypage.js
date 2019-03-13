@@ -4,12 +4,10 @@ import CollectionBoard from '@/components/CollectionBoard'
 import UserBoard from '@/components/UserBoard'
 import Likes from '@/components/Likes'
 
-// import authGuard from '@/mixins/authGuard'
 
 export default {
   path: '/:id',
   name: 'mypage',
-  // beforeEnter: authGuard.checkBeforeEnter,
   redirect: '/:id/posts/',
   component: Mypage,
   props: true,

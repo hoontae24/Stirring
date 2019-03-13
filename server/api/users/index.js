@@ -26,5 +26,6 @@ router.put(
   upload.fields([{ name: 'img', maxCount: 1 }]),
   controller.setUserProfileImage
 )
+router.put('/password/:id', controller.changePassword)
 
 module.exports = router

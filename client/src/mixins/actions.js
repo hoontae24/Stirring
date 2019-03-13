@@ -1,5 +1,4 @@
 import store from '@/store'
-import UserService from '@/services/UserService'
 import PostService from '@/services/PostService'
 import authGuard from '@/mixins/authGuard'
 import { apiAddress, apiPort } from '@/config'

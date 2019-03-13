@@ -6,20 +6,25 @@
       :md-active.sync="showSnackAlert"
       md-persistent
     >
-      <span>{{ message }}</span>
-      <md-button class="md-primary" @click="showSnackAlert = false">OK</md-button>
+      <span>{{ message | upperCase }}</span>
+      <!-- <md-button class="md-primary" @click="showSnackAlert = false">OK</md-button> -->
     </md-snackbar>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'snackAlert',
+  name: "snackAlert",
   props: ["duration", "showSnackAlert", "message"]
 }
 </script>
 
 <style scoped>
+span {
+  display: block;
+  text-align: center;
+  margin: auto auto;
+}
 </style>
 
 
