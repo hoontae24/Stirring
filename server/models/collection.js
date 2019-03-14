@@ -61,4 +61,8 @@ Collection.statics.findOneSubtractPost = function(collection, post) {
   ).exec()
 }
 
+Collection.statics.deleteCollections = function(collections) {
+  return this.deleteMany({ _id: collections }).exec()
+}
+
 module.exports = mongoose.model('Collection', Collection)

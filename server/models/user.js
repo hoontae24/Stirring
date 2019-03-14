@@ -128,4 +128,16 @@ User.statics.deleteOneByEmail = function(email) {
   return this.findOneAndDelete({ email }).exec()
 }
 
+User.statics.subtractFF = function(followings, followers, accountId) {
+  this.updateMany(
+    { _id: followings },
+    { $pull: { followers: accountId } }
+  ).exec()
+  this.updateMany(
+    { _id: followers },
+    { $pull: { followings: accountId } }
+  ).exec()
+  return Promise.resolve(true)
+}
+
 module.exports = mongoose.model('User', User)

@@ -73,7 +73,7 @@ export default {
       apiAddress,
       apiPort,
       profileMenus: [
-        { name: "Editing my profile image", click: this.editProfileImage },
+        { name: "Changing profile image", click: this.editProfileImage },
         { name: "Changing password", click: this.changePassword },
         { name: "Editing account", click: this.editAccount },
         { name: "Logout", click: this.logout },

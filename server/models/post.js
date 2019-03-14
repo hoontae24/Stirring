@@ -41,6 +41,10 @@ Post.statics.findAll = function(condition) {
   return posts.exec()
 }
 
+Post.statics.findByAuthorId = function(authorId) {
+  return this.find({ 'author.id': authorId }).exec()
+}
+
 Post.statics.findOneById = function(_id) {
   return this.findOne({ _id }).exec()
 }
@@ -54,7 +58,14 @@ Post.statics.updateOneById = function(_id, post) {
 }
 
 Post.statics.deleteOne = function(_id) {
-  return this.findOneAndDelete({_id}).exec()
+  return this.findOneAndDelete({ _id }).exec()
 }
 
+Post.statics.deleteByAuthorId = function(authorId) {
+  return this.deleteMany({ 'author.id': authorId }).exec()
+}
+
+Post.statics.decLikes = function(likes) {
+  return this.update({ _id: likes }, { $inc: { likes: -1 } }).exec()
+}
 module.exports = mongoose.model('Post', Post)
