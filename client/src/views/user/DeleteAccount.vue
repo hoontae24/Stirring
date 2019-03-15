@@ -102,7 +102,6 @@ export default {
         return
       }
       if (this.email.value !== this.$store.state.userInfo.user.email) {
-        console.log(this.$store.state.userInfo.user.email)
         this.error = "This email is not matched what is logined now"
         return
       } else {
@@ -122,7 +121,7 @@ export default {
     }
   },
   created() {
-    authGuard.check()
+    authGuard.check(this.$route.path)
   },
   watch: {
     "email.value": function() {

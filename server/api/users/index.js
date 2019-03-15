@@ -15,10 +15,12 @@ const upload = multer({
 })
 
 router.post('/', controller.signup)
+router.post('/password', controller.resetPassword)
 
 router.get('/:id', controller.getUser)
 router.get('/', controller.getAllUsers)
 router.get('/profile-image/:id', controller.getUserProfileImage)
+router.get('/email/:email', controller.checkEmail)
 
 router.put('/:id', controller.update)
 router.put(

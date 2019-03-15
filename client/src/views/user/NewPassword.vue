@@ -1,30 +1,12 @@
 <template>
-  <div class="change-password">
+  <div class="new-password">
     <div class="container">
       <div class="item title">
-        <span>{{ 'Change password' }}</span>
+        <span>{{ 'New password' }}</span>
       </div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
         <span>{{ error }}</span>
       </div>
-      <md-field class="item" md-clearable>
-        <label class="label">{{ 'Current password' }}</label>
-        <md-input
-          v-model="oldPassword.value"
-          type="password"
-          @keyup.enter="$refs.password.$el.focus()"
-        ></md-input>
-        <span
-          class="md-helper-text helper"
-          v-if="oldPassword.helper"
-          style="color: green;"
-        >{{ oldPassword.helper }}</span>
-        <span
-          class="md-helper-text error"
-          v-if="oldPassword.error"
-          style="color: red;"
-        >{{ oldPassword.error }}</span>
-      </md-field>
       <md-field class="item">
         <label class="label">{{ 'New password' }}</label>
         <md-input
@@ -81,15 +63,9 @@ import { EventBus } from "@/mixins/EventBus"
 import authGuard from "@/mixins/authGuard"
 
 export default {
+  props: ["token"],
   data() {
     return {
-      oldPassword: {
-        value: "",
-        confirm: "oldPassword",
-        helper: null,
-        error: null,
-        valid: false
-      },
       newPassword: {
         value: "",
         confirm: null,
@@ -103,39 +79,34 @@ export default {
   methods: {
     async changePassword() {
       if (
-        this.oldPassword.value.length === 0 ||
         this.newPassword.value.length === 0 ||
         this.newPassword.confirm.length === 0
       ) {
         this.error = "insert the passwords"
         return
       }
-      if (!this.oldPassword.valid || !this.newPassword.valid) {
+      if (!this.newPassword.valid) {
         this.error = "Please enter the passwords CORRECTLY"
         return
       } else {
         this.error = null
       }
-      const res = await UserService.changePassword({
-        id: this.$store.state.userInfo.user._id,
-        oldPassword: this.oldPassword.value,
-        newPassword: this.newPassword.value
+      const res = await UserService.resetPassword({
+        newPassword: this.newPassword.value,
+        token: this.$route.query.token
       })
       if (res.data.success) {
-        EventBus.$emit("showMessage", "The password is changed")
-        this.$router.go(-1)
+        EventBus.$emit("showMessage", "The password is changed", 2000, () => {
+          this.$router.push({ name: "login" })
+        })
       } else {
         this.error = res.data.message
       }
     }
   },
   created() {
-    authGuard.check(this.$route.path)
   },
   watch: {
-    "oldPassword.value": function() {
-      this.validatePassword(this.oldPassword)
-    },
     "newPassword.value": function() {
       this.validatePassword(this.newPassword)
     },

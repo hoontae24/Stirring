@@ -17,7 +17,7 @@ export const actions = {
       PostService.updatePost(post)
     },
     actionLike(isLike, post) {
-      if (authGuard.check()) return
+      if (authGuard.check(this.$route.path)) return
       if (isLike) {
         post.likes -= 1
         store.dispatch('actionUnlike', post)
@@ -28,6 +28,7 @@ export const actions = {
       EventBus.$emit('loadUser')
     },
     showCollections(post) {
+      if (authGuard.check(this.$route.path)) return
       // Emit event to showCollectDialog on CollectionDialog.vue
       EventBus.$emit('showCollections', post)
     },
@@ -59,7 +60,7 @@ export const actions = {
     },
     actionFollow(isFollow, user, isMe) {
       if (isMe) return
-      if (authGuard.check()) return
+      if (authGuard.check(this.$route.path)) return
       if (!isFollow) store.dispatch('actionFollow', user)
       else store.dispatch('actionUnfollow', user)
     },

@@ -2,6 +2,7 @@ const User = require('../models/user')
 const Post = require('../models/post')
 const Collection = require('../models/collection')
 const fs = require('fs')
+const ResetPassword = require('../services/user/ResetPassword')
 
 module.exports = {
   update: (req, res) => {
@@ -122,7 +123,6 @@ module.exports = {
   setUserProfileImage: (req, res) => {
     const { filename } = req.files.img[0]
     const { userId } = req.body
-    console.log(filename, userId)
 
     const set = (userId, filename) => {
       return User.updateProfileImageById(userId, filename)
@@ -270,6 +270,50 @@ module.exports = {
       .then(deleteCollections)
       // likes 에 해당하는 post.likes 1 감소
       .then(decreaseLikes)
+      .then(respond)
+      .catch(onError)
+  },
+
+  checkEmail: (req, res) => {
+    const { email } = req.params
+
+    const requestReset = user => {
+      if (!user || email != user.email)
+        throw new Error('This email is not registerd')
+      return ResetPassword.request(email, user.name)
+    }
+
+    const respond = payload => {
+      res.json({ success: true, email: payload.email })
+    }
+
+    const onError = err => {
+      console.log(err)
+      res.json({ message: err.message })
+    }
+
+    User.findOneByEmail(email)
+      .then(requestReset)
+      .then(respond)
+      .catch(onError)
+  },
+
+  resetPassword: (req, res) => {
+    const { newPassword, token } = req.body
+
+    const respond = () => {
+      res.json({ success: true })
+    }
+
+    const onError = err => {
+      console.log(err)
+      res.json({ message: err.message })
+    }
+
+    ResetPassword.checkAndSubmit({ newPassword, token })
+      .then(({ email, newPassword }) => {
+        return User.updatePasswordByEmail({email, newPassword})
+      })
       .then(respond)
       .catch(onError)
   }

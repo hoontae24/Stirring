@@ -30,5 +30,11 @@ export default {
   },
   deleteAccount(user) {
     return service.delete(`/api/users/delete/${user.email}`, user)
+  },
+  checkEmail(email) {
+    return service.get(`/api/users/email/${email}`)
+  },
+  resetPassword(data) {
+    return service.post(`/api/users/password/`, data)
   }
 }

@@ -18,18 +18,19 @@ export default {
   },
   data() {
     return {
-      message: '',
+      message: "",
       alert: false
     }
   },
   created() {
-    EventBus.$on("showMessage", message => {
+    EventBus.$on("showMessage", (message, time = 2000, cb) => {
       this.message = message
       this.alert = true
       setTimeout(() => {
         this.alert = false
-        this.message = ''
-      }, 2000)
+        this.message = ""
+        if (cb) cb()
+      }, time)
     })
   }
 }

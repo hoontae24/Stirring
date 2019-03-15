@@ -128,7 +128,6 @@ export default {
         })
     },
     open(post) {
-      if (authGuard.check()) return
       this.isAdd = false
       this.newTitle = ""
       this.error = ""

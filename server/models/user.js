@@ -124,6 +124,17 @@ User.statics.updatePassword = function(id, newPassword) {
   ).exec()
 }
 
+User.statics.updatePasswordByEmail = function({email, newPassword}) {
+  const hashPassword = crypto
+    .createHmac('sha1', config.secret)
+    .update(newPassword)
+    .digest('base64')
+  return this.findOneAndUpdate(
+    { email },
+    { $set: { password: hashPassword } }
+  ).exec()
+}
+
 User.statics.deleteOneByEmail = function(email) {
   return this.findOneAndDelete({ email }).exec()
 }

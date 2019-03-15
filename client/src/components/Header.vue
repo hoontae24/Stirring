@@ -148,7 +148,11 @@ export default {
       if (this.$store.state.userInfo.isLogined)
         userId = this.$store.state.userInfo.user._id
       return [
-        { name: "login", route: { name: "login" }, show: !this.isLogined },
+        {
+          name: "login",
+          route: { name: "login", query: { from: this.$route.path } },
+          show: !this.isLogined
+        },
         { name: "signup", route: { name: "signup" }, show: !this.isLogined },
         { name: "logout", route: { name: "logout" }, show: this.isLogined },
         { name: "mypage", route: { path: `/${userId}` }, show: this.isLogined }

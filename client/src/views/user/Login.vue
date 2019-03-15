@@ -32,7 +32,9 @@
           style="color: red;"
         >{{ password.error }}</span>
       </md-field>
-      <div class="space" style="height: 40px"></div>
+      <div class="item forget">
+        <span @click="$router.push({name: 'forget'})">FORGET?</span>
+      </div>
       <md-button
         class="item btn md-raised"
         style="background-color: black; color:white;"
@@ -96,7 +98,9 @@ export default {
       if (res.data.success) {
         this.error = null
         this.vLogin(res.data)
-        this.$router.go(-1)
+        if (this.$route.query.from)
+          this.$router.push({ path: this.$route.query.from })
+        else this.$router.go(-1)
       }
       this.error = res.data.message
     }
@@ -134,10 +138,20 @@ export default {
 .item .label {
   color: darkgrey;
 }
+.login .forget {
+  margin-top: 0;
+  color: gray;
+  text-decoration: underline;
+}
+.login .forget span:active,
+.login .forget span:hover {
+  cursor: pointer;
+  color: steelblue;
+}
 .login .btn {
   font-size: 1.5rem;
 }
-.oauth {
+/* .oauth {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
@@ -145,7 +159,7 @@ export default {
 }
 .oauth > .item {
   flex-grow: 1;
-}
+} */
 
 @media screen and (max-width: 800px) {
   .container {

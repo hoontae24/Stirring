@@ -23,12 +23,12 @@
 
       <div class="info">
         <div class="author item btn" @click="$router.push(`/${collection.author.id}`)">
-          <img
+          <!-- <img
             class="profile-image"
             style="border: 1px solid lightgray; border-radius: 50%;"
             :src="`http://${apiAddress}:${apiPort}/static/profile-images/`+ profileImage "
             alt="Avatar"
-          >
+          > -->
           <div class="author-name" style>{{collection.author.name}}</div>
         </div>
         <div
@@ -86,7 +86,7 @@ export default {
 .collection:before {
   content: "";
   display: block;
-  padding-top: 50%;
+  padding-top: 60%;
 }
 .container {
   position: absolute;
@@ -100,7 +100,7 @@ export default {
 }
 .images {
   /* width: fit-content; */
-  height: 75%;
+  height: 80%;
   border-radius: 1em;
   -moz-border-radius: 1em;
   -webkit-border-radius: 1em;
@@ -125,7 +125,7 @@ export default {
 }
 
 .info {
-  height: 25%;
+  height: 20%;
   padding: 2px 10px;
   background-color: azure;
   border-radius: 1em;
@@ -133,7 +133,7 @@ export default {
   justify-content: space-between;
 }
 .info .item {
-  margin: auto 0px;
+  margin: auto 5px auto 0px;
 }
 .profile-image {
   border-radius: 50%;
@@ -144,7 +144,7 @@ export default {
 }
 .author-name {
   display: inline-block;
-  margin: auto 10px;
+  margin: auto 0px;
 }
 
 /* .btn:active, */
