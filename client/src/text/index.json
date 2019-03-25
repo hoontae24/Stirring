@@ -132,5 +132,8 @@
   "hostEmail": { "default": "kadr8941@naver.com" },
   "about": { "english": "About STIRRING", "korean": "STIRRING 소개" },
   "github": { "default": "Github" },
+  "homeText1": { "english": "At the Moment, Meet the World", "korean": "순간을 통해 세상을 봅니다" },
+  "homeText2": { "english": "This is a test Project for Web Service.", "korean": "이 사이트는 웹 서비스 테스트 프로젝트입니다." },
+  "homeText3": { "english": "More for STIRRING", "korean": "STIRRING 알아보기" },
   " ": { "english": " ", "korean": " " }
 }

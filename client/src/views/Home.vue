@@ -3,13 +3,13 @@
     <div class="welcome">
       <div class="container">
         <span class="item fs30">STIRRING</span>
-        <span class="item fs15 fw400">순간을 통해 세상을 봅니다</span>
+        <span class="item btn fs15 fw400" @click="$router.push({ name: 'search' })">{{text('homeText1')}}</span>
       </div>
       <div class="about item">
-        <span class="fw400">이 사이트는 웹 서비스 개인 프로젝트입니다.</span>
+        <span class="fw400">{{text('homeText2')}}</span>
         <br>
         <span class="item fs15 fw600">
-          <a href="#" @click="$router.push({name: 'about'})">STIRRING 알아보기</a>
+          <a href="#" @click="$router.push({name: 'about'})">{{text('homeText3')}}</a>
         </span>
       </div>
     </div>
@@ -20,10 +20,14 @@
 
 <script>
 import Board from "@/components/Board"
+import { mapGetters } from "vuex"
 export default {
   name: "home",
   components: {
     Board
+  },
+  computed: {
+    ...mapGetters(["text"])
   }
 }
 </script>
@@ -48,6 +52,7 @@ export default {
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 }
 span,
@@ -55,6 +60,7 @@ span * {
   font-family: Arial, "Nanum Gothic", sans-serif;
 }
 .container {
+  margin-top: 100px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -65,5 +71,11 @@ span * {
 }
 .board {
   align-self: center;
+}
+
+.btn:hover,
+.btn:active {
+  cursor: pointer;
+  color: aquamarine;
 }
 </style>

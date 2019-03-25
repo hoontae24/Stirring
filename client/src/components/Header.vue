@@ -80,7 +80,7 @@
         <span class="small-title" @click="showSmallMenu = false">{{text('menu') | upperCase}}</span>
         <div class="md-toolbar-section-end">
           <md-button class="md-icon-button md-dense" @click="showSmallMenu = false">
-            <md-icon>keyboard_arrow_left</md-icon>
+            <i class="fas fa-chevron-left"></i>
           </md-button>
         </div>
       </md-toolbar>

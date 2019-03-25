@@ -5,7 +5,7 @@
         <div class="item input" @click="$refs.text.focus()">
           <i class="icon fas fa-search btn" @click="search = $refs.text.value"></i>
           <input type="text" ref="text" @keyup.enter="search = $refs.text.value">
-          <span @click="search = $refs.text.value">{{text('search') | upperCase}}</span>
+          <span class="search-btn" @click="search = $refs.text.value">{{text('search') | upperCase}}</span>
         </div>
         <div class="item guide" style>{{text(menu)}}</div>
         <div class="item pop">
@@ -244,12 +244,17 @@ input {
     margin: 10px auto;
     overflow: hidden;
   }
-  .pop > .item:nth-child(1) {
-    display: none;
+  .input > span {
+    font-size: 0.8rem;
+    vertical-align: middle;
   }
   .pop {
-    justify-content: center;
-    font-size: 1rem;
+    justify-content: flex-start;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .pop > .item {
+    margin: 0 5px;
   }
   .card {
     margin: 10px 2px;
