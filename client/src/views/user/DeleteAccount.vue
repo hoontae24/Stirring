@@ -1,24 +1,28 @@
 <template>
-  <div class="delete-account">
+  <div class="delete-account wrapper">
     <div class="container">
       <div class="item title">
-        <span>{{ 'Delete Account' }}</span>
+        <span>{{ text('deleteAccount') }}</span>
       </div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
-        <span>{{ error }}</span>
+        <span>{{ text(error) }}</span>
       </div>
       <md-field class="item" md-clearable>
-        <label class="label">{{ 'Email' }}</label>
+        <label class="label">{{ text('email') }}</label>
         <md-input v-model="email.value" type="email" @keyup.enter="$refs.password.$el.focus()"></md-input>
         <span
           class="md-helper-text helper"
           v-if="email.helper"
           style="color: green;"
-        >{{ email.helper }}</span>
-        <span class="md-helper-text error" v-if="email.error" style="color: red;">{{ email.error }}</span>
+        >{{ text(email.helper) }}</span>
+        <span
+          class="md-helper-text error"
+          v-if="email.error"
+          style="color: red;"
+        >{{ text(email.error) }}</span>
       </md-field>
       <md-field class="item">
-        <label class="label">{{ 'Password' }}</label>
+        <label class="label">{{ text('password') }}</label>
         <md-input
           v-model="newPassword.value"
           type="password"
@@ -29,15 +33,15 @@
           class="md-helper-text helper"
           v-if="newPassword.helper"
           style="color: green;"
-        >{{ newPassword.helper }}</span>
+        >{{ text(newPassword.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="newPassword.error"
           style="color: red;"
-        >{{ newPassword.error }}</span>
+        >{{ text(newPassword.error) }}</span>
       </md-field>
       <md-field class="item">
-        <label class="label">{{ 'Password confrimation' }}</label>
+        <label class="label">{{ text('passwordConfirm') }}</label>
         <md-input
           v-model="newPassword.confirm"
           type="password"
@@ -48,19 +52,19 @@
           class="md-helper-text helper"
           v-if="newPassword.helper"
           style="color: green;"
-        >{{ newPassword.helper }}</span>
+        >{{ text(newPassword.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="newPassword.error"
           style="color: red;"
-        >{{ newPassword.error }}</span>
+        >{{ text(newPassword.error) }}</span>
       </md-field>
       <md-button
         class="item btn md-raised"
         style="background-color: black; color:white;"
         @click="changePassword"
       >
-        <span>{{ 'Change password' }}</span>
+        <span>{{ text('changePassword') }}</span>
       </md-button>
     </div>
   </div>
@@ -71,6 +75,7 @@ import UserService from "@/services/UserService"
 import { mixins } from "@/mixins/validations"
 import { EventBus } from "@/mixins/EventBus"
 import authGuard from "@/mixins/authGuard"
+import { mapGetters } from "vuex"
 
 export default {
   data() {
@@ -91,6 +96,7 @@ export default {
       error: ""
     }
   },
+  computed: { ...mapGetters(["text"]) },
   methods: {
     async changePassword() {
       if (
@@ -98,11 +104,11 @@ export default {
         this.newPassword.value.length === 0 ||
         this.newPassword.confirm.length === 0
       ) {
-        this.error = "insert the email and passwords"
+        this.error = "validError"
         return
       }
       if (this.email.value !== this.$store.state.userInfo.user.email) {
-        this.error = "This email is not matched what is logined now"
+        this.error = "emailNotMatchedLogined"
         return
       } else {
         this.error = null
@@ -112,7 +118,7 @@ export default {
         password: this.newPassword.value
       })
       if (res.data.success) {
-        EventBus.$emit("showMessage", "The Account is deleted")
+        EventBus.$emit("showMessage", this.text("accountDeleted"))
         this.$router.push({ name: "logout" })
         this.$router.push({ name: "home" })
       } else {
@@ -120,7 +126,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     authGuard.check(this.$route.path)
   },
   watch: {
@@ -139,8 +145,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  padding: 20px;
+}
 .container {
-  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   padding: 50px;

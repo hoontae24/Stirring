@@ -14,18 +14,13 @@
             <md-menu md-size="auto" md-align-trigger :mdCloseOnClick="true">
               <i
                 md-menu-trigger
-                v-if="isMe(user._id)"
+                v-if="user || isMe(user._id)"
                 class="fas fa-ellipsis-h btn"
                 style="margin: 0; margin-right: 5px; padding: 10px; vertical-align: middle; border-radius: 1em;"
               ></i>
               <md-menu-content>
-                <md-menu-item
-                  style
-                  v-for="menu in profileMenus"
-                  :key="menu.name"
-                  @click="menu.click"
-                >
-                  <span class="profile-menus">{{menu.name}}</span>
+                <md-menu-item v-for="menu in profileMenus" :key="menu.name" @click="menu.click">
+                  <span class="profile-menus">{{text(menu.name)}}</span>
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
@@ -36,16 +31,18 @@
               class="follow"
               @click="actionFollow(isFollow(user), user, isMe(user._id))"
             >
-              <span v-if="isMe(user._id)">FOLLOWERS {{user.followers.length}}</span>
+              <span
+                v-if="isMe(user._id)"
+              >{{text('followers') | upperCase}} {{user.followers.length}}</span>
               <span v-else-if="!isFollow(user)">
                 <i class="fas fa-plus"></i>
-                FOLLOW {{user.followers.length}}
+                {{text('follow') | upperCase}} {{user.followers.length}}
               </span>
-              <span v-else>FOLLOWING {{user.followers.length}}</span>
+              <span v-else>{{text('following') | upperCase}} {{user.followers.length}}</span>
             </span>
           </div>
           <div class="interests" style>
-            <span style>INTERESTS:</span>
+            <span style>{{text('interests') | upperCase}}:</span>
             <span
               class="chip"
               v-for="interest in user.interests"
@@ -56,6 +53,7 @@
         </div>
       </div>
     </div>
+    <EditInterestsDialog ref="editInterestsDialog" :user="user"/>
   </div>
 </template>
 
@@ -65,24 +63,26 @@ import { mapGetters } from "vuex"
 import { actions } from "@/mixins/actions"
 import { EventBus } from "@/mixins/EventBus"
 import UserService from "@/services/UserService"
+import EditInterestsDialog from "@/components/EditInterestsDialog"
 
 export default {
+  components: { EditInterestsDialog },
   props: ["user"],
   data() {
     return {
       apiAddress,
       apiPort,
       profileMenus: [
-        { name: "Changing profile image", click: this.editProfileImage },
-        { name: "Changing password", click: this.changePassword },
-        { name: "Editing account", click: this.editAccount },
-        { name: "Logout", click: this.logout },
-        { name: "Delete account", click: this.deleteAccount }
+        { name: "changeProfileImage", click: this.editProfileImage },
+        { name: "changePassword", click: this.changePassword },
+        { name: "editInterests", click: this.editInterests },
+        { name: "logout", click: this.logout },
+        { name: "deleteAccount", click: this.deleteAccount }
       ]
     }
   },
   computed: {
-    ...mapGetters(["isMe", "isFollow"])
+    ...mapGetters(["isMe", "isFollow", "text"])
   },
   methods: {
     editProfileImage() {
@@ -106,7 +106,9 @@ export default {
     changePassword() {
       this.$router.push({ name: "change-password" })
     },
-    editAccount() {},
+    editInterests() {
+      this.$refs.editInterestsDialog.open()
+    },
     logout() {
       this.$router.push({ name: "logout" })
     },

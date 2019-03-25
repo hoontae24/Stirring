@@ -1,56 +1,62 @@
 <template>
   <div class="login">
-    <div class="container">
-      <div class="item" style="font-size: 3rem; text-align: center;">
-        <span>{{ text('Login') }}</span>
+    <div class="wrapper">
+      <div class="container">
+        <div class="item" style="font-size: 3rem; text-align: center;">
+          <span>{{ text('login') }}</span>
+        </div>
+        <div class="item" style="text-align: center; color: red; font-size: 1rem;">
+          <span>{{ text(error) }}</span>
+        </div>
+        <md-field class="item" md-clearable>
+          <label class="label">{{ text('email') }}</label>
+          <md-input v-model="email.value" type="email" @keyup.enter="$refs.password.$el.focus()"></md-input>
+          <span
+            class="md-helper-text helper"
+            v-if="email.helper"
+            style="color: green;"
+          >{{ email.helper }}</span>
+          <span
+            class="md-helper-text error"
+            v-if="email.error"
+            style="color: red;"
+          >{{ email.error }}</span>
+        </md-field>
+        <div class="space" style="height: 20px"></div>
+        <md-field class="item">
+          <label class="label">{{ text('password') }}</label>
+          <md-input v-model="password.value" type="password" ref="password" @keyup.enter="login"></md-input>
+          <span
+            class="md-helper-text helper"
+            v-if="password.helper"
+            style="color: green;"
+          >{{ password.helper }}</span>
+          <span
+            class="md-helper-text error"
+            v-if="password.error"
+            style="color: red;"
+          >{{ password.error }}</span>
+        </md-field>
+        <div class="item forget">
+          <span @click="$router.push({name: 'forget'})">{{text('forget')}}</span>
+        </div>
+        <md-button
+          class="item btn md-raised"
+          style="background-color: black; color:white;"
+          @click="login"
+        >
+          <span>{{ text('login') }}</span>
+        </md-button>
+        <md-button class="item btn md-raised" @click="$router.push({name: 'signup'})">
+          <span>{{ text('signup') }}</span>
+        </md-button>
+        <md-button class="md-raised item">
+          <span>{{ text('loginGoogle') }}</span>
+        </md-button>
+        <md-button class="md-raised item">
+          <span>{{ text('loginFacebook') }}</span>
+        </md-button>
       </div>
-      <div class="item" style="text-align: center; color: red; font-size: 1rem;">
-        <span>{{ error }}</span>
-      </div>
-      <md-field class="item" md-clearable>
-        <label class="label">{{ text('email') }}</label>
-        <md-input v-model="email.value" type="email" @keyup.enter="$refs.password.$el.focus()"></md-input>
-        <span
-          class="md-helper-text helper"
-          v-if="email.helper"
-          style="color: green;"
-        >{{ email.helper }}</span>
-        <span class="md-helper-text error" v-if="email.error" style="color: red;">{{ email.error }}</span>
-      </md-field>
-      <div class="space" style="height: 20px"></div>
-      <md-field class="item">
-        <label class="label">{{ text('password') }}</label>
-        <md-input v-model="password.value" type="password" ref="password" @keyup.enter="login"></md-input>
-        <span
-          class="md-helper-text helper"
-          v-if="password.helper"
-          style="color: green;"
-        >{{ password.helper }}</span>
-        <span
-          class="md-helper-text error"
-          v-if="password.error"
-          style="color: red;"
-        >{{ password.error }}</span>
-      </md-field>
-      <div class="item forget">
-        <span @click="$router.push({name: 'forget'})">FORGET?</span>
-      </div>
-      <md-button
-        class="item btn md-raised"
-        style="background-color: black; color:white;"
-        @click="login"
-      >
-        <span>{{ text('login') }}</span>
-      </md-button>
-      <md-button class="item btn md-raised" @click="$router.push({name: 'signup'})">
-        <span>{{ text('signup') }}</span>
-      </md-button>
-      <md-button class="md-raised item">
-        <span>with Google</span>
-      </md-button>
-      <md-button class="md-raised item">
-        <span>with Facebook</span>
-      </md-button>
     </div>
   </div>
 </template>
@@ -82,13 +88,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["text"])
+    ...mapGetters(["text", "isLogined"])
   },
   methods: {
     ...mapActions({ vLogin: "login" }),
     async login() {
       if (this.email.value.length === 0 || this.password.value.length === 0) {
-        this.error = this.text("Loginerror")
+        this.error = "loginError"
         return
       }
       const res = await service.login({
@@ -97,21 +103,32 @@ export default {
       })
       if (res.data.success) {
         this.error = null
-        this.vLogin(res.data)
         if (this.$route.query.from)
           this.$router.push({ path: this.$route.query.from })
-        else this.$router.go(-1)
+        else this.$router.push({ name: "home" })
+        this.vLogin(res.data)
+        return
       }
       this.error = res.data.message
     }
+  },
+  watch: {
+    // isLogined() {
+    //   if (this.$route.query.from)
+    //     this.$router.push({ path: this.$route.query.from })
+    //   else if (this.$route.query.from.path !== "/login") this.$router.push("/")
+    //   else this.$router.go(-1)
+    // }
   },
   mixins: [mixins]
 }
 </script>
 
 <style scoped>
+.wrapper {
+  padding: 20px;
+}
 .container {
-  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   padding: 50px;

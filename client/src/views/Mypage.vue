@@ -1,6 +1,6 @@
 <template>
   <div class="my-page">
-    <md-card class="tabs-view">
+    <md-card class="tabs-view" v-if="user">
       <!-- <md-tabs md-sync-route md-alignment="fixed">
         <md-tab id="tab-profile" md-label="profile" @click="$router.push('/mypage/profile')"></md-tab>
         <md-tab id="tab-posts" md-label="posts" @click="$router.push('/mypage/posts')"></md-tab>
@@ -13,7 +13,7 @@
         <div class="tabs-navs">
           <!-- <md-button v-bind:class="isActive('profile')" @click="$router.push(`/${id}/profile`)">profile</md-button> -->
           <span v-bind:class="isActive('posts')" class="btn" @click="$router.push(`/${id}/posts`)">
-            <span class="large">POSTS</span>
+            <span class="large">{{text('posts') | upperCase}}</span>
             <span class="small">
               <i class="far fa-image"></i>
             </span>
@@ -24,14 +24,14 @@
             class="btn"
             @click="$router.push(`/${id}/collections`)"
           >
-            <span class="large">COLLECTIONS</span>
+            <span class="large">{{text('collections') | upperCase}}</span>
             <span class="small">
               <i class="far fa-star"></i>
             </span>
             {{user.collections.length}}
           </span>
           <span v-bind:class="isActive('likes')" class="btn" @click="$router.push(`/${id}/likes`)">
-            <span class="large">LIKES</span>
+            <span class="large">{{text('likes') | upperCase}}</span>
             <span class="small">
               <i class="far fa-heart"></i>
             </span>
@@ -42,7 +42,7 @@
             class="btn"
             @click="$router.push(`/${id}/followings`)"
           >
-            <span class="large">FOLLOWINGS</span>
+            <span class="large">{{text('followings') | upperCase}}</span>
             <span class="small">
               <i class="fas fa-walking"></i>
             </span>
@@ -61,25 +61,31 @@
 import UserService from "@/services/UserService"
 import Profile from "@/components/Profile"
 import { EventBus } from "@/mixins/EventBus"
+import { mapGetters } from "vuex"
 
 export default {
   components: { Profile },
   props: ["id"],
   data() {
     return {
-      user: { image: "face-default.png" }
+      user: null
     }
+  },
+  computed: {
+    ...mapGetters(["text"])
   },
   methods: {
     isActive(name) {
       return this.$route.name === name ? "selected" : null
     },
     async loadUser() {
-      const res = await UserService.getUser(this.id)
+      const res = await UserService.getUser(this.id, {
+        count: { new: 2, old: 0 }
+      })
       this.user = res.data.user[0]
     }
   },
-  created() {
+  mounted() {
     EventBus.$on("loadUser", () => {
       this.loadUser()
     })
@@ -95,8 +101,8 @@ export default {
 
 <style scoped>
 .my-page {
-  width: 95%;
-  margin: 20px auto;
+  width: 100%;
+  padding: 20px 3%;
 }
 .tabs-view {
   padding: 10px;

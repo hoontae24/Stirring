@@ -19,8 +19,8 @@
           <div class="item btn" @click="actionLike(isLike(post), post)">
             <i class="fas fa-heart red" v-if="isLike(post)" style="color: red"></i>
             <i class="far fa-heart" v-else></i>
-            <span v-if="isLike(post)" style="color: red;">&nbsp;Liked</span>
-            <span v-else>&nbsp;Like</span>
+            <span v-if="isLike(post)" style="color: red;">&nbsp;{{text('liked')}}</span>
+            <span v-else>&nbsp;{{text('like')}}</span>
           </div>
           <div
             class="item btn"
@@ -29,12 +29,12 @@
           >
             <i class="fas fa-star green" style="color: green" v-if="isCollected(post, collections)"></i>
             <i class="far fa-star" v-else></i>
-            <span v-if="!isCollected(post, collections)">&nbsp;Collect</span>
-            <span v-else>&nbsp;Collected</span>
+            <span v-if="!isCollected(post, collections)">&nbsp;{{text('collect')}}</span>
+            <span v-else>&nbsp;{{text('collected')}}</span>
           </div>
           <div class="item btn" @click="actionDownload(post)">
             <i class="fas fa-arrow-down"></i>
-            <span>&nbsp;Download</span>
+            <span>&nbsp;{{text('download')}}</span>
           </div>
         </div>
       </md-card-header>
@@ -48,9 +48,9 @@
 
       <md-card-content style="display:flex; justify-content: space-between;">
         <div style="display:inline-block;">
-          <div class="item author">Author: {{author.name}}</div>
+          <div class="item author">{{text('author')}}: {{author.name}}</div>
           <div class="item tags">
-            Tags:
+            {{text('tags')}}:
             <span
               class="btn"
               style="color:steelblue"
@@ -59,12 +59,12 @@
               @click="linkByTag(tag)"
             >#{{tag}}</span>
           </div>
-          <div class="item likes">Likes: {{post.likes}}</div>
-          <div class="item downloads">Downloads: {{post.downloads}}</div>
-          <div class="item views">Views: {{post.views}}</div>
-          <div class="item updated-at">Updated at: {{post.updatedAt.toLocaleString()}}</div>
+          <div class="item likes">{{text('likes')}}: {{post.likes}}</div>
+          <div class="item downloads">{{text('downloads')}}: {{post.downloads}}</div>
+          <div class="item views">{{text('views')}}: {{post.views}}</div>
+          <div class="item updated-at">{{text('updated')}}: {{post.updatedAt.toLocaleString()}}</div>
         </div>
-        <md-button v-if="isMe(post.author.id)" flat class="md-accent" @click="deletePost">DELETE</md-button>
+        <md-button v-if="isMe(post.author.id)" flat class="md-accent" @click="deletePost">{{text('delete')}}</md-button>
       </md-card-content>
     </md-card>
   </div>
@@ -90,7 +90,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isLike", "isMe"])
+    ...mapGetters(["isLike", "isMe", "text"])
   },
   methods: {
     deletePost() {

@@ -4,15 +4,15 @@
       <div class="content">
         <div class="title">
           <md-field>
-            <label>Collection Title</label>
+            <label>{{text('collectionTitle')}}</label>
             <md-input v-model="title"></md-input>
           </md-field>
         </div>
       </div>
       <md-dialog-actions>
-        <md-button class="md-accent" @click="del">Delete</md-button>
-        <md-button class="md-primary" @click="close">Cancel</md-button>
-        <md-button class="md-primary" @click="submit">Edit</md-button>
+        <md-button class="md-accent" @click="del">{{text('delete')}}</md-button>
+        <md-button class="md-primary" @click="close">{{text('cancel')}}</md-button>
+        <md-button class="md-primary" @click="submit">{{text('edit')}}</md-button>
       </md-dialog-actions>
     </md-dialog>
   </div>
@@ -21,15 +21,17 @@
 <script>
 import CollectionService from "@/services/CollectionService"
 import { EventBus } from "@/mixins/EventBus"
+import { mapGetters } from "vuex"
 
 export default {
   props: ["collection"],
   data() {
     return {
       showDialog: false,
-      title: ''
+      title: ""
     }
   },
+  computed: { ...mapGetters(["text"]) },
   methods: {
     open() {
       this.showDialog = true

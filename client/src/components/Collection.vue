@@ -28,12 +28,12 @@
             style="border: 1px solid lightgray; border-radius: 50%;"
             :src="`http://${apiAddress}:${apiPort}/static/profile-images/`+ profileImage "
             alt="Avatar"
-          > -->
+          >-->
           <div class="author-name" style>{{collection.author.name}}</div>
         </div>
         <div
           class="item count"
-        >{{collection.posts.length}} {{collection.posts.length == 1 ? 'Post':'Posts'}}</div>
+        >{{collection.posts.length}} {{collection.posts.length == 1 ? text('post'):text('post')}}</div>
         <div class="item title">{{collection.title}}</div>
       </div>
     </md-card>
@@ -44,6 +44,7 @@
 import { apiAddress, apiPort } from "@/config"
 import PostService from "@/services/PostService"
 import UserService from "@/services/UserService"
+import { mapGetters } from "vuex"
 
 export default {
   props: ["collection"],
@@ -54,6 +55,9 @@ export default {
       posts: null,
       profileImage: null
     }
+  },
+  computed: {
+    ...mapGetters(["text"])
   },
   methods: {
     loadPosts() {

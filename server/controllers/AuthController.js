@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
-const expiresIn = 1000 * 60 * 60 * 24 * 7
+const expiresIn = 1000 * 60 * 60 * 24 
 
 exports.login = (req, res) => {
   const { email, password } = req.body
@@ -9,7 +9,7 @@ exports.login = (req, res) => {
 
   const check = user => {
     if (!user) {
-      throw new Error('Email does not exist.')
+      throw new Error('loginError2')
     } else {
       if (user.verify(password)) {
         const promise = new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ exports.login = (req, res) => {
         })
         return promise
       } else {
-        throw new Error('The password is wrong.')
+        throw new Error('loginError3')
       }
     }
   }
@@ -43,7 +43,7 @@ exports.login = (req, res) => {
   const respond = payload => {
     res.json({
       success: true,
-      message: 'logged in successfully.',
+      message: 'loginSuccess',
       user: payload.user,
       token: payload.token
     })
@@ -67,7 +67,7 @@ exports.refresh = (req, res) => {
 
   const check = user => {
     if (!user) {
-      throw new Error('Email does not exist.')
+      throw new Error('loginError2')
     } else {
       const promise = new Promise((resolve, reject) => {
         jwt.sign(
@@ -97,7 +97,7 @@ exports.refresh = (req, res) => {
   const respond = payload => {
     res.json({
       success: true,
-      message: 'Refreshing token.',
+      message: 'refreshToken',
       user: payload.user,
       token: payload.token
     })

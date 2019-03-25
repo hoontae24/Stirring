@@ -42,27 +42,35 @@ User.statics.findOneByEmail = function(email) {
   return this.findOne({ email }).exec()
 }
 
-User.statics.findById = function(ids) {
+User.statics.findById = function(ids, count) {
   return this.find({ _id: ids })
     .select('-password')
+    .limit(count.new * 1)
+    .skip(count.old * 1)
     .exec()
 }
 User.statics.findOneByIdWithPW = function(id) {
   return this.findOne({ _id: id }).exec()
 }
 
-User.statics.findByWord = function(word) {
+User.statics.findByWord = function(word, count) {
   return this.find({
     $or: [
       { name: { $regex: word, $options: 'i' } },
-      { email: { $regex: word, $options: 'i' } },
+      { email: { $regex: word, $options: 'm' } },
       { interests: { $in: word[0].toUpperCase() } }
     ]
-  }).exec()
+  })
+    .limit(count.new * 1)
+    .skip(count.old * 1)
+    .exec()
 }
 
-User.statics.findAll = function() {
-  return this.find().exec()
+User.statics.findAll = function(count) {
+  return this.find()
+    .limit(count.new * 1)
+    .skip(count.old * 1)
+    .exec()
 }
 
 User.methods.verify = function(password) {
@@ -124,7 +132,7 @@ User.statics.updatePassword = function(id, newPassword) {
   ).exec()
 }
 
-User.statics.updatePasswordByEmail = function({email, newPassword}) {
+User.statics.updatePasswordByEmail = function({ email, newPassword }) {
   const hashPassword = crypto
     .createHmac('sha1', config.secret)
     .update(newPassword)
@@ -149,6 +157,10 @@ User.statics.subtractFF = function(followings, followers, accountId) {
     { $pull: { followings: accountId } }
   ).exec()
   return Promise.resolve(true)
+}
+
+User.statics.updateInterests = function(_id, interests) {
+  return this.findOneAndUpdate({ _id }, { $set: { interests } })
 }
 
 module.exports = mongoose.model('User', User)

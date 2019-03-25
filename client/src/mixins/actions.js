@@ -9,8 +9,7 @@ export const actions = {
   methods: {
     async loadPosts(condition) {
       const response = await PostService.getAll(condition)
-      if (!response.data.success) return response.data.message
-      this.posts = response.data.posts
+      this.posts = this.posts.concat(response.data.posts)
     },
     actionView(post) {
       post.views += 1

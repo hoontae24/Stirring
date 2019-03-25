@@ -1,14 +1,14 @@
 <template>
-  <div class="new-password">
+  <div class="new-password wrapper">
     <div class="container">
       <div class="item title">
-        <span>{{ 'New password' }}</span>
+        <span>{{ text('newPassword') }}</span>
       </div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
-        <span>{{ error }}</span>
+        <span>{{ text(error) }}</span>
       </div>
       <md-field class="item">
-        <label class="label">{{ 'New password' }}</label>
+        <label class="label">{{ text('newPassword') }}</label>
         <md-input
           v-model="newPassword.value"
           type="password"
@@ -19,15 +19,15 @@
           class="md-helper-text helper"
           v-if="newPassword.helper"
           style="color: green;"
-        >{{ newPassword.helper }}</span>
+        >{{ text(newPassword.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="newPassword.error"
           style="color: red;"
-        >{{ newPassword.error }}</span>
+        >{{ text(newPassword.error) }}</span>
       </md-field>
       <md-field class="item">
-        <label class="label">{{ 'New password confrimation' }}</label>
+        <label class="label">{{ text('newPasswordConfirm') }}</label>
         <md-input
           v-model="newPassword.confirm"
           type="password"
@@ -38,19 +38,19 @@
           class="md-helper-text helper"
           v-if="newPassword.helper"
           style="color: green;"
-        >{{ newPassword.helper }}</span>
+        >{{ text(newPassword.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="newPassword.error"
           style="color: red;"
-        >{{ newPassword.error }}</span>
+        >{{ text(newPassword.error) }}</span>
       </md-field>
       <md-button
         class="item btn md-raised"
         style="background-color: black; color:white;"
         @click="changePassword"
       >
-        <span>{{ 'Change password' }}</span>
+        <span>{{ text('changePassword') }}</span>
       </md-button>
     </div>
   </div>
@@ -61,6 +61,7 @@ import UserService from "@/services/UserService"
 import { mixins } from "@/mixins/validations"
 import { EventBus } from "@/mixins/EventBus"
 import authGuard from "@/mixins/authGuard"
+import { mapGetters } from "vuex"
 
 export default {
   props: ["token"],
@@ -76,17 +77,18 @@ export default {
       error: ""
     }
   },
+  computed: { ...mapGetters(["text"]) },
   methods: {
     async changePassword() {
       if (
         this.newPassword.value.length === 0 ||
         this.newPassword.confirm.length === 0
       ) {
-        this.error = "insert the passwords"
+        this.error = "insertPassword"
         return
       }
       if (!this.newPassword.valid) {
-        this.error = "Please enter the passwords CORRECTLY"
+        this.error = "validError"
         return
       } else {
         this.error = null
@@ -96,16 +98,20 @@ export default {
         token: this.$route.query.token
       })
       if (res.data.success) {
-        EventBus.$emit("showMessage", "The password is changed", 2000, () => {
-          this.$router.push({ name: "login" })
-        })
+        EventBus.$emit(
+          "showMessage",
+          this.text("passwordChanged"),
+          2000,
+          () => {
+            this.$router.push({ name: "login" })
+          }
+        )
       } else {
         this.error = res.data.message
       }
     }
   },
-  created() {
-  },
+  created() {},
   watch: {
     "newPassword.value": function() {
       this.validatePassword(this.newPassword)
@@ -119,8 +125,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  padding: 20px;
+}
 .container {
-  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   padding: 50px;

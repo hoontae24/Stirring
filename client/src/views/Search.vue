@@ -5,13 +5,17 @@
         <div class="item input" @click="$refs.text.focus()">
           <i class="icon fas fa-search btn" @click="search = $refs.text.value"></i>
           <input type="text" ref="text" @keyup.enter="search = $refs.text.value">
+          <span @click="search = $refs.text.value">{{text('search') | upperCase}}</span>
         </div>
-        <div class="item guide" style>{{menu}}</div>
+        <div class="item guide" style>{{text(menu)}}</div>
         <div class="item pop">
-          <div class="item">Popular Searches:</div>
-          <div class="item" @click="linkByTag('landscape')">#LANDSCAPE</div>
-          <div class="item">#CITY</div>
-          <div class="item">#FAMILY</div>
+          <div class="item">{{text('popularWords')}}:</div>
+          <div
+            class="item"
+            v-for="item in popTags"
+            :key="item"
+            @click="linkByTag(item)"
+          >#{{item | upperCase}}</div>
         </div>
       </div>
     </div>
@@ -22,17 +26,17 @@
             :class="$route.name === 'search-posts' ? 'selected' : ''"
             class="item"
             @click="$router.push(`/search/posts`+ `?word=${search}`)"
-          >POSTS</span>
+          >{{text('posts') | upperCase}}</span>
           <span
             :class="$route.name === 'search-authors' ? 'selected' : ''"
             class="item"
             @click="$router.push(`/search/authors`+ `?word=${search}`)"
-          >AUTHORS</span>
+          >{{text('authors') | upperCase}}</span>
           <span
             :class="$route.name == 'search-collections' ? 'selected' : ''"
             class="item"
             @click="$router.push(`/search/collections`+ `?word=${search}`)"
-          >COLLECTIONS</span>
+          >{{text('collections') | upperCase}}</span>
         </div>
         <div class="content">
           <router-view :search="search"></router-view>
@@ -43,23 +47,32 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { EventBus } from "@/mixins/EventBus"
 import { actions } from "@/mixins/actions"
+import TagService from "@/services/TagService"
 
 export default {
   name: "search",
   data() {
     return {
-      search: ""
+      search: "",
+      popTags: []
     }
   },
   computed: {
+    ...mapGetters(["text"]),
     menu() {
-      if (this.$route.name === "search-posts") return "Keywords: tags of posts"
-      if (this.$route.name === "search-authors")
-        return "Keywords: name, email, interests"
+      if (this.$route.name === "search-posts") return "searchMenuPosts"
+      if (this.$route.name === "search-authors") return "searchMenuAuthors"
       if (this.$route.name === "search-collections")
-        return "Keywords: title, name of authors"
+        return "searchMenuCollections"
+    }
+  },
+  methods: {
+    async loadPopTags() {
+      const res = await TagService.getTop5()
+      this.popTags = res.data.popTags
     }
   },
   created() {
@@ -70,6 +83,7 @@ export default {
       this.$route.query.word = ""
     }
     this.search = this.$route.query.word
+    this.loadPopTags()
   },
   mounted() {
     this.$refs.text.focus()
@@ -77,6 +91,7 @@ export default {
   },
   watch: {
     search() {
+      TagService.push(this.search)
       this.$router.push({
         path: `/search/${this.$route.name.split("-")[1]}?word=` + this.search
       })
@@ -97,7 +112,7 @@ export default {
 
 <style scoped>
 .cover {
-  height: 300px;
+  height: 400px;
   margin: 10px;
   border-radius: 1em;
   overflow: hidden;
@@ -108,7 +123,7 @@ export default {
 }
 .container {
   background-color: rgba(255, 255, 255, 0.5);
-  height: 300px;
+  height: 400px;
   /* margin: 50px; */
   padding: auto auto;
   display: flex;
@@ -129,7 +144,14 @@ export default {
   border-radius: 1em;
   background-color: rgba(255, 255, 255, 0.5);
   display: flex;
-  align-items: stretch;
+  align-items: center;
+}
+.input > span {
+  font-size: 1rem;
+  vertical-align: middle;
+}
+.input > span:hover {
+  cursor: pointer;
 }
 .input:hover {
   cursor: text;
@@ -165,8 +187,12 @@ input {
   align-self: center;
   color: steelblue;
 }
-.pop > .item:hover {
+.pop > .item:nth-child(1) {
+  color: black;
+}
+.pop > .item:not(:nth-child(1)):hover {
   cursor: pointer;
+  background-color: rgba(240, 248, 255, 0.445);
 }
 
 .card {

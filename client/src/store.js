@@ -9,22 +9,25 @@ import PostService from '@/services/PostService'
 Vue.use(Vuex)
 
 const lan = () => {
-  return localStorage.getItem('language') || 'en'
+  return localStorage.getItem('language') || 'english'
 }
 
 export default new Vuex.Store({
   state: {
     userInfo: {
       isLogined: false,
-      token: null,
+      token: localStorage.getItem('token') || null,
       user: null
     },
     language: lan(),
-    text
+    text,
+    count: { old: 0, new: 0 }
   },
   getters: {
     text: state => word => {
-      return state.text[state.language][word.toLowerCase()]
+      if (!word) return ''
+      if (!state.text[word][state.language]) return state.text[word]["default"]
+      return state.text[word][state.language]
     },
     isMe: state => id => {
       if (!state.userInfo.isLogined) return false
@@ -51,9 +54,8 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    changeLan: state => {
-      if (state.language == 'ko') state.language = 'en'
-      else state.language = 'ko'
+    changeLan: (state, language) => {
+      state.language = language
       localStorage.setItem('language', state.language)
     },
     login: (state, payload) => {
@@ -83,11 +85,41 @@ export default new Vuex.Store({
         state.userInfo.user.followings.indexOf(user._id),
         1
       )
+    },
+    addCount: state => {
+      if (window.width < 800) {
+        state.count.old = state.count.new
+        state.count.new += 10
+      }
+      if (window.width < 1280) {
+        state.count.old = state.count.new
+        state.count.new += 20
+      } else {
+        state.count.old = state.count.new
+        state.count.new += 30
+      }
+    },
+    resetCount: state => {
+      if (window.width < 800) {
+        state.count.old = 0
+        state.count.new = 10
+      }
+      if (window.width < 1280) {
+        state.count.old = 0
+        state.count.new = 20
+      } else {
+        state.count.old = 0
+        state.count.new = 30
+      }
     }
   },
   actions: {
-    changeLan({ commit }) {
-      commit('changeLan')
+    changeLan({ state, commit }, language) {
+      if (!language) {
+        if (state.language === 'english') language = 'korean'
+        if (state.language === 'korean') language = 'english'
+      }
+      commit('changeLan', language)
     },
     login({ commit }, payload) {
       localStorage.setItem('token', payload.token)

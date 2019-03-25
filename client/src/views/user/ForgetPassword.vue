@@ -1,23 +1,23 @@
 <template>
-  <div class="forget">
+  <div class="forget wrapper">
     <div class="container">
       <div class="item title">
-        <span>{{ 'Forget your password?' }}</span>
+        <span>{{ text('forgetYourPassword') }}</span>
       </div>
       <md-field class="item" md-clearable>
-        <label class="label">{{ 'Email' }}</label>
+        <label class="label">{{ text('email') }}</label>
         <md-input v-model="email" type="email" @keyup.enter="send"></md-input>
-        <span class="md-helper-text error" v-if="error" style="color: red;">{{ error }}</span>
+        <span class="md-helper-text error" v-if="error" style="color: red;">{{ text(error) }}</span>
       </md-field>
       <md-button
         class="item btn md-raised"
         style="background-color: black; color:white;"
         @click="send"
       >
-        <span>{{ 'Send' }}</span>
+        <span>{{ text('send') }}</span>
       </md-button>
       <div class="item guide">
-        <span>{{guide}}</span>
+        <span>{{ text(guide)}}</span>
       </div>
     </div>
   </div>
@@ -26,26 +26,28 @@
 <script>
 import UserService from "@/services/UserService"
 import { EventBus } from "@/mixins/EventBus"
+import { mapGetters } from "vuex"
 
 export default {
   data() {
     return {
       email: "",
       error: "",
-      guide: "Send Link for new password on your email"
+      guide: "forgetGuide"
     }
   },
+  computed: { ...mapGetters(["text"]) },
   methods: {
     async send() {
-      if (!this.email.length) this.error = "Enter your email address"
+      if (!this.email.length) this.error = "enterEmail"
       if (this.email.length) this.error = ""
       const res = await UserService.checkEmail(this.email)
       if (!res.data.success) {
         this.error = res.data.message
         return
       }
-      this.guide = "Check your email, You can reset password through link."
-      EventBus.$emit("showMessage", "Go to the main page", 2000, () => {
+      this.guide = "forgetGuide2"
+      EventBus.$emit("showMessage", this.text("goToMain"), 2000, () => {
         this.$router.push({ name: "home" })
       })
     }
@@ -54,8 +56,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  padding: 20px;
+}
 .container {
-  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   padding: 50px;

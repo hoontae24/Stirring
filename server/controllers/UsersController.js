@@ -33,7 +33,7 @@ module.exports = {
 
     const create = user => {
       if (user) {
-        throw new Error('Email exists')
+        throw new Error('signupError')
       } else {
         return User.create(newUser)
       }
@@ -42,7 +42,7 @@ module.exports = {
     const respond = () => {
       res.json({
         success: true,
-        message: 'Signed up successfully'
+        message: 'signupSuccess'
       })
     }
 
@@ -59,13 +59,14 @@ module.exports = {
   },
 
   getUser: (req, res) => {
-    const { mode } = req.query
+    var { mode, count } = req.query
+    count = JSON.parse(count)
 
     const find = mode => {
       let { id } = req.params
       id = id.split(',')
-      if (mode === 'id') return User.findById(id)
-      else if (mode === 'word') return User.findByWord(id)
+      if (mode === 'id') return User.findById(id, count)
+      else if (mode === 'word') return User.findByWord(id, count)
     }
 
     const respond = user => {
@@ -84,6 +85,9 @@ module.exports = {
   },
 
   getAllUsers: (req, res) => {
+    var { count } = req.query
+    count = JSON.parse(count)
+
     const respond = user => {
       if (user.length === 1) user = user[0]
       res.json({
@@ -96,7 +100,7 @@ module.exports = {
       res.json({ message: error.message })
     }
 
-    User.findAll()
+    User.findAll(count)
       .then(respond)
       .catch(onError)
   },
@@ -312,8 +316,25 @@ module.exports = {
 
     ResetPassword.checkAndSubmit({ newPassword, token })
       .then(({ email, newPassword }) => {
-        return User.updatePasswordByEmail({email, newPassword})
+        return User.updatePasswordByEmail({ email, newPassword })
       })
+      .then(respond)
+      .catch(onError)
+  },
+
+  updateInterests: (req, res) => {
+    const { userId } = req.params
+    const interests = req.body.interests.map(item => item.toUpperCase())
+
+    const respond = () => {
+      res.json({ success: true })
+    }
+
+    const onError = err => {
+      res.json({ message: err.message })
+    }
+
+    User.updateInterests(userId, interests)
       .then(respond)
       .catch(onError)
   }

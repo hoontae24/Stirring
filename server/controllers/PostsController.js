@@ -67,7 +67,6 @@ module.exports = {
 
   getAll: (req, res) => {
     const mode = req.query
-
     const respond = posts => {
       res.json({
         success: true,

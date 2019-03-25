@@ -1,14 +1,14 @@
 <template>
-  <div class="change-password">
+  <div class="change-password wrapper">
     <div class="container">
       <div class="item title">
-        <span>{{ 'Change password' }}</span>
+        <span>{{ text('changePassword') }}</span>
       </div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
-        <span>{{ error }}</span>
+        <span>{{ text(error) }}</span>
       </div>
       <md-field class="item" md-clearable>
-        <label class="label">{{ 'Current password' }}</label>
+        <label class="label">{{ text('currentPassword') }}</label>
         <md-input
           v-model="oldPassword.value"
           type="password"
@@ -18,15 +18,15 @@
           class="md-helper-text helper"
           v-if="oldPassword.helper"
           style="color: green;"
-        >{{ oldPassword.helper }}</span>
+        >{{ text(oldPassword.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="oldPassword.error"
           style="color: red;"
-        >{{ oldPassword.error }}</span>
+        >{{ text(oldPassword.error) }}</span>
       </md-field>
       <md-field class="item">
-        <label class="label">{{ 'New password' }}</label>
+        <label class="label">{{ text('newPassword') }}</label>
         <md-input
           v-model="newPassword.value"
           type="password"
@@ -37,15 +37,15 @@
           class="md-helper-text helper"
           v-if="newPassword.helper"
           style="color: green;"
-        >{{ newPassword.helper }}</span>
+        >{{ text(newPassword.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="newPassword.error"
           style="color: red;"
-        >{{ newPassword.error }}</span>
+        >{{ text(newPassword.error) }}</span>
       </md-field>
       <md-field class="item">
-        <label class="label">{{ 'New password confrimation' }}</label>
+        <label class="label">{{text('newPasswordConfirm')}}</label>
         <md-input
           v-model="newPassword.confirm"
           type="password"
@@ -56,19 +56,19 @@
           class="md-helper-text helper"
           v-if="newPassword.helper"
           style="color: green;"
-        >{{ newPassword.helper }}</span>
+        >{{ text(newPassword.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="newPassword.error"
           style="color: red;"
-        >{{ newPassword.error }}</span>
+        >{{ text(newPassword.error) }}</span>
       </md-field>
       <md-button
         class="item btn md-raised"
         style="background-color: black; color:white;"
         @click="changePassword"
       >
-        <span>{{ 'Change password' }}</span>
+        <span>{{ text('changePassword') }}</span>
       </md-button>
     </div>
   </div>
@@ -79,6 +79,7 @@ import UserService from "@/services/UserService"
 import { mixins } from "@/mixins/validations"
 import { EventBus } from "@/mixins/EventBus"
 import authGuard from "@/mixins/authGuard"
+import { mapGetters } from "vuex"
 
 export default {
   data() {
@@ -100,6 +101,7 @@ export default {
       error: ""
     }
   },
+  computed: { ...mapGetters(["text"]) },
   methods: {
     async changePassword() {
       if (
@@ -107,11 +109,11 @@ export default {
         this.newPassword.value.length === 0 ||
         this.newPassword.confirm.length === 0
       ) {
-        this.error = "insert the passwords"
+        this.error = "insertPassword"
         return
       }
       if (!this.oldPassword.valid || !this.newPassword.valid) {
-        this.error = "Please enter the passwords CORRECTLY"
+        this.error = "validError"
         return
       } else {
         this.error = null
@@ -122,14 +124,14 @@ export default {
         newPassword: this.newPassword.value
       })
       if (res.data.success) {
-        EventBus.$emit("showMessage", "The password is changed")
+        EventBus.$emit("showMessage", this.text("passwordChanged"))
         this.$router.go(-1)
       } else {
         this.error = res.data.message
       }
     }
   },
-  created() {
+  mounted() {
     authGuard.check(this.$route.path)
   },
   watch: {
@@ -148,8 +150,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  padding: 20px;
+}
 .container {
-  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   padding: 50px;

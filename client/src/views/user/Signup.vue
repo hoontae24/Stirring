@@ -1,11 +1,11 @@
 <template>
-  <div class="signup">
+  <div class="signup wrapper">
     <div class="container">
       <div class="item" style="font-size: 3rem; text-align: center;">
-        <span>{{text('SIGNUP')}}</span>
+        <span>{{text('signup')}}</span>
       </div>
       <div class="item" style="text-align: center; color: red; font-size: 1rem;">
-        <span>{{ error }}</span>
+        <span>{{ text(error) }}</span>
       </div>
       <md-field class="item" md-clearable>
         <label class="label">{{ text('name') }}</label>
@@ -14,12 +14,16 @@
           class="md-helper-text helper"
           v-if="name.helper"
           style="color: green;"
-        >{{ name.helper }}</span>
-        <span class="md-helper-text error" v-if="name.error" style="color: red;">{{ name.error }}</span>
+        >{{ text(name.helper) }}</span>
+        <span
+          class="md-helper-text error"
+          v-if="name.error"
+          style="color: red;"
+        >{{ text(name.error) }}</span>
       </md-field>
       <div class="space" style="height: 20px"></div>
       <md-field class="item" md-clearable>
-        <label class="label">{{ text('EMAIL') }}</label>
+        <label class="label">{{ text('email') }}</label>
         <md-input
           v-model="email.value"
           type="email"
@@ -30,12 +34,16 @@
           class="md-helper-text helper"
           v-if="email.helper"
           style="color: green;"
-        >{{ email.helper }}</span>
-        <span class="md-helper-text error" v-if="email.error" style="color: red;">{{ email.error }}</span>
+        >{{ text(email.helper) }}</span>
+        <span
+          class="md-helper-text error"
+          v-if="email.error"
+          style="color: red;"
+        >{{ text(email.error) }}</span>
       </md-field>
       <div class="space" style="height: 20px"></div>
       <md-field class="item">
-        <label class="label">{{ text('PASSWORD') }}</label>
+        <label class="label">{{ text('password') }}</label>
         <md-input
           v-model="password.value"
           type="password"
@@ -46,16 +54,16 @@
           class="md-helper-text helper"
           v-if="password.helper"
           style="color: green;"
-        >{{ password.helper }}</span>
+        >{{ text(password.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="password.error"
           style="color: red;"
-        >{{ password.error }}</span>
+        >{{ text(password.error) }}</span>
       </md-field>
       <div class="space" style="height: 20px"></div>
       <md-field class="item">
-        <label class="label">{{ text('PASSWORD_Confirm') }}</label>
+        <label class="label">{{ text('passwordConfirm') }}</label>
         <md-input
           v-model="password.confirm"
           type="password"
@@ -66,12 +74,12 @@
           class="md-helper-text helper"
           v-if="password.helper"
           style="color: green;"
-        >{{ password.helper }}</span>
+        >{{ text(password.helper) }}</span>
         <span
           class="md-helper-text error"
           v-if="password.error"
           style="color: red;"
-        >{{ password.error }}</span>
+        >{{ text(password.error) }}</span>
       </md-field>
       <div class="space" style="height: 40px"></div>
       <md-button
@@ -79,18 +87,18 @@
         style="background-color: black; color:white;"
         @click="signup"
       >
-        <span>{{ text('Signup') }}</span>
+        <span>{{ text('signup') }}</span>
       </md-button>
       <md-button class="md-raised item">
-        <span>with Google</span>
+        <span>{{text('signupGoogle')}}</span>
       </md-button>
       <md-button class="md-raised item">
-        <span>with Facebook</span>
+        <span>{{text('signupFacebook')}}</span>
       </md-button>
     </div>
     <SnackAlert
       v-bind:duration="3000"
-      :message="'Sign up successfully'"
+      :message="text('signupSuccess')"
       :showSnackAlert="isSuccess"
     />
   </div>
@@ -140,11 +148,11 @@ export default {
         this.password.value.length === 0 ||
         this.name.value.length === 0
       ) {
-        this.error = this.text("loginerror")
+        this.error = "loginError"
         return
       }
       if (!this.email.valid || !this.password.valid || !this.name.valid) {
-        this.error = "Please enter the user data CORRECTLY"
+        this.error = "validError"
         return
       } else {
         this.error = null
@@ -183,8 +191,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  padding: 20px;
+}
 .container {
-  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   padding: 50px;

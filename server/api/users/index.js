@@ -22,6 +22,7 @@ router.get('/', controller.getAllUsers)
 router.get('/profile-image/:id', controller.getUserProfileImage)
 router.get('/email/:email', controller.checkEmail)
 
+router.put('/interests/:userId', controller.updateInterests)
 router.put('/:id', controller.update)
 router.put(
   '/profile-image/:id',

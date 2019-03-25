@@ -12,26 +12,27 @@
       <!-- </a> -->
     </div>
     <div id="nav">
-      <div class="nav2">
-        <div class="item btn post" @click="$router.push('/')">{{ 'home' | upperCase }}</div>
-        <div class="item btn post" @click="$router.push('/search')">
-          {{ text('search') | upperCase }}
-          <i class="fas fa-angle-down"></i>
-        </div>
-
-        <div class="drop-down-nav">
-          <div
-            class="item btn post"
-            @click="$router.push('/search/posts')"
-          >{{ 'posts' | upperCase }}</div>
-          <div
-            class="item btn post"
-            @click="$router.push('/search/authors')"
-          >{{ 'authors' | upperCase }}</div>
-          <div
-            class="item btn post"
-            @click="$router.push('/search/collections')"
-          >{{ text('collections') | upperCase }}</div>
+      <div class="nav2" ref="nav2">
+        <div class="item btn post" @click="$router.push('/')">{{ text('home') | upperCase }}</div>
+        <div ref="search" class="item post">
+          <div class="btn" @click="$router.push('/search')">
+            {{ text('search') | upperCase }}
+            <i class="fas fa-angle-down"></i>
+          </div>
+          <div class="drop-down-nav" ref="dropDownNav">
+            <div
+              class="item btn2 post"
+              @click="$router.push('/search/posts')"
+            >{{ text('posts') | upperCase }}</div>
+            <div
+              class="item btn2 post"
+              @click="$router.push('/search/authors')"
+            >{{text( 'authors') | upperCase }}</div>
+            <div
+              class="item btn2 post"
+              @click="$router.push('/search/collections')"
+            >{{ text('collections') | upperCase }}</div>
+          </div>
         </div>
       </div>
       <div class="nav2">
@@ -46,11 +47,16 @@
           :key="nav.name"
           @click="$router.push(nav.route)"
         >{{ text(nav.name) | upperCase }}</div>
-        <div
-          id="changeLan"
-          class="item btn"
-          @click="changeLan"
-        >{{ text(language.name) | upperCase }}</div>
+        <div id="changeLan" class="item">
+          <div class="btn">
+            {{ text('language') | upperCase }}
+            <i class="fas fa-angle-down"></i>
+          </div>
+          <div class="drop-down-language">
+            <div class="item btn2" @click="changeLan('korean')">{{ text('korean') | upperCase }}</div>
+            <div class="item btn2" @click="changeLan('english')">{{ text('english') | upperCase }}</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -71,7 +77,7 @@
 
     <md-drawer :md-active.sync="showSmallMenu">
       <md-toolbar class="md-transparent" md-elevation="0">
-        <span class="small-title" @click="showSmallMenu = false">Menu</span>
+        <span class="small-title" @click="showSmallMenu = false">{{text('menu') | upperCase}}</span>
         <div class="md-toolbar-section-end">
           <md-button class="md-icon-button md-dense" @click="showSmallMenu = false">
             <md-icon>keyboard_arrow_left</md-icon>
@@ -83,7 +89,7 @@
         <md-list-item
           class="item post"
           @click="showSmallMenu = false; $router.push('/')"
-        >{{ 'home' | upperCase }}</md-list-item>
+        >{{ text('home') | upperCase }}</md-list-item>
         <md-list-item
           class="item post"
           @click="showSmallMenu = false; $router.push('/search')"
@@ -91,11 +97,11 @@
         <md-list-item
           class="item post"
           @click="showSmallMenu = false; $router.push('/search/posts')"
-        >{{ 'posts' | upperCase }}</md-list-item>
+        >{{ text('posts') | upperCase }}</md-list-item>
         <md-list-item
           class="item post"
           @click="showSmallMenu = false; $router.push('/search/authors')"
-        >{{ 'authors' | upperCase }}</md-list-item>
+        >{{ text('authors') | upperCase }}</md-list-item>
         <md-list-item
           class="item post"
           @click="showSmallMenu = false; $router.push('/search/collections')"
@@ -114,13 +120,13 @@
         <md-list-item
           id="changeLan"
           class="item"
-          @click="showSmallMenu = false; changeLan()"
-        >{{ text(language.name) | upperCase }}</md-list-item>
+          @click="showSmallMenu = false; changeLan('')"
+        >{{ text('language') | upperCase }}</md-list-item>
       </md-list>
     </md-drawer>
 
     <div id="topBtn" class="top-button btn" @click="scrollTop">
-      <span>TOP</span>
+      <span>{{text('top')}}</span>
     </div>
 
     <UploadDialog ref="uploadDialog"/>
@@ -160,14 +166,13 @@ export default {
     }
   },
   data: () => ({
-    language: { name: "language" },
     showSmallMenu: false,
     apiAddress,
     apiPort
   }),
   methods: {
-    changeLan() {
-      this.$store.dispatch("changeLan")
+    changeLan(language) {
+      this.$store.dispatch("changeLan", language)
     },
     scrollTop() {
       window.scroll({
@@ -180,15 +185,14 @@ export default {
       if (
         document.body.scrollTop > 50 ||
         document.documentElement.scrollTop > 50
-      ) {
+      )
         document.getElementById("topBtn").style.display = "block"
-      } else {
-        document.getElementById("topBtn").style.display = "none"
-      }
+      else document.getElementById("topBtn").style.display = "none"
     }
   },
-  created() {
+  mounted() {
     window.onscroll = this.checkScroll
+    // this.$refs.dropDownNav.style.left = this.$refs.search.offsetLeft + "px"
   }
 }
 </script>
@@ -245,34 +249,54 @@ export default {
   width: 100%;
   margin-right: 10px;
   margin-left: 10px;
+  text-align: center;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+.nav2:nth-child(1) > .item:nth-child(1) {
+  width: 60px;
+}
 .drop-down-nav {
   position: absolute;
   top: 60px;
-  left: 325px;
+  left: 320px;
+  padding-right: 10px;
+  text-align: start;
   display: none;
   flex-direction: column;
   justify-content: space-around;
+  align-items: flex-start;
 }
-.nav2:hover .drop-down-nav {
+.nav2 > .item:nth-child(2):hover .drop-down-nav {
   background-color: white;
   z-index: 100;
   display: flex;
 }
-/* .nav2:not(:hover),
-.drop-down-nav{
+.drop-down-language {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  padding: 0 10px;
+  text-align: end;
   display: none;
-} */
-.drop-down-nav > .item {
+  flex-direction: column;
+  justify-content: space-around;
+}
+.nav2 > .item:last-child:hover .drop-down-language {
+  background-color: white;
+  z-index: 100;
+  display: flex;
+}
+.drop-down-nav > .item,
+.drop-down-language > .item {
   margin: 10px;
 }
 .nav2 {
   display: flex;
   align-self: center;
+  cursor: default;
 }
 .nav2 > .item {
   align-self: center;
@@ -282,8 +306,8 @@ export default {
   display: none;
   z-index: 100;
   position: fixed;
-  right: 2%;
-  bottom: 2%;
+  right: 20px;
+  bottom: 20px;
   padding: 5px;
   color: green;
   border: 1px solid lightgray;
@@ -296,7 +320,10 @@ export default {
   cursor: pointer;
   color: Steelblue;
 }
-
+.btn2:hover {
+  cursor: pointer;
+  color: Steelblue;
+}
 @media screen and (max-width: 800px) {
   #header {
     width: 100%;
@@ -360,6 +387,10 @@ export default {
     text-align: right;
     font-size: 20px;
     font-weight: 500;
+  }
+  .top-button {
+    right: 10px;
+    bottom: 10px;
   }
 }
 </style>

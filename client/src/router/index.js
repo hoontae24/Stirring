@@ -11,6 +11,7 @@ import NewPassword from '@/views/user/NewPassword'
 import DeleteAccount from '@/views/user/DeleteAccount'
 import PostDetails from '@/views/PostDetails'
 import CollectionDetails from '@/views/CollectionDetails'
+import About from '@/views/About'
 
 import search from '@/router/search'
 import mypage from '@/router/mypage'
@@ -41,7 +42,9 @@ const router = new Router({
       name: 'logout',
       beforeEnter: (to, from, next) => {
         store.dispatch('logout')
-        next(from.path)
+        if (from.path == '/change-password') next('/')
+        else if (from.path == '/delete-account') next('/')
+        else next(from.path)
       }
     },
     {
@@ -76,6 +79,11 @@ const router = new Router({
       name: 'collection-details',
       component: CollectionDetails,
       props: true
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
     },
     search,
     mypage

@@ -7,8 +7,8 @@
       @click="$event.cancelBubble = true; isAdd = false; error = ''"
     >
       <md-dialog-title style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size:1.5rem; vertical-align: middle;">Collections</span>
-        <md-button class="md-primary" @click="close">close</md-button>
+        <span style="font-size:1.5rem; vertical-align: middle;">{{text('collections')}}</span>
+        <md-button class="md-primary" @click="close">{{text('close')}}</md-button>
       </md-dialog-title>
       <md-content
         style="margin: 30px 5px; display: flex; flex-direction: column; align-items: center; overflow: auto;"
@@ -25,8 +25,8 @@
               style="font-size: 1rem; font-weight: 700; color: Steelblue;"
             >{{ collection.title }}</span>
             <br>
-            <span>posts: {{ collection.posts.length }}</span>
-            <span v-if="hasPost(post, collection)">(Already Collected)</span>
+            <span>{{text('posts')}}: {{ collection.posts.length }}</span>
+            <span v-if="hasPost(post, collection)">({{text('alreadyCollected')}})</span>
           </div>
           <span style="position: relative; display: flex; flex-direction: column;">
             <i class="fas fa-plus" style="font-size: 1.5rem;" v-if="!hasPost(post, collection)"></i>
@@ -43,7 +43,7 @@
             style="display: inline; height: 50px;; margin: auto 10px;"
           >
           <div class="collection-title" style="display: inline-block">
-            <span v-if="!isAdd">ADD TO NEW COLLECTION</span>
+            <span v-if="!isAdd">{{text('createCollection')}}</span>
             <div class="field" v-if="isAdd" style="display: flex;">
               <md-field>
                 <label></label>
@@ -67,7 +67,7 @@
           </div>
         </div>
       </md-content>
-      <span style="font-size:0.8rem; color: red; margin: 10px auto; text-align: center;">{{error}}</span>
+      <span style="font-size:0.8rem; color: red; margin: 10px auto; text-align: center;">{{text(error)}}</span>
     </md-dialog>
   </div>
 </template>
@@ -77,6 +77,7 @@ import CollectionService from "@/services/CollectionService"
 import authGuard from "@/mixins/authGuard"
 import { actions } from "@/mixins/actions"
 import { EventBus } from "@/mixins/EventBus"
+import { mapGetters } from "vuex"
 
 export default {
   data: () => ({
@@ -87,6 +88,9 @@ export default {
     post: null,
     collections: []
   }),
+  computed: {
+    ...mapGetters(['text'])
+  },
   methods: {
     actionCollect(post, collection) {
       if (!this.hasPost(post, collection)) {
@@ -111,10 +115,10 @@ export default {
     },
     createCollection() {
       if (!this.newTitle) {
-        this.error = "Enter the TITLE"
+        this.error = "createCollectionError"
         return
       } else if (this.newTitle.length > 20) {
-        this.error = "The title should be 20 charracters or less."
+        this.error = "createCollectionError2"
         return
       }
       this.error = ""

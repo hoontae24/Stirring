@@ -1,29 +1,29 @@
 <template>
   <div class="board">
-    <div v-if="posts.length">
+    <div>
       <md-field style="margin: 0 0 0 5%; width: 200px; display:none;">
-        <label for="sort">Sort By</label>
+        <label for="sort">{{text('sort')}}</label>
         <md-select
           class="sort"
           v-model="sort"
           name="sort"
           id="sort"
-          @md-selected="loadPosts({sort, count, authorId: id, likes, search})"
+          @md-selected="posts=[]; loadPosts({sort, count: {new:$store.state.count.new, old: 0}, authorId: id, likes, search})"
         >
-          <md-option value="latest">The Latest</md-option>
-          <md-option value="popularity">Popularity</md-option>
+          <md-option value="latest">{{text('latest')}}</md-option>
+          <md-option value="popularity">{{text('popularity')}}</md-option>
         </md-select>
       </md-field>
       <div class="radio" style="margin: 0 auto; text-align: center;">
-        <md-radio v-model="sort" value="latest">The Latest</md-radio>
-        <md-radio v-model="sort" value="popularity" class="md-primary">Popularity</md-radio>
+        <md-radio v-model="sort" value="latest">{{text('latest')}}</md-radio>
+        <md-radio v-model="sort" value="popularity" class="md-primary">{{text('popularity')}}</md-radio>
       </div>
       <PostsBoard :posts="posts" :sort="sort"/>
       <md-button
         class="md-elevation-4"
-        style="border: 1px solid lightblue; width: 95%; height: 50px; margin: 10px 2.5% 30px 2.5%;"
-        @click="count += 30; loadPosts({sort, count , authorId: id, likes, search})"
-      >more</md-button>
+        style="border: 1px solid lightblue; width: 95%; height: 50px; margin: 0px 2.5% 30px 2.5%;"
+        @click="more"
+      >{{text('more')}}</md-button>
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@
 import PostsBoard from "@/components/PostsBoard"
 import { actions } from "@/mixins/actions"
 import { EventBus } from "@/mixins/EventBus"
+import { mapGetters, mapMutations } from "vuex"
 export default {
   props: ["id", "likes", "search"],
   components: {
@@ -40,21 +41,52 @@ export default {
   data() {
     return {
       sort: "latest", // default: latest, options: popularity
-      count: 30,
-      posts: []
+      posts: [],
+      scroll: null
+    }
+  },
+  computed: {
+    ...mapGetters(['text']),
+    count() {
+      return this.$store.state.count
+    },
+    max() {
+      return document.body.scrollHeight
+    },
+    now() {
+      return window.scrollY + window.innerHeight
+    }
+  },
+  methods: {
+    ...mapMutations(["addCount"]),
+    more() {
+      const maxHeight = document.body.scrollHeight
+      const nowHeight = window.scrollY + window.innerHeight
+
+      this.addCount()
+
+      this.loadPosts({
+        sort: this.sort,
+        count: this.count,
+        authorId: this.id,
+        likes: this.likes,
+        search: this.search
+      })
     }
   },
   created() {
-    this.loadPosts({
-      sort: this.sort,
-      count: this.count,
-      authorId: this.id,
-      likes: this.likes,
-      search: this.search
-    })
+    this.$store.commit("resetCount")
+    // this.loadPosts({
+    //   sort: this.sort,
+    //   count: this.count,
+    //   authorId: this.id,
+    //   likes: this.likes,
+    //   search: this.search
+    // })
   },
   watch: {
     id() {
+      this.posts = []
       this.loadPosts({
         sort: this.sort,
         count: this.count,
@@ -64,6 +96,7 @@ export default {
       })
     },
     search() {
+      this.posts = []
       this.loadPosts({
         sort: this.sort,
         count: this.count,

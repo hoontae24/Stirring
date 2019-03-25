@@ -79,7 +79,7 @@ export default {
 
 <style lang="css" scoped>
 .board {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   width: 97%;
   display: flex;
   flex-wrap: wrap;
@@ -117,7 +117,7 @@ export default {
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
   .board {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     width: 99%;
     display: flex;
     flex-wrap: wrap;

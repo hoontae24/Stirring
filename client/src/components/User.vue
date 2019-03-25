@@ -13,19 +13,20 @@
         <div class="info">
           <div class="name">{{user.name}}</div>
           <div style="display: flex;">
-            <div style="margin: 5px;">Posts: {{user.posts.length}}</div>
-            <div style="margin: 5px;">Followers: {{user.followers.length}}</div>
+            <div style="margin: 5px;">{{text('posts')}}: {{user.posts.length}}</div>
+            <div style="margin: 5px;">{{text('followers')}}: {{user.followers.length}}</div>
           </div>
         </div>
       </div>
       <div style="margin: 5px;" class="interests">
-        Interests:
+        {{text('interests')}}:
         <span
           style="margin:0px 2px; color: steelblue;"
           v-for="tag in user.interests"
           :key="tag"
           @click="$event.cancelBubble = true; linkByTag(tag)"
         >#{{tag}}</span>
+        <span v-if="!user.interests || !user.interests.length">---</span>
       </div>
     </md-card>
   </div>
@@ -34,12 +35,14 @@
 <script>
 import { apiAddress, apiPort } from "@/config"
 import { actions } from "@/mixins/actions"
+import { mapGetters } from "vuex"
 
 export default {
   props: ["user"],
   data() {
     return { apiAddress, apiPort }
   },
+  computed: { ...mapGetters(["text"]) },
   mixins: [actions]
 }
 </script>

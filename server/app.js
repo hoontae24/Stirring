@@ -12,6 +12,12 @@ const config = require('./config')
 // :Express Configuration
 const app = express()
 
+// :Running service
+
+const refreshPopTags = require('./controllers/TagController').refreshPopTags
+refreshPopTags()
+setInterval(refreshPopTags, 1000 * 60 * 60)
+
 // :Setting the Middleware
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -28,10 +34,7 @@ app.listen(port, () =>
   )
 )
 
-mongoose.connect(
-  config.mongodbUri,
-  { useNewUrlParser: true }
-)
+mongoose.connect(config.mongodbUri, { useNewUrlParser: true })
 mongoose.set('useCreateIndex', true)
 const db = mongoose.connection
 db.on('error', console.error)

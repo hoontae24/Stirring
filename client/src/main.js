@@ -20,15 +20,20 @@ new Vue({
   router,
   store,
   beforeCreate() {
-    AuthService
-      .refresh(localStorage.getItem('token'))
+    if (!localStorage.getItem('accessTest')) {
+      alert(
+        'Welcome!\nThis is a Website to test service.\nPlease let me know if you get an error.'
+      )
+      localStorage.setItem('accessTest', true)
+    }
+    AuthService.refresh(localStorage.getItem('token'))
       .then(res => {
         this.$store.dispatch('login', res.data)
         EventBus.$emit('loadCollections')
       })
-      .catch(() => {
+      .catch(err => {
         this.$store.dispatch('logout')
-        console.log('Failed refreshing.')
+        console.log(err)
       })
   },
   render: h => h(App)

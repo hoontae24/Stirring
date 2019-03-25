@@ -90,11 +90,12 @@ const Controller = {
   },
 
   getByAuthor: (req, res) => {
-    const author = req.query[0]
+    var { author, count } = req.query
+    count = JSON.parse(count)
 
     const find = author => {
-      if (author) return Collection.findByAuthor(author)
-      else return Collection.findAll()
+      if (author) return Collection.findByAuthor(author, count)
+      else return Collection.findAll(count)
     }
 
     const respond = collections => {
@@ -111,13 +112,15 @@ const Controller = {
   },
 
   getByIds: (req, res) => {
-    const { mode } = req.query
+    var { mode, count } = req.query
+    if (count)  count = JSON.parse(count)
     let { ids } = req.params
     ids = ids.split(',')
+    console.log(mode, count, ids)
 
     const find = mode => {
-      if (mode === 'id') return Collection.findByIds(ids)
-      else if (mode === 'word') return Collection.findByWords(ids)
+      if (mode === 'id') return Collection.findByIds(ids, count)
+      else if (mode === 'word') return Collection.findByWords(ids, count)
     }
 
     const respond = collections => {

@@ -37,8 +37,12 @@ Post.statics.findAll = function(condition) {
   if (condition.sort === 'popularity') posts.sort({ likes: -1 })
   else if (condition.sort === 'latest') posts.sort({ createdAt: -1 })
 
-  posts.limit(condition.count * 1)
-  return posts.exec()
+  const count = JSON.parse(condition.count)
+  return posts
+    .limit(count.new * 1)
+    .skip(count.old * 1)
+    .exec()
+  // return posts.limit(2).skip(2).exec()
 }
 
 Post.statics.findByAuthorId = function(authorId) {

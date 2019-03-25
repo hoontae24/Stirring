@@ -1,22 +1,19 @@
 <template>
   <div class="home">
-    <!-- <div class="item mode">
-      <md-card style="padding: 30px; margin: 10px;">
-        <md-field style="margin: 0px; ">
-          <label for="sort">Sort By</label>
-          <md-select v-model="sort" name="sort" id="sort" @md-selected="loadPosts(sort, count)">
-            <md-option value="latest">The Latest</md-option>
-            <md-option value="popularity">Popularity</md-option>
-          </md-select>
-        </md-field>
-      </md-card>
+    <div class="welcome">
+      <div class="container">
+        <span class="item fs30">STIRRING</span>
+        <span class="item fs15 fw400">순간을 통해 세상을 봅니다</span>
+      </div>
+      <div class="about item">
+        <span class="fw400">이 사이트는 웹 서비스 개인 프로젝트입니다.</span>
+        <br>
+        <span class="item fs15 fw600">
+          <a href="#" @click="$router.push({name: 'about'})">STIRRING 알아보기</a>
+        </span>
+      </div>
     </div>
-    <PostsBoard class="item board" v-bind:posts="posts" :sort="sort"></PostsBoard>
-    <md-button
-      class="md-elevation-4"
-      style="border: 1px solid lightblue; width: 95%; height: 50px; margin: 10px auto 30px auto;"
-      @click="count += 30; loadPosts(sort, count)"
-    >more</md-button>-->
+    <div class="search"></div>
     <Board/>
   </div>
 </template>
@@ -36,6 +33,35 @@ export default {
   position: 0px 100%;
   display: flex;
   flex-direction: column;
+}
+.welcome {
+  height: 500px;
+  margin: 20px 0;
+  background-image: url("../assets/home_bg2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: grayscale(50%);
+
+  color: aliceblue;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+span,
+span * {
+  font-family: Arial, "Nanum Gothic", sans-serif;
+}
+.container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.item {
+  margin: 30px 0;
 }
 .board {
   align-self: center;

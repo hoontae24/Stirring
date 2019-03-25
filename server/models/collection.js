@@ -18,25 +18,33 @@ Collection.statics.create = function(title, author) {
   return new this({ title, author }).save()
 }
 
-Collection.statics.findAll = function() {
-  return this.find().exec()
+Collection.statics.findAll = function(count) {
+  return this.find()
+  .limit(count.new * 1).skip(count.old * 1)
+  .exec()
 }
 
-Collection.statics.findByAuthor = function(authorId) {
-  return this.find({ 'author.id': authorId }).exec()
+Collection.statics.findByAuthor = function(authorId, count) {
+  return this.find({ 'author.id': authorId })
+  .limit(count.new * 1).skip(count.old * 1)
+  .exec()
 }
 
-Collection.statics.findByIds = function(ids) {
-  return this.find({ _id: ids }).exec()
+Collection.statics.findByIds = function(ids, count) {
+  return this.find({ _id: ids })
+  .limit(count.new * 1).skip(count.old * 1)
+  .exec()
 }
 
-Collection.statics.findByWords = function(word) {
+Collection.statics.findByWords = function(word, count) {
   return this.find({
     $or: [
       { title: { $regex: word, $options: 'i' } },
       { 'author.name': { $regex: word, $options: 'i' } }
     ]
-  }).exec()
+  })
+  .limit(count.new * 1).skip(count.old * 1)
+  .exec()
 }
 
 Collection.statics.updateOne = function(collection) {

@@ -7,39 +7,42 @@
         @click="$router.push(`/${item.author.id}`)"
       >
         <span style="margin: auto 5px;">{{ item.author.name }}</span>
-        <md-tooltip md-direction="top">Show Profile</md-tooltip>
+        <md-tooltip md-direction="top">{{text('profile')}}</md-tooltip>
       </div>
       <div class="item">
         <div class="item2 btn" @click="actionLike(isLike(item), item)">
           <md-avatar style="margin: 0;">
             <i class="fas fa-heart red" v-if="isLike(item)"></i>
             <i class="far fa-heart" v-else></i>
-            <md-tooltip md-direction="top" v-if="isLike(item)">Liked</md-tooltip>
-            <md-tooltip md-direction="top" v-else>Like</md-tooltip>
+            <md-tooltip md-direction="top" v-if="isLike(item)">{{text('liked')}}</md-tooltip>
+            <md-tooltip md-direction="top" v-else>{{text('like')}}</md-tooltip>
           </md-avatar>
         </div>
         <div class="item2 btn" @click="showCollections(item)">
           <md-avatar style="margin: 0;">
             <i class="fas fa-star green" v-if="isCollected(item, collections)"></i>
             <i class="far fa-star" v-else></i>
-            <md-tooltip md-direction="top">Add collections</md-tooltip>
+            <md-tooltip md-direction="top">{{text('addCollections')}}</md-tooltip>
           </md-avatar>
         </div>
         <div class="item2 btn" @click="actionDownload(item)">
           <md-avatar style="margin: 0;">
             <i class="fas fa-arrow-down"></i>
-            <md-tooltip md-direction="top">Download</md-tooltip>
+            <md-tooltip md-direction="top">{{text('download')}}</md-tooltip>
           </md-avatar>
         </div>
       </div>
     </md-card-header>
 
     <md-card-media>
-      <img
-        class="image-btn"
-        :src="`http://${apiAddress}:${apiPort}/static/posts/`+ item.data.filename "
-        @click="$router.push(`/posts/${item._id}`);"
-      >
+      <div ref="imageBox">
+        <img
+          ref="imageSource"
+          class="image-btn"
+          :src="`http://${apiAddress}:${apiPort}/static/posts/`+ item.data.filename "
+          @click="$router.push(`/posts/${item._id}`);"
+        >
+      </div>
     </md-card-media>
   </md-card>
 </template>
@@ -51,7 +54,7 @@ import { mapGetters } from "vuex"
 export default {
   props: ["item", "collections"],
   computed: {
-    ...mapGetters(["isLike"])
+    ...mapGetters(["isLike", "text"])
   },
   data() {
     return {
@@ -59,7 +62,7 @@ export default {
       apiPort: apiPort
     }
   },
-
+  mounted() {},
   mixins: [actions]
 }
 </script>

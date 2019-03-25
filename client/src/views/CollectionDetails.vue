@@ -13,7 +13,10 @@
             ></i>
           </div>
           <div class="item author btn" @click="$router.push(`/${collection.author.id}`)">
-            <md-avatar class="item profile-image" style="border-radius: 1em; border: 1px solid lightgray;">
+            <md-avatar
+              class="item profile-image"
+              style="border-radius: 1em; border: 1px solid lightgray;"
+            >
               <img
                 :src="`http://${apiAddress}:${apiPort}/static/profile-images/${authorImage}`"
                 alt="Avatar"
@@ -22,8 +25,8 @@
             <div class="item author-name">{{collection.author.name}}</div>
           </div>
         </div>
-        <div class="item" v-if="posts.length == 1">{{posts.length}} Post</div>
-        <div class="item" v-else>{{posts.length}} Posts</div>
+        <div class="item" v-if="posts.length == 1">{{posts.length}} {{text('post')}}</div>
+        <div class="item" v-else>{{posts.length}} {{text('posts')}}</div>
         <PostsBoard :posts="posts" :sort="'latest'"/>
       </div>
     </md-card>
@@ -55,11 +58,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isMe"])
+    ...mapGetters(["isMe", "text"])
   },
   methods: {
     async loadData() {
       const res = await CollectionService.getByIds(this.id)
+      console.log(res.data)
       this.collection = res.data.collections[0]
       const authorImage = await UserService.getUserProfileImage(
         this.collection.author.id
@@ -73,6 +77,7 @@ export default {
     }
   },
   created() {
+    this.$store.commit("resetCount")
     this.loadData()
     // TODO: 컬렉션 디테일 꾸미기, 구현
   }

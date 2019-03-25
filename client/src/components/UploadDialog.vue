@@ -1,7 +1,7 @@
 <template>
   <div class="upload">
     <md-dialog class="md-dialog" :md-active.sync="showDialog">
-      <span class="title" style>Select Image</span>
+      <span class="title" style>{{text('uploadTitle')}}</span>
 
       <div class="area" @click="$refs.file.click()">
         <div class="cover guide" v-if="!previewImg"></div>
@@ -30,14 +30,14 @@
           @keypress.enter="addTag"
           @focusout="addTag()"
           v-show="tags.length < 5"
-          placeholder="#TAGS"
+          :placeholder="'#'+text('tags')"
         >
       </div>
 
       <md-dialog-actions>
-        <span class="error">{{error}}</span>
-        <md-button class="md-accent" @click="close()">Close</md-button>
-        <md-button class="md-primary" @click.native="upload()">Upload</md-button>
+        <span class="error">{{text(error)}}</span>
+        <md-button class="md-accent" @click="close()">{{text('close')}}</md-button>
+        <md-button class="md-primary" @click.native="upload()">{{text('upload')}}</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -96,11 +96,11 @@ export default {
     },
     async upload() {
       if (!this.uploadImg) {
-        this.error = "Select your image to upload."
+        this.error = "uploadError"
         return
       }
       if (!this.tags.length) {
-        this.error = "Add tags."
+        this.error = "uploadError2"
         return
       }
       this.tags.forEach((value, index, array) => {
@@ -222,7 +222,6 @@ img {
 .tags .input::placeholder,
 .tags .input::-webkit-input-placeholder {
   color: steelblue;
-  font-family: "Nunito";
   font-weight: 400;
 }
 .tags * {
