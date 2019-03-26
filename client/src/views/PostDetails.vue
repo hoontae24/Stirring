@@ -57,14 +57,19 @@
               v-for="tag in post.tags"
               :key="tag"
               @click="linkByTag(tag)"
-            >#{{tag}}</span>
+            >#{{tag+' '}}</span>
           </div>
           <div class="item likes">{{text('likes')}}: {{post.likes}}</div>
           <div class="item downloads">{{text('downloads')}}: {{post.downloads}}</div>
           <div class="item views">{{text('views')}}: {{post.views}}</div>
           <div class="item updated-at">{{text('updated')}}: {{post.updatedAt.toLocaleString()}}</div>
         </div>
-        <md-button v-if="isMe(post.author.id)" flat class="md-accent" @click="deletePost">{{text('delete')}}</md-button>
+        <md-button
+          v-if="isMe(post.author.id)"
+          flat
+          class="md-accent"
+          @click="deletePost"
+        >{{text('delete')}}</md-button>
       </md-card-content>
     </md-card>
   </div>

@@ -150,15 +150,16 @@ export default {
 
 @media screen and (max-width: 800px) {
   .my-page {
-    width: 98%;
-    margin: 10px auto;
+    width: 100%;
+    margin: 0px auto;
+  padding: 10px 0%;
   }
   .tabs-view {
     padding: 0px;
   }
   .tabs-container {
     border: 1px solid lightgray;
-    margin: 10px 5px;
+    margin: 5px 1px;
     border-radius: 1em;
     overflow: hidden;
   }

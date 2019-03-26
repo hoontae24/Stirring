@@ -26,7 +26,7 @@ export default new Vuex.Store({
   getters: {
     text: state => word => {
       if (!word) return ''
-      if (!state.text[word][state.language]) return state.text[word]["default"]
+      if (!state.text[word][state.language]) return state.text[word]['default']
       return state.text[word][state.language]
     },
     isMe: state => id => {
@@ -87,11 +87,10 @@ export default new Vuex.Store({
       )
     },
     addCount: state => {
-      if (window.width < 800) {
+      if (window.innerWidth < 800) {
         state.count.old = state.count.new
         state.count.new += 10
-      }
-      if (window.width < 1280) {
+      } else if (window.innerWidth < 1280) {
         state.count.old = state.count.new
         state.count.new += 20
       } else {
@@ -100,17 +99,18 @@ export default new Vuex.Store({
       }
     },
     resetCount: state => {
-      if (window.width < 800) {
+      if (window.innerWidth < 800) {
         state.count.old = 0
         state.count.new = 10
-      }
-      if (window.width < 1280) {
+      } else if (window.innerWidth < 1280) {
         state.count.old = 0
         state.count.new = 20
       } else {
         state.count.old = 0
         state.count.new = 30
       }
+      console.log(window.inner)
+      console.log(state.count)
     }
   },
   actions: {

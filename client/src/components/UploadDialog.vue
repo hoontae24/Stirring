@@ -17,21 +17,20 @@
         <md-file v-model="uploadImg.name" @md-change="onFileUpload($event)" accept="image/*"/>
       </md-field>-->
       <div class="tags" style>
-        <span
-          class="tag"
-          :md-ripple="false"
-          v-for="(tag, index) in tags"
-          :key="tag"
-          @click="tags.splice(index, 1)"
-        >#{{ tag | upperCase }}</span>
-        <input
-          class="input"
-          v-model="inputTag"
-          @keypress.enter="addTag"
-          @focusout="addTag()"
-          v-show="tags.length < 5"
-          :placeholder="'#'+text('tags')"
-        >
+        <span class="tag" v-for="(tag, index) in tags" :key="tag" :md-ripple="false">
+          #{{ tag | upperCase }}
+          <i class="btn fas fa-times" style="color: gray;" @click="tags.splice(index, 1)"></i>
+        </span>
+        <div class="input">
+          <input
+            v-model="inputTag"
+            @keypress.enter="addTag"
+            @focusout="addTag()"
+            v-show="tags.length < 5"
+            :placeholder="'#'+text('tags')"
+          >
+          <i class="btn fas fa-plus" @click="addTag"></i>
+        </div>
       </div>
 
       <md-dialog-actions>
@@ -179,7 +178,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("../assets/plus.png");
+  background-image: url("../assets/picture.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -206,32 +205,51 @@ img {
   margin: auto 5px;
   padding: 0 10px;
   color: steelblue;
-  cursor: not-allowed;
 }
 .tags .input {
   width: 100px;
-  height: 40px;
+  height: 35px;
   text-align: start;
-  padding: 0 10px;
-  border: 1px dashed steelblue;
-  color: steelblue;
+  /* padding: 0 10px; */
+  border: 1px dashed black;
+  color: black;
 }
-.tags .input:focus {
+.input {
+  display: flex;
+  align-items: center;
+}
+.input input {
+  width: 80px;
+  height: 33px;
+  padding: 0 10px;
+  border: none;
+  outline: none;
+
+}
+.tags input:focus {
   border: 1px none steelblue;
 }
-.tags .input::placeholder,
-.tags .input::-webkit-input-placeholder {
-  color: steelblue;
-  font-weight: 400;
+.tags input::placeholder,
+.tags input::-webkit-input-placeholder {
+  color: lightgray;
+  /* font-weight: 400; */
 }
 .tags * {
   font-size: 1rem;
-  font-weight: 400;
+  /* font-weight: 400; */
 }
 
 .error {
   color: red;
   margin-right: 30px;
+}
+.btn {
+  padding: 1px;
+  border-radius: 5%;
+}
+.btn:hover {
+  cursor: pointer;
+  background-color: lightgray;
 }
 @media screen and (max-width: 800px) {
   .md-dialog {
