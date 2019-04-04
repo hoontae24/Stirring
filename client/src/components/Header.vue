@@ -141,8 +141,6 @@ import CollectDialog from "@/components/CollectDialog"
 
 // import services
 import { mapGetters } from "vuex"
-import PostService from "@/services/PostService"
-import { EventBus } from "@/mixins/EventBus"
 import { apiPort, apiAddress } from "@/config"
 
 export default {

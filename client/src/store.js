@@ -88,14 +88,11 @@ export default new Vuex.Store({
     },
     addCount: state => {
       if (window.innerWidth < 800) {
-        state.count.old = state.count.new
-        state.count.new += 10
+        state.count.old += state.count.new
       } else if (window.innerWidth < 1280) {
-        state.count.old = state.count.new
-        state.count.new += 20
+        state.count.old += state.count.new
       } else {
-        state.count.old = state.count.new
-        state.count.new += 30
+        state.count.old += state.count.new
       }
     },
     resetCount: state => {
@@ -109,8 +106,6 @@ export default new Vuex.Store({
         state.count.old = 0
         state.count.new = 30
       }
-      console.log(window.inner)
-      console.log(state.count)
     }
   },
   actions: {

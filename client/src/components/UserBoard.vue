@@ -12,7 +12,6 @@
 <script>
 import UserService from "@/services/UserService"
 import User from "@/components/User"
-import { EventBus } from "@/mixins/EventBus"
 import { mapGetters } from "vuex"
 
 export default {

@@ -31,7 +31,6 @@
 <script>
 import PostsBoard from "@/components/PostsBoard"
 import { actions } from "@/mixins/actions"
-import { EventBus } from "@/mixins/EventBus"
 import { mapGetters, mapMutations } from "vuex"
 export default {
   props: ["id", "likes", "search"],
@@ -60,11 +59,7 @@ export default {
   methods: {
     ...mapMutations(["addCount"]),
     more() {
-      const maxHeight = document.body.scrollHeight
-      const nowHeight = window.scrollY + window.innerHeight
-
       this.addCount()
-
       this.loadPosts({
         sort: this.sort,
         count: this.count,

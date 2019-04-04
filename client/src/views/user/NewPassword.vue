@@ -60,7 +60,6 @@
 import UserService from "@/services/UserService"
 import { mixins } from "@/mixins/validations"
 import { EventBus } from "@/mixins/EventBus"
-import authGuard from "@/mixins/authGuard"
 import { mapGetters } from "vuex"
 
 export default {

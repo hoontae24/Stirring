@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     deletePost() {
-      PostService.deleteOne(this.id).then(res => {
+      PostService.deleteOne(this.id).then(() => {
         this.$router.go(-1)
       })
     },
@@ -119,9 +119,6 @@ export default {
         .then(res => {
           if (!res.data.success) throw new Error("Failed to load collections")
           this.collections = res.data.collections
-        })
-        .catch(err => {
-          // TODO: Error 처리
         })
     }
   },

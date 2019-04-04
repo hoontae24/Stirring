@@ -63,9 +63,6 @@ export default {
           if (!res.data.success) throw new Error("Failed to load collections")
           this.collections = res.data.collections
         })
-        .catch(err => {
-          console.log(err.message)
-        })
     }
   },
   created() {

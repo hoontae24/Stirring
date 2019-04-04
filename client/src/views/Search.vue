@@ -48,7 +48,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { EventBus } from "@/mixins/EventBus"
 import { actions } from "@/mixins/actions"
 import TagService from "@/services/TagService"
 
@@ -67,6 +66,7 @@ export default {
       if (this.$route.name === "search-authors") return "searchMenuAuthors"
       if (this.$route.name === "search-collections")
         return "searchMenuCollections"
+      else return "searchMenuPosts"
     }
   },
   methods: {
