@@ -18,7 +18,7 @@
         <h3 style="margin-bottom: 2px;">기술 스택</h3>Vue.js, Vuex, Vue-router, Vue-marterial, Axios, Node.js, Express, MongoDB, Mongoose, JWT, Multer, Nodemailer
         <h3 style="margin-bottom: 2px;">상세 참조</h3>
         <a href="https://github.com/Mounc/Stirring" target="_blank">Github</a>,
-        <a href="#">Project Description</a>
+        <a href="https://github.com/Mounc/Stirring/blob/master/Project_Description.docx?raw=true" target="_blank">Project Description</a>
         <h3 style="margin-bottom: 2px;">추가 개발 요소</h3>1. Google Vision API를 이용한 자동 태그 부여
         <br>2. 기존 로컬 서버를 클라우드 기반 서비스로 제공
         <br>3. 사용자 간의 편의를 위한 메시징 서비스
