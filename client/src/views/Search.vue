@@ -91,7 +91,8 @@ export default {
   },
   watch: {
     search() {
-      TagService.push(this.search)
+      this.$store.commit("resetCount")
+      if (this.search) TagService.push(this.search)
       this.$router.push({
         path: `/search/${this.$route.name.split("-")[1]}?word=` + this.search
       })
