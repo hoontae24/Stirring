@@ -63,7 +63,6 @@ export default {
   methods: {
     async loadData() {
       const res = await CollectionService.getByIds(this.id)
-      console.log(res.data)
       this.collection = res.data.collections[0]
       const authorImage = await UserService.getUserProfileImage(
         this.collection.author.id
