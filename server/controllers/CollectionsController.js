@@ -148,7 +148,7 @@ const Controller = {
     }
 
     const getUpdatedUser = user => {
-      if (!user) throw new Error('Failed to create Collection on User')
+      if (!user) throw new Error('createCollectionError4')
       else {
         return User.findById(user._id)
       }

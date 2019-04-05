@@ -147,7 +147,7 @@ export default new Vuex.Store({
         })
           .then(res => {
             console.log(res.data)
-            if (!res.data.success) throw new Error('Fail to create Collection')
+            if (!res.data.success) throw new Error('createCollectionError5')
             state.userInfo.user = res.data.user
             resolve(true)
           })
