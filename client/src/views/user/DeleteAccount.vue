@@ -64,7 +64,7 @@
         style="background-color: black; color:white;"
         @click="changePassword"
       >
-        <span>{{ text('changePassword') }}</span>
+        <span>{{ text('deleteAccount') }}</span>
       </md-button>
     </div>
   </div>

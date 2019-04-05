@@ -47,9 +47,8 @@ export default {
         return
       }
       this.guide = "forgetGuide2"
-      EventBus.$emit("showMessage", this.text("goToMain"), 2000, () => {
-        this.$router.push({ name: "home" })
-      })
+      EventBus.$emit("showMessage", this.text("forgetGuide2"), 5000, () => {})
+      this.$router.push({ name: "home" })
     }
   }
 }
