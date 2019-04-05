@@ -31,6 +31,6 @@ router.put(
 )
 router.put('/password/:id', controller.changePassword)
 
-router.delete('/delete/:email', controller.deleteAccount)
+router.delete('/:email', controller.deleteAccount)
 
 module.exports = router

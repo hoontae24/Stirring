@@ -32,7 +32,7 @@ export default {
     return service.put(`/api/users/password/${user.id}`, user)
   },
   deleteAccount(user) {
-    return service.delete(`/api/users/delete/${user.email}`, user)
+    return service.delete(`/api/users/${user.email}`, user)
   },
   checkEmail(email) {
     return service.get(`/api/users/email/${email}`)
