@@ -116,7 +116,6 @@ const Controller = {
     if (count) count = JSON.parse(count)
     let { ids } = req.params
     ids = ids.split(',')
-    console.log(mode, count, ids)
 
     const find = mode => {
       if (mode === 'id') return Collection.findByIds(ids, count)
@@ -156,7 +155,6 @@ const Controller = {
 
     const respond = user => {
       if (user.length === 1) user = user[0]
-      console.log(1,user)
       res.json({
         success: true,
         user
@@ -164,7 +162,6 @@ const Controller = {
     }
 
     const onError = error => {
-      console.log(2,error)
       res.json({ message: error.message })
     }
 
