@@ -25,6 +25,7 @@ export default new Vuex.Store({
   },
   getters: {
     text: state => word => {
+      console.log(word)
       if (!word) return ''
       if (!state.text[word][state.language]) return state.text[word]['default']
       return state.text[word][state.language]
@@ -145,6 +146,7 @@ export default new Vuex.Store({
           }
         })
           .then(res => {
+            console.log(res.data)
             if (!res.data.success) throw new Error('Fail to create Collection')
             state.userInfo.user = res.data.user
             resolve(true)

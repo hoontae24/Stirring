@@ -113,7 +113,7 @@ const Controller = {
 
   getByIds: (req, res) => {
     var { mode, count } = req.query
-    if (count)  count = JSON.parse(count)
+    if (count) count = JSON.parse(count)
     let { ids } = req.params
     ids = ids.split(',')
     console.log(mode, count, ids)
@@ -141,7 +141,7 @@ const Controller = {
 
     const createOnUser = collection => {
       if (!collection) {
-        throw new Error('Failed to create collection.')
+        throw new Error('createCollectionError3')
       } else {
         return User.createCollection(collection)
       }
@@ -156,6 +156,7 @@ const Controller = {
 
     const respond = user => {
       if (user.length === 1) user = user[0]
+      console.log(1,user)
       res.json({
         success: true,
         user
@@ -163,6 +164,7 @@ const Controller = {
     }
 
     const onError = error => {
+      console.log(2,error)
       res.json({ message: error.message })
     }
 

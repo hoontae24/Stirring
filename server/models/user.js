@@ -43,6 +43,7 @@ User.statics.findOneByEmail = function(email) {
 }
 
 User.statics.findById = function(ids, count) {
+  if (!count) count = { old: 0, new: 1 }
   return this.find({ _id: ids })
     .select('-password')
     .limit(count.new * 1)

@@ -96,6 +96,7 @@
   "createCollection": { "english": "Create new collection", "korean": "새 컬렉션 만들기" },
   "createCollectionError": { "english": "Enter the title", "korean": "제목을 입력하세요" },
   "createCollectionError2": { "english": "The title should be 20 charracters or less", "korean": "제목은 20자 이내여야합니다" },
+  "createCollectionError3": { "english": "Failed to create Collection", "korean": "컬렉션 생성 실패" },
   "followers": { "english": "Followers", "korean": "팔로워" },
   "follow": { "english": "Follow", "korean": "팔로우" },
   "following": { "english": "Following", "korean": "팔로우 중" },
