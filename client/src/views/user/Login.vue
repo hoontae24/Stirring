@@ -50,12 +50,12 @@
         <md-button class="item btn md-raised" @click="$router.push({name: 'signup'})">
           <span>{{ text('signup') }}</span>
         </md-button>
-        <md-button class="md-raised item">
+        <!-- <md-button class="md-raised item">
           <span>{{ text('loginGoogle') }}</span>
         </md-button>
         <md-button class="md-raised item">
           <span>{{ text('loginFacebook') }}</span>
-        </md-button>
+        </md-button> -->
       </div>
     </div>
   </div>

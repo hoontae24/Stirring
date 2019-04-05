@@ -89,12 +89,12 @@
       >
         <span>{{ text('signup') }}</span>
       </md-button>
-      <md-button class="md-raised item">
+      <!-- <md-button class="md-raised item">
         <span>{{text('signupGoogle')}}</span>
       </md-button>
       <md-button class="md-raised item">
         <span>{{text('signupFacebook')}}</span>
-      </md-button>
+      </md-button> -->
     </div>
     <SnackAlert
       v-bind:duration="3000"
