@@ -67,7 +67,9 @@
           </div>
         </div>
       </md-content>
-      <span style="font-size:0.8rem; color: red; margin: 10px auto; text-align: center;">{{text(error)}}</span>
+      <span
+        style="font-size:0.8rem; color: red; margin: 10px auto; text-align: center;"
+      >{{text(error)}}</span>
     </md-dialog>
   </div>
 </template>
@@ -89,7 +91,7 @@ export default {
     collections: []
   }),
   computed: {
-    ...mapGetters(['text'])
+    ...mapGetters(["text"])
   },
   methods: {
     actionCollect(post, collection) {
@@ -137,7 +139,7 @@ export default {
       this.error = ""
       this.showDialog = true
       this.post = post
-      CollectionService.getByAuthor(this.$store.state.userInfo.user._id)
+      CollectionService.getMine(this.$store.state.userInfo.user._id)
         .then(res => {
           if (!res.data.success) throw new Error("Failed to load collections")
           this.collections = res.data.collections

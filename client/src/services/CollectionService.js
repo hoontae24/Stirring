@@ -10,8 +10,17 @@ export default {
     })
   },
 
+  getMine(authorId) {
+    return service.get('/api/collections', {
+      author: authorId,
+      count: { old: 0, new: 5000 }
+    })
+  },
+
   getByIds(ids) {
-    return service.get(`/api/collections/${ids}?mode=id`, {count: store.state.count})
+    return service.get(`/api/collections/${ids}?mode=id`, {
+      count: store.state.count
+    })
   },
 
   getByWords(word) {
