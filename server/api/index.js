@@ -6,17 +6,17 @@ router.get('/', (req, res) => {
   res.send('This API is working.')
 })
 
-const auth = require('./auth')
+const auths = require('./auths')
 const users = require('./users')
 const posts = require('./posts')
 const collections = require('./collections')
-const tag = require('./tag')
+const tags = require('./tags')
 
-router.use('/auth', auth)
+router.use('/auths', auths)
 router.use('/users', users)
 router.use('/posts', posts)
 router.use('/collections', collections)
-router.use('/tag', tag)
+router.use('/tags', tags)
 
 module.exports = router
 
