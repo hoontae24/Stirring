@@ -12,6 +12,7 @@ const config = require('../config')
   interests: Array of tags
   likes: Array of ID of posts
 */
+
 const User = new Schema(
   {
     email: { type: String, required: true, unique: true, lowercase: true },

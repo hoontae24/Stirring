@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const Collection = new Schema(
   {
     title: { type: String, required: true },
-    posts: { type: [String], defualt: [] },
+    posts: { type: [String], default: [] },
     author: {
       id: { type: String, required: true },
       name: { type: String, required: true }
