@@ -1,0 +1,34 @@
+{
+  "name": "stirring",
+  "version": "1.0.0",
+  "description": "Website for Free Pictures or Videos.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mounc/Stirring.git"
+  },
+  "author": "Mounc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mounc/Stirring/issues"
+  },
+  "homepage": "https://github.com/Mounc/Stirring#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "image-size": "^0.7.1",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.7",
+    "multer": "^1.4.1",
+    "nodemailer": "^5.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
