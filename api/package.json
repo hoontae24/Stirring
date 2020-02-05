@@ -1,6 +1,6 @@
 {
-  "name": "starter-koa",
-  "version": "1.0.0",
+  "name": "stirring-api",
+  "version": "2.0.0",
   "main": "src/index.ts",
   "scripts": {
     "check-types": "tsc --noEmit",

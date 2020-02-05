@@ -1,6 +1,6 @@
 {
-  "name": "client",
-  "version": "0.2.0",
+  "name": "stirring-client",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
