@@ -1,0 +1,8 @@
+{
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "exec": "babel-node src --extensions \".js,.ts\"",
+  "ext": "json,js,ts",
+  "ignore": ["dist", "dist-backup"]
+}
