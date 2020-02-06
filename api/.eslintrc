@@ -19,7 +19,8 @@
       "always",
       { "js": "never", "ts": "never", "json": "never" }
     ],
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "no-console": "off"
   },
   "settings": {
     "import/resolver": {
