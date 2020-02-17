@@ -28,3 +28,5 @@ uploads/
 # build
 dist
 dist-backup
+
+*.http 

@@ -4,7 +4,9 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "plugins": ["@typescript-eslint"],
   "extends": [
@@ -20,7 +22,12 @@
       { "js": "never", "ts": "never", "json": "never" }
     ],
     "no-unused-vars": "warn",
-    "no-console": "off"
+    "no-console": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "lines-between-class-members": "off",
+    "consistent-return": "off",
+    "no-shadow": "off",
+    "max-classes-per-file": "off"
   },
   "settings": {
     "import/resolver": {

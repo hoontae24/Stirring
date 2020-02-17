@@ -4,7 +4,7 @@ const Token = require('../../models/token')
 
 const serviceAddress = 'http://localhost:8080/new-password'
 const Email = 'kadr8941@gmail.com'
-const Pass = 'Datablock92!'
+const Pass = '-'
 
 const createToken = (email, name) => {
   return new Promise((resolve, reject) => {

@@ -18,7 +18,10 @@ const config = {
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || ' development',
   DATABASE_NAME: process.env.DATABASE_NAME || ' development',
   DATABASE_HOST: process.env.DATABASE_HOST || ' development',
-  DATABASE_PORT: process.env.DATABASE_PORT || ' 5432'
+  DATABASE_PORT: process.env.DATABASE_PORT || ' 5432',
+  HASH_SECRET: process.env.HASH_SECRET || 'hash_secret',
+  JWT_SECRET: process.env.JWT_SECRET || 'jwt_secret',
+  PROVIDER: process.env.PROVIDER || 'dev_provider'
 };
 
 export default config;
