@@ -10,7 +10,8 @@
     "build:js": "babel -d dist --extensions \".js,.ts\" src",
     "types:check": "tsc --noEmit",
     "lint:check": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts"
+    "lint:fix": "eslint --fix src/**/*.ts",
+    "temp": "tsc --traceResolution"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.3",

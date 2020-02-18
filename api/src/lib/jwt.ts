@@ -2,6 +2,12 @@ import jwt from 'jsonwebtoken';
 
 import { env } from 'consts';
 
+interface Decoded {
+  id?: string;
+  email?: string;
+  str?: string;
+}
+
 const sign = data => {
   const options = {
     expiresIn: '7d',
@@ -12,9 +18,17 @@ const sign = data => {
   return token;
 };
 
-const verify = token => {
-  const decoded = jwt.verify(token, env.JWT_SECRET);
-  return decoded;
+const verify = (token: string): Decoded | null => {
+  try {
+    const decoded = jwt.verify(token, env.JWT_SECRET);
+    if (typeof decoded === 'string') {
+      return { str: decoded };
+    }
+    return decoded;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 };
 
 export default { sign, verify };

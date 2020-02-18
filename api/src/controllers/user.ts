@@ -1,8 +1,6 @@
-import { Middleware } from 'koa';
-
 import { userService } from 'services';
 
-const register: Middleware = async ctx => {
+const register: Koa.Middleware = async ctx => {
   try {
     const { request } = ctx;
     const { email, name, password, ...rest } = request.body;

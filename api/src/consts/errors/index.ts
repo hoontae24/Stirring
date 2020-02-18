@@ -14,6 +14,4 @@ const Errors = {
   ...userErrors,
 };
 
-console.log(Errors);
-
 export default Errors;

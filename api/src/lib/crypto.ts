@@ -9,5 +9,5 @@ const createHash = (data: string) => {
 };
 
 export default {
-  createHash
+  createHash,
 };

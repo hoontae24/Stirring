@@ -1,5 +1,5 @@
 import dbLoader from './db';
-import appLoader from './app';
+import appLoader from './middlewares';
 import errorLoader from './error';
 
 const init: AppInitializer = async ({ app }) => {
@@ -13,5 +13,5 @@ const init: AppInitializer = async ({ app }) => {
 };
 
 export default {
-  init
+  init,
 };

@@ -40,7 +40,11 @@ const UserSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
+  },
 );
 
 UserSchema.statics.create = async function createUser(user: Model.User) {

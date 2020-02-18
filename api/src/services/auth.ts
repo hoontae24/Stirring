@@ -2,10 +2,6 @@ import { User } from 'models';
 import jwt from 'lib/jwt';
 import Errors from 'consts/errors';
 
-const validate = async (email: string, password: string) => {
-  return true;
-};
-
 const login = async (email: string, password: string) => {
   const user = await User.findOne({ email });
   if (!user) throw Errors.AUTH_LOGIN_EMAIL_UNREGISTERED;
@@ -18,4 +14,17 @@ const login = async (email: string, password: string) => {
   return { user, token };
 };
 
-export default { validate, login };
+const inspectAuthToken = async token => {
+  const decoded = jwt.verify(token);
+  if (decoded) {
+    const { id } = decoded;
+    const user = await User.findById(id);
+    return user?.toObject({ virtuals: true });
+  }
+  return null;
+};
+
+export default {
+  login,
+  inspectAuthToken,
+};
