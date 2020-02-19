@@ -1,7 +1,7 @@
 import { User } from 'models';
 import Errors from 'consts/errors';
 
-type Credentials = {
+export type Credentials = {
   email: string;
   name: string;
   password: string;
@@ -28,6 +28,11 @@ const exists = async (email: string): Promise<boolean> => {
 const register = async (user: User) => {
   const exists = await User.findOne({ email: user.email });
   if (exists) throw Errors.USER_REGISTER_EMAIL_DUPLICATED;
+
+  if (!(user.password && user.password.trim())) {
+    throw Errors.USER_REGISTER_PASSWORD_EMPTY;
+  }
+
   const newUser = await User.create(user);
   return newUser;
 };

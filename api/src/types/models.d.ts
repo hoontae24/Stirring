@@ -4,7 +4,7 @@ declare global {
   interface User extends Document {
     name: string;
     email: string;
-    password?: string;
+    password: string;
     authToken?: string;
     profileFileId?: string;
     interestTagIds?: string[];

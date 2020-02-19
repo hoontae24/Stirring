@@ -10,7 +10,7 @@ interface Decoded {
 
 const sign = data => {
   const options = {
-    expiresIn: '1m',
+    expiresIn: '7d',
     issuer: env.PROVIDER,
     subject: 'auth_certification',
   };

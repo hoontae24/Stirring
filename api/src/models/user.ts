@@ -50,8 +50,7 @@ const UserSchema = new Schema(
 );
 
 UserSchema.statics.create = async function createUser(user: User) {
-  if (!user.password) throw new Error('비밀번호가 입력되지 않았습니다.');
-  const hashPassword = crypto.createHash(user.password || '');
+  const hashPassword = crypto.createHash(user.password);
   const newUser = new this({ ...user, password: hashPassword });
   delete newUser.password;
   return newUser.save();
