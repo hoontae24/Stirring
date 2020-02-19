@@ -25,7 +25,7 @@ const exists = async (email: string): Promise<boolean> => {
   return Boolean(user);
 };
 
-const register = async (user: Model.User) => {
+const register = async (user: User) => {
   const exists = await User.findOne({ email: user.email });
   if (exists) throw Errors.USER_REGISTER_EMAIL_DUPLICATED;
   const newUser = await User.create(user);

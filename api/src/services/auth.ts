@@ -14,17 +14,17 @@ const login = async (email: string, password: string) => {
   return { user, token };
 };
 
-const inspectAuthToken = async token => {
+const verifyToken = async token => {
   const decoded = jwt.verify(token);
   if (decoded) {
     const { id } = decoded;
     const user = await User.findById(id);
-    return user?.toObject({ virtuals: true });
+    return user;
   }
   return null;
 };
 
 export default {
   login,
-  inspectAuthToken,
+  verifyToken,
 };

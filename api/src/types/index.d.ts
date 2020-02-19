@@ -9,7 +9,7 @@ declare global {
   namespace Koa {
     export interface CustomState {}
     export interface CustomContext {
-      user?: Model.User;
+      user?: User;
     }
     export type Middleware = _Middleware<CustomState, CustomContext>;
   }

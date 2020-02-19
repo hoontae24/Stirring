@@ -10,7 +10,7 @@ interface Decoded {
 
 const sign = data => {
   const options = {
-    expiresIn: '7d',
+    expiresIn: '1m',
     issuer: env.PROVIDER,
     subject: 'auth_certification',
   };
@@ -26,7 +26,6 @@ const verify = (token: string): Decoded | null => {
     }
     return decoded;
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
