@@ -1,5 +1,5 @@
 import { User } from 'models';
-import Errors from 'consts/errors';
+import { errors } from 'consts';
 
 export type Credentials = {
   email: string;
@@ -8,12 +8,12 @@ export type Credentials = {
 };
 
 const validate = async (credentials: Credentials): Promise<boolean> => {
-  if (!credentials) throw Errors.USER_REGISTER_DATA_EMPTY;
+  if (!credentials) throw errors.USER_REGISTER_DATA_EMPTY;
 
   const { email, name, password } = credentials;
-  if (!email) throw Errors.USER_REGISTER_EMAIL_EMPTY;
-  if (!name) throw Errors.USER_REGISTER_NAME_EMPTY;
-  if (!password) throw Errors.USER_REGISTER_PASSWORD_EMPTY;
+  if (!email) throw errors.USER_REGISTER_EMAIL_EMPTY;
+  if (!name) throw errors.USER_REGISTER_NAME_EMPTY;
+  if (!password) throw errors.USER_REGISTER_PASSWORD_EMPTY;
 
   // TODO: 구현, 유저 정보 형식 검증하기
 
@@ -27,10 +27,10 @@ const exists = async (email: string): Promise<boolean> => {
 
 const register = async (user: User) => {
   const exists = await User.findOne({ email: user.email });
-  if (exists) throw Errors.USER_REGISTER_EMAIL_DUPLICATED;
+  if (exists) throw errors.USER_REGISTER_EMAIL_DUPLICATED;
 
   if (!(user.password && user.password.trim())) {
-    throw Errors.USER_REGISTER_PASSWORD_EMPTY;
+    throw errors.USER_REGISTER_PASSWORD_EMPTY;
   }
 
   const newUser = await User.create(user);

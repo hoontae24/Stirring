@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-import { env } from 'consts';
+import { env, config } from 'consts';
 
-interface Decoded {
+export interface Decoded {
   id?: string;
   email?: string;
   str?: string;
@@ -10,7 +10,7 @@ interface Decoded {
 
 const sign = data => {
   const options = {
-    expiresIn: '7d',
+    expiresIn: config.JWT_EXPIRESIN,
     issuer: env.PROVIDER,
     subject: 'auth_certification',
   };

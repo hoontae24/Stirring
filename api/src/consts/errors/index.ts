@@ -9,9 +9,9 @@ export interface ErrorCase {
   status?: number;
 }
 
-const Errors = {
+const errors = {
   ...authErrors,
   ...userErrors,
 };
 
-export default Errors;
+export default errors;
