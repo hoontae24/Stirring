@@ -6,7 +6,7 @@ const login = async (email: string, password: string) => {
   const user = await User.findOne({ email });
   if (!user) throw errors.AUTH_LOGIN_EMAIL_UNREGISTERED;
 
-  const verified = user.verifyPassword(password);
+  const verified = await user.verifyPassword(password);
   if (!verified) throw errors.AUTH_LOGIN_PASSWORD_UNMATCHED;
 
   const token = jwt.sign({ id: user.id, email: user.email });

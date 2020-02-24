@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
+
 import crypto from 'lib/crypto';
+import { modelName } from 'consts';
 
 const UserSchema = new Schema(
   {
@@ -16,25 +18,26 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
       select: false,
+      default: null,
     },
     auth_token: {
+      alias: 'authToken',
       type: String,
       select: false,
-      alias: 'authToken',
+      default: null,
     },
     profile_file_id: {
+      alias: 'profileFileId',
       type: Schema.Types.ObjectId,
       default: null,
-      alias: 'profileFileId',
       ref: 'File',
     },
     interest_tag_ids: {
+      alias: 'interestTagIds',
       type: [Schema.Types.ObjectId],
       default: [],
-      alias: 'interestTagIds',
       ref: 'Tag',
     },
     deleted: {
@@ -52,14 +55,16 @@ const UserSchema = new Schema(
 UserSchema.statics.create = async function createUser(user: User) {
   const hashPassword = crypto.createHash(user.password);
   const newUser = new this({ ...user, password: hashPassword });
-  delete newUser.password;
   return newUser.save();
 };
 
 UserSchema.methods.verifyPassword = async function verifyPassword(
   password: string,
 ) {
-  return crypto.createHash(password) === this.password;
+  const user = await this.model(modelName.USER)
+    .findById(this.id)
+    .select('password');
+  return crypto.createHash(password) === user.password;
 };
 
-export default model<User>('User', UserSchema);
+export default model<User>(modelName.USER, UserSchema);

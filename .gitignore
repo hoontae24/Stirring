@@ -10,3 +10,6 @@ Thumbs.db
 
 # vscode
 .vscode
+
+# MS Word (Document Temps)
+~$*.doc*
