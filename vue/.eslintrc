@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "standard",
+    "plugin:vue/essential",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "prefer-const": "warn"
+  }
+}
