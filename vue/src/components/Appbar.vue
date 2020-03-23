@@ -2,15 +2,21 @@
   <div class="root">
     <div class="toolbar">
       <div class="wrapper">
-        <span>LOGO</span>
-        <span>Menu</span>
+        <vue-link class="logo" linkTo="/">
+          <img class="logo-img" :src="logo" alt="logo" />
+        </vue-link>
+        <span>{{ 'Menu' | log }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import logo from '@/assets/logo.png';
+
+export default {
+  computed: { logo: () => logo },
+};
 </script>
 
 <style scoped lang="scss">
@@ -29,6 +35,16 @@ export default {};
     padding: #{$spacing * 1}px;
     display: flex;
     align-items: center;
+
+    .logo {
+      height: 100%;
+      display: inline-block;
+      padding: #{$spacing}px;
+
+      .logo-img {
+        height: 100%;
+      }
+    }
   }
 }
 </style>

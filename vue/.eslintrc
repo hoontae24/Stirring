@@ -5,6 +5,7 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "vue/comment-directive": "off"
   }
 }

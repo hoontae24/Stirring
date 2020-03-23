@@ -1,6 +1,9 @@
-import Element from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import element from './element-ui';
+import components from './components';
+import filters from './filters';
 
-export default ({ Vue }) => {
-  Vue.use(Element);
+export default ({ Vue, options }) => {
+  element({ Vue, options });
+  components({ Vue, options });
+  filters({ Vue, options });
 };
