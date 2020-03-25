@@ -38,7 +38,7 @@ export default {
   methods: {
     handleClick(e) {
       if (this.useRouter) {
-        this.$router.push(this.route);
+        this.$router.pushRoute(this.route);
       }
     },
   },

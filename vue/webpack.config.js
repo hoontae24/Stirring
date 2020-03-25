@@ -32,7 +32,7 @@ const config = {
           {
             loader: 'sass-loader',
             options: {
-              prependData: `@import "@/scss/_global.scss";`,
+              prependData: `@import "@/scss/globals/_styles.scss";`,
             },
           },
         ],
@@ -56,7 +56,9 @@ const config = {
       hash: true,
       inject: true,
     }),
-    new Dotenv(),
+    new Dotenv({
+      defaults: true,
+    }),
   ],
   entry: {
     app: path.resolve(__dirname, 'src/index.js'),

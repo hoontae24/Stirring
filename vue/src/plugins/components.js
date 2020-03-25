@@ -1,4 +1,4 @@
-import VueLink from '@/components/parts/VueLink';
+import VueLink from '@/components/_globals/VueLink';
 
 const parts = [VueLink];
 

@@ -5,17 +5,32 @@
         <vue-link class="logo" linkTo="/">
           <img class="logo-img" :src="logo" alt="logo" />
         </vue-link>
-        <span>{{ 'Menu' | log }}</span>
+        <div class="nav-wrapper">
+          <nav-link v-for="nav in navs" :key="nav.name" :nav="nav" />
+        </div>
+        <div class="_grow"></div>
+        <div class="sub-nav-wapper">
+          <nav-link v-for="nav in subNavs" :key="nav.name" :nav="nav" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { navs } from '@/consts';
 import logo from '@/assets/logo.png';
+import NavLink from './NavLink';
 
 export default {
-  computed: { logo: () => logo },
+  components: {
+    NavLink,
+  },
+  computed: {
+    logo: () => logo,
+    navs: () => navs.filter(nav => !nav.isSub),
+    subNavs: () => navs.filter(nav => nav.isSub),
+  },
 };
 </script>
 

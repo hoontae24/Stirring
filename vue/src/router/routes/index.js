@@ -8,6 +8,11 @@ const routes = [
     component: Home,
   },
   {
+    name: 'login',
+    path: '/login',
+    component: Home,
+  },
+  {
     name: 'not-found',
     path: '*',
     component: NotFound,
@@ -15,3 +20,4 @@ const routes = [
 ];
 
 export default routes;
+export const navRoutes = routes.filter(route => route.nav);
