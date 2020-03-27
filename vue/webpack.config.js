@@ -1,6 +1,7 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 const config = {
@@ -41,13 +42,14 @@ const config = {
         test: /\.(ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader',
         options: {
-          limit: 8192,
-          name: '[name].[ext]?[hash]',
+          limit: 1024 * 10,
+          name: '[name].[hash].[ext]',
         },
       },
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
@@ -61,14 +63,15 @@ const config = {
     }),
   ],
   entry: {
-    app: path.resolve(__dirname, 'src/index.js'),
+    app: path.resolve(__dirname, 'src/main.js'),
   },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.[hash].js',
+    path: path.resolve(__dirname, 'dist', 'public'),
   },
   devServer: {
     stats: 'errors-only',
+    historyApiFallback: true,
   },
 };
 

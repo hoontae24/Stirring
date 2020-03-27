@@ -1,4 +1,5 @@
 import Home from '@/views/Home';
+import Login from '@/views/Login';
 import NotFound from '@/views/NotFound';
 
 const routes = [
@@ -10,7 +11,7 @@ const routes = [
   {
     name: 'login',
     path: '/login',
-    component: Home,
+    component: Login,
   },
   {
     name: 'not-found',
@@ -20,4 +21,3 @@ const routes = [
 ];
 
 export default routes;
-export const navRoutes = routes.filter(route => route.nav);

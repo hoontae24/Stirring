@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Appbar from '@/components/appbar/Appbar';
+import Appbar from '@/components/Appbar';
 
 export default {
   name: 'app',

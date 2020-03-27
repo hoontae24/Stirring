@@ -4,11 +4,11 @@ import router from '@/router';
 import plugins from '@/plugins';
 import App from '@/App';
 
-const options = {};
-router({ Vue, options });
-plugins({ Vue, options });
+const vueOptions = {};
+router({ Vue, vueOptions });
+plugins({ Vue, vueOptions });
 
 new Vue({
-  ...options,
+  ...vueOptions,
   render: h => h(App),
 }).$mount('#root');

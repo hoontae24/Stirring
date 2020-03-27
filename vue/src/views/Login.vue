@@ -1,13 +1,18 @@
 <template>
   <div class="root">
-    Page Not Found...
+    LOGIN
   </div>
 </template>
 
 <script>
 export default {
-  name: 'not-found',
-};
+  name: 'login',
+  data() {
+    return {
+      //
+    }
+  },
+}
 </script>
 
 <style scoped lang="scss">

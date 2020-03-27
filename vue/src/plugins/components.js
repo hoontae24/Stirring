@@ -2,6 +2,6 @@ import VueLink from '@/components/_globals/VueLink';
 
 const parts = [VueLink];
 
-export default ({ Vue }) => {
+export default ({ Vue, vueOptions }) => {
   parts.forEach(part => Vue.component(part.name, part));
 };

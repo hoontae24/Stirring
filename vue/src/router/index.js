@@ -11,7 +11,7 @@ const pushRoute = function(location, onComplete, onAbort) {
   return this.push(location, onComplete, onAbort);
 };
 
-export default ({ Vue, options }) => {
+export default ({ Vue, vueOptions }) => {
   Vue.use(VueRouter);
   VueRouter.prototype.pushRoute = pushRoute;
 
@@ -20,5 +20,5 @@ export default ({ Vue, options }) => {
     routes,
   });
 
-  options.router = router;
+  vueOptions.router = router;
 };

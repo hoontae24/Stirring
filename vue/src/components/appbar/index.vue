@@ -54,7 +54,7 @@ export default {
     .logo {
       height: 100%;
       display: inline-block;
-      padding: #{$spacing}px;
+      padding: #{$spacing}px 0px;
 
       .logo-img {
         height: 100%;

@@ -1,6 +1,6 @@
 <template>
   <vue-link class="nav-link" :linkTo="nav.path">
-    {{ nav.label }}
+    {{ nav.label || toUpperCase }}
   </vue-link>
 </template>
 
@@ -14,5 +14,7 @@ export default {
 <style scoped lang="scss">
 .nav-link {
   font-size: 18px;
+  padding: #{$spacing * 0.5}px;
+  margin: #{$spacing * 0.5}px;
 }
 </style>

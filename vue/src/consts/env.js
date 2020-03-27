@@ -1,4 +1,5 @@
 /**
+ * had been injected by dovenv-webpack
  * Configure variables
  */
 const env = {
