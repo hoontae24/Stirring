@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <div class="toolbar">
+    <header class="header">
       <div class="wrapper">
         <vue-link class="logo" linkTo="/">
           <img class="logo-img" :src="logo" alt="logo" />
@@ -13,7 +13,8 @@
           <nav-link v-for="nav in subNavs" :key="nav.name" :nav="nav" />
         </div>
       </div>
-    </div>
+    </header>
+    <el-divider />
   </div>
 </template>
 
@@ -40,9 +41,9 @@ export default {
   position: sticky;
   top: 0px;
 
-  .toolbar {
+  .header {
     height: #{$appbar-height}px;
-    background-color: #ffffffaa;
+    background-color: #ffffffee;
   }
 
   .wrapper {

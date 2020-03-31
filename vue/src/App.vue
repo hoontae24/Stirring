@@ -1,17 +1,16 @@
 <template>
-  <div class="app">
-    <Appbar />
+  <Layout class="app">
     <router-view></router-view>
-  </div>
+  </Layout>
 </template>
 
 <script>
-import Appbar from '@/components/Appbar';
+import Layout from '@/components/layouts/Layout';
 
 export default {
   name: 'app',
   components: {
-    Appbar,
+    Layout,
   },
 };
 </script>
