@@ -1,12 +1,17 @@
 <template>
-  <div class="root">
+  <page-layout class="root">
     Page Not Found...
-  </div>
+  </page-layout>
 </template>
 
 <script>
+import PageLayout from '@/components/layouts/PageLayout';
+
 export default {
-  name: 'not-found',
+  name: 'page-not-found',
+  components: {
+    PageLayout,
+  },
 };
 </script>
 

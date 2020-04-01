@@ -1,38 +1,71 @@
 <template>
-  <div class="root page-login">
+  <page-layout class="root page-login" hide-appbar-menu>
     <el-card class="box-card card-root">
       <div slot="header" class="card-header">
-        LOGIN
+        로그인
       </div>
-      <component
-        :is="field.type || 'vue-input'"
-        v-for="field in fields"
-        :key="field.name"
-        :class="['field', field.name]"
-        :placeholder="field.name | toUpperCase"
-        v-model="$data[field.name]"
-      />
+      <div class="field">
+        <vue-input
+          class="input"
+          label="email"
+          :placeholder="'email' | toUpperCase"
+          v-model="email"
+        />
+      </div>
+      <div class="field">
+        <vue-input
+          class="input"
+          type="password"
+          label="password"
+          :placeholder="'password' | toUpperCase"
+          v-model="password"
+        />
+      </div>
+      <div class="links _flex">
+        <div class="_grow"></div>
+        <vue-link class="link-item" type="info">
+          비밀번호 찾기
+        </vue-link>
+      </div>
+      <el-divider class="divider"></el-divider>
+      <div class="action">
+        <vue-button
+          class="action-btn _block"
+          full-width
+          type="primary"
+          @click="handleSubmit"
+        >
+          로그인하기
+        </vue-button>
+        <vue-button class="action-btn _block" full-width @click="handleSignup">
+          가입하기
+        </vue-button>
+      </div>
     </el-card>
-  </div>
+  </page-layout>
 </template>
 
 <script>
-const _fields = [{ name: 'username' }, { name: 'password' }];
-const _fieldDatas = _fields.reduce((data, field) => {
-  data[field.name] = field.defaultValue || '';
-  return data;
-}, {});
+import PageLayout from '@/components/layouts/PageLayout';
 
 export default {
-  name: 'login',
+  name: 'page-login',
+  components: {
+    PageLayout,
+  },
   data() {
     return {
-      ..._fieldDatas,
+      email: '',
+      password: '',
     };
   },
-  computed: {
-    fields() {
-      return _fields;
+  methods: {
+    handleSubmit() {
+      const { email, password } = this;
+      console.log(email, password);
+    },
+    handleSignup() {
+      //
     },
   },
 };
@@ -43,7 +76,8 @@ export default {
   .card-root {
     width: 80%;
     max-width: 500px;
-    margin: #{$spacing * 4}px auto;
+    margin: auto;
+    margin-top: 20vh;
 
     .card-header {
       font-size: xx-large;
@@ -51,8 +85,17 @@ export default {
     }
 
     .field {
-      margin-top: #{$spacing}px;
-      margin-bottom: #{$spacing}px;
+      margin: #{$spacing * 3}px 0px;
+    }
+
+    .action {
+      .action-btn {
+        margin: #{$spacing * 1}px 0px;
+      }
+    }
+
+    .divider {
+      margin-bottom: #{$spacing * 3}px;
     }
   }
 }

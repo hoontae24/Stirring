@@ -1,14 +1,19 @@
 <template>
-  <div class="home">
+  <page-layout class="page-home">
     {{ title }}
     <el-button>elbutton</el-button>
     <div style="height:2000px; border: 1px solid red;">1</div>
-  </div>
+  </page-layout>
 </template>
 
 <script>
+import PageLayout from '@/components/layouts/PageLayout';
+
 export default {
-  name: 'home',
+  name: 'page-home',
+  components: {
+    PageLayout,
+  },
   data() {
     return {
       title: 'Stirring',

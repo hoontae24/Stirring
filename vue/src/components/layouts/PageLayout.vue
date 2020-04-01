@@ -1,6 +1,6 @@
 <template>
-  <div class="layout">
-    <appbar />
+  <div class="page-layout">
+    <appbar v-if="!hideAppbar" :hide-menu="hideAppbarMenu" />
     <container component="main">
       <slot />
     </container>
@@ -14,17 +14,19 @@ import Backtop from '@/components/layouts/Backtop';
 import Container from '@/components/layouts/Container';
 
 export default {
-  name: 'layout',
+  name: 'page-layout',
   components: {
     Appbar,
     Backtop,
     Container,
   },
+  props: {
+    'hide-appbar': Boolean,
+    'hide-appbar-menu': Boolean,
+  },
 };
 </script>
 
 <style scoped lang="scss">
-.layout-root {
-  //
-}
+//
 </style>

@@ -1,19 +1,21 @@
 <template>
   <div class="root">
-    <header class="header">
-      <div class="wrapper">
-        <vue-link class="logo" linkTo="/">
-          <img class="logo-img" :src="logo" alt="logo" />
-        </vue-link>
-        <div class="nav-wrapper">
-          <nav-link v-for="nav in navs" :key="nav.name" :nav="nav" />
+    <container>
+      <header class="header">
+        <div class="wrapper">
+          <vue-link class="logo" linkTo="/">
+            <img class="logo-img" :src="logo" alt="logo" />
+          </vue-link>
+          <div class="nav-wrapper" v-if="!hideMenu">
+            <nav-link v-for="nav in navs" :key="nav.name" :nav="nav" />
+          </div>
+          <div class="_grow"></div>
+          <div class="sub-nav-wapper" v-if="!hideMenu">
+            <nav-link v-for="nav in subNavs" :key="nav.name" :nav="nav" />
+          </div>
         </div>
-        <div class="_grow"></div>
-        <div class="sub-nav-wapper">
-          <nav-link v-for="nav in subNavs" :key="nav.name" :nav="nav" />
-        </div>
-      </div>
-    </header>
+      </header>
+    </container>
     <el-divider />
   </div>
 </template>
@@ -21,11 +23,17 @@
 <script>
 import { navs } from '@/consts';
 import logo from '@/assets/logo.png';
+import Container from '@/components/layouts/Container';
+
 import NavLink from './NavLink';
 
 export default {
   components: {
     NavLink,
+    Container,
+  },
+  props: {
+    'hide-menu': Boolean,
   },
   computed: {
     logo: () => logo,
