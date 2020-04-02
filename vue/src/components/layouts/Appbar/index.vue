@@ -3,7 +3,7 @@
     <container>
       <header class="header">
         <div class="wrapper">
-          <vue-link class="logo" linkTo="/">
+          <vue-link class="logo" href="/">
             <img class="logo-img" :src="logo" alt="logo" />
           </vue-link>
           <div class="nav-wrapper" v-if="!hideMenu">

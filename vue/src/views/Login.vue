@@ -23,7 +23,7 @@
       </div>
       <div class="links _flex">
         <div class="_grow"></div>
-        <vue-link class="link-item" type="info">
+        <vue-link class="link-item" type="info" href="#">
           비밀번호 찾기
         </vue-link>
       </div>
