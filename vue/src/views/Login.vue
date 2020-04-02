@@ -21,12 +21,6 @@
           v-model="password"
         />
       </div>
-      <div class="links _flex">
-        <div class="_grow"></div>
-        <vue-link class="link-item" type="info" href="#">
-          비밀번호 찾기
-        </vue-link>
-      </div>
       <el-divider class="divider"></el-divider>
       <div class="action">
         <vue-button
@@ -40,6 +34,12 @@
         <vue-button class="action-btn _block" full-width @click="handleSignup">
           가입하기
         </vue-button>
+      </div>
+      <div class="links _flex">
+        <div class="_grow"></div>
+        <vue-link class="link-item" color="text-secondary" href="#">
+          비밀번호 찾기
+        </vue-link>
       </div>
     </el-card>
   </page-layout>
@@ -86,6 +86,10 @@ export default {
 
     .field {
       margin: #{$spacing * 3}px 0px;
+    }
+
+    .link-item {
+      font-size: small;
     }
 
     .action {
