@@ -77,7 +77,7 @@ export default {
     width: 80%;
     max-width: 500px;
     margin: auto;
-    margin-top: 20vh;
+    margin-top: 10vh;
 
     .card-header {
       font-size: xx-large;
