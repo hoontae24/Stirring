@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div class="root appbar">
     <container>
       <header class="header">
         <div class="wrapper">
@@ -16,7 +16,7 @@
         </div>
       </header>
     </container>
-    <el-divider />
+    <vue-divider />
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.root {
+.root.appbar {
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
@@ -52,21 +52,21 @@ export default {
   .header {
     height: #{$appbar-height}px;
     background-color: #ffffffee;
-  }
 
-  .wrapper {
-    height: 100%;
-    padding: #{$spacing * 1}px;
-    display: flex;
-    align-items: center;
-
-    .logo {
+    .wrapper {
       height: 100%;
-      display: inline-block;
-      padding: #{$spacing}px 0px;
+      padding: #{$spacing * 1}px;
+      display: flex;
+      align-items: center;
 
-      .logo-img {
+      &::v-deep(.logo) {
         height: 100%;
+        display: inline-block;
+        padding: #{$spacing}px 0px;
+
+        .logo-img {
+          height: 100%;
+        }
       }
     }
   }

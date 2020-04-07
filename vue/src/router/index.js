@@ -1,24 +1,13 @@
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import routes from './routes';
-import { env } from '@/consts';
 
-const pushRoute = function(location, onComplete, onAbort) {
-  if (env.DEV) {
-    console.log('Router push:', location);
-  }
-
-  return this.push(location, onComplete, onAbort);
-};
-
-export default ({ Vue, vueOptions }) => {
-  Vue.use(VueRouter);
-  VueRouter.prototype.pushRoute = pushRoute;
-
-  const router = new VueRouter({
-    mode: 'history',
+export default ({ app }) => {
+  const routerHistory = createWebHistory();
+  const router = createRouter({
+    history: routerHistory,
     routes,
   });
 
-  vueOptions.router = router;
+  app.use(router);
 };

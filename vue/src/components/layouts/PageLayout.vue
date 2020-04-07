@@ -1,11 +1,9 @@
 <template>
-  <div class="page-layout">
-    <appbar v-if="!hideAppbar" :hide-menu="hideAppbarMenu" />
-    <container component="main">
-      <slot />
-    </container>
-    <backtop />
-  </div>
+  <appbar v-if="!hideAppbar" :hide-menu="hideAppbarMenu" />
+  <container component="main">
+    <slot />
+  </container>
+  <backtop />
 </template>
 
 <script>

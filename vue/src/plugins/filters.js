@@ -18,6 +18,6 @@ const filters = {
   },
 };
 
-export default ({ Vue, vueOptions }) => {
-  Object.entries(filters).forEach(([name, filter]) => Vue.filter(name, filter));
+export default ({ app }) => {
+  Object.entries(filters).forEach(([name, filter]) => app.filter(name, filter));
 };

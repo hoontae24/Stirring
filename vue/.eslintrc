@@ -6,6 +6,9 @@
   ],
   "rules": {
     "prefer-const": "warn",
-    "vue/comment-directive": "off"
+    "no-unused-vars": "warn",
+
+    "vue/comment-directive": "off",
+    "vue/valid-template-root": "off"
   }
 }
