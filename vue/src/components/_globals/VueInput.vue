@@ -1,7 +1,8 @@
 <template>
-  <el-input v-bind="{ ...$props, ...$attrs }" v-on="events">
-    <slot />
-  </el-input>
+  <input
+    :class="{ 'full-width': fullWidth }"
+    v-bind="{ ...$props, ...$attrs }"
+  />
 </template>
 
 <script>
@@ -9,21 +10,14 @@ export default {
   name: 'vue-input',
   props: {
     clearable: { type: Boolean, default: true },
-  },
-  computed: {
-    events() {
-      return {
-        input: value => this.$emit('input', value),
-        blur: e => this.$emit('blur', e),
-        focus: e => this.$emit('focus', e),
-        change: value => this.$emit('change', value),
-        clear: () => this.$emit('focus'),
-      };
-    },
+    fullWidth: { type: Boolean, default: true },
   },
 };
 </script>
 
 <style scoped lang="scss">
-//
+.full-width {
+  display: block;
+  width: 100%;
+}
 </style>

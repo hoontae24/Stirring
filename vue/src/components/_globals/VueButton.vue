@@ -1,26 +1,18 @@
 <template>
-  <el-button class="vue-button" :class="classes" v-bind="$attrs" v-on="events">
+  <button class="vue-button" :class="classes" v-bind="$attrs">
     <slot />
-  </el-button>
+  </button>
 </template>
 
 <script>
 export default {
   name: 'vue-button',
   props: {
-    'full-width': Boolean,
+    fullWidth: Boolean,
   },
-  computed: {
-    classes() {
-      return {
-        'full-width': this.fullWidth,
-      };
-    },
-    events() {
-      return {
-        click: e => this.$emit('click', e),
-      };
-    },
+  setup(props) {
+    const classes = { 'full-width': props.fullWidth };
+    return { classes };
   },
 };
 </script>

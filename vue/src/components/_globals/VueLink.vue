@@ -27,6 +27,9 @@ export default {
 .text-primary {
   color: #{$text-primary};
 }
+.text-regular {
+  color: #{$text-regular};
+}
 .text-secondary {
   color: #{$text-secondary};
 }

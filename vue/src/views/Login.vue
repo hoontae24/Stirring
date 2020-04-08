@@ -1,15 +1,15 @@
 <template>
-  <page-layout class="root page-login" hide-appbar-menu>
-    <el-card class="box-card card-root">
-      <div slot="header" class="card-header">
+  <page-layout hide-appbar-menu>
+    <div class="card-root">
+      <div class="card-header">
         로그인
       </div>
       <div class="field">
         <vue-input
           class="input"
           label="email"
-          :placeholder="'email' | toUpperCase"
-          v-model="email"
+          placeholder="EMAIL"
+          v-model="state.email"
         />
       </div>
       <div class="field">
@@ -17,11 +17,11 @@
           class="input"
           type="password"
           label="password"
-          :placeholder="'password' | toUpperCase"
-          v-model="password"
+          placeholder="PASSWORD"
+          v-model="state.password"
         />
       </div>
-      <el-divider class="divider"></el-divider>
+      <vue-divider class="divider"></vue-divider>
       <div class="action">
         <vue-button
           class="action-btn _block"
@@ -37,70 +37,70 @@
       </div>
       <div class="links _flex">
         <div class="_grow"></div>
-        <vue-link class="link-item" color="text-secondary" href="#">
+        <vue-link class="link-item" color="text-regular" href="#">
           비밀번호 찾기
         </vue-link>
       </div>
-    </el-card>
+    </div>
   </page-layout>
 </template>
 
 <script>
 import PageLayout from '@/components/layouts/PageLayout';
+import { reactive } from 'vue';
 
 export default {
   name: 'page-login',
   components: {
     PageLayout,
   },
-  data() {
+  setup() {
+    const state = reactive({
+      email: 'email',
+      password: 'password',
+    });
+
+    const handleSubmit = () => console.log(state.email, state.password);
+    const handleSignup = () => console.log('SIGN UP');
+
     return {
-      email: '',
-      password: '',
+      state,
+      handleSubmit,
+      handleSignup,
+      console,
     };
-  },
-  methods: {
-    handleSubmit() {
-      const { email, password } = this;
-      console.log(email, password);
-    },
-    handleSignup() {
-      //
-    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.root.page-login {
-  .card-root {
-    width: 80%;
-    max-width: 500px;
-    margin: auto;
-    margin-top: 10vh;
+.card-root {
+  width: 80%;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 10vh;
 
-    .card-header {
-      font-size: xx-large;
-      text-align: center;
-    }
+  .card-header {
+    font-size: xx-large;
+    text-align: center;
+  }
 
-    .field {
-      margin: #{$spacing * 3}px 0px;
-    }
+  .field {
+    margin: #{$spacing * 3}px 0px;
+  }
 
-    .link-item {
-      font-size: small;
-    }
+  .link-item {
+    font-size: small;
+  }
 
-    .action {
-      .action-btn {
-        margin: #{$spacing * 1}px 0px;
-      }
+  .action {
+    &::v-deep(.action-btn) {
+      margin: #{$spacing * 1}px 0px;
     }
+  }
 
-    .divider {
-      margin-bottom: #{$spacing * 3}px;
-    }
+  &::v-deep(.divider) {
+    margin-bottom: #{$spacing * 3}px;
   }
 }
 </style>

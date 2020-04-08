@@ -1,5 +1,5 @@
 <template>
-  <vue-link class="nav-link" :href="nav.path">
+  <vue-link class="nav-link" color="text-regular" :href="nav.path">
     {{ nav.label || toUpperCase }}
   </vue-link>
 </template>
