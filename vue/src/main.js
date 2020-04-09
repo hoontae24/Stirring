@@ -4,7 +4,9 @@ import router from '@/router';
 import plugins from '@/plugins';
 import App from '@/App';
 
-const app = createApp(App);
-plugins({ app });
-router({ app });
-app.mount('#root');
+(function startApp() {
+  const app = createApp(App);
+  plugins({ app });
+  router({ app });
+  app.mount('#root');
+})();

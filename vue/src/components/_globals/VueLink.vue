@@ -11,6 +11,9 @@ export default {
     href: { type: String, default: '#' },
     color: { type: String, default: 'text-primary' },
   },
+  setup(props, ctx) {
+    // console.log(props, ctx);
+  },
 };
 </script>
 

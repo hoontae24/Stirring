@@ -1,7 +1,9 @@
 <template>
   <input
     :class="{ 'full-width': fullWidth }"
-    v-bind="{ ...$props, ...$attrs }"
+    v-bind="console.log(value, $attrs) || { ...$attrs }"
+    :value="value"
+    @input="$attrs['onUpdate:value']($event.target.value)"
   />
 </template>
 
@@ -11,6 +13,7 @@ export default {
   props: {
     clearable: { type: Boolean, default: true },
     fullWidth: { type: Boolean, default: true },
+    value: String,
   },
 };
 </script>

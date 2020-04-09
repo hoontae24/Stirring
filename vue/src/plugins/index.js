@@ -1,9 +1,9 @@
 // import element from './element-ui';
 import components from './components';
-// import filters from './filters';
+import properties from './properties';
 
 export default ({ app }) => {
   // element({ app });
   components({ app });
-  // filters({ app });
+  properties({ app });
 };

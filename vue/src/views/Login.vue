@@ -9,7 +9,8 @@
           class="input"
           label="email"
           placeholder="EMAIL"
-          v-model="state.email"
+          v-model:value="loginState.email"
+          @focus="e => console.log('focus')"
         />
       </div>
       <div class="field">
@@ -18,7 +19,7 @@
           type="password"
           label="password"
           placeholder="PASSWORD"
-          v-model="state.password"
+          v-model:value="loginState.password"
         />
       </div>
       <vue-divider class="divider"></vue-divider>
@@ -49,22 +50,27 @@
 import PageLayout from '@/components/layouts/PageLayout';
 import { reactive } from 'vue';
 
+const useLoginForm = () => {
+  const state = reactive({
+    email: 'email',
+    password: 'password',
+  });
+  const submit = () => console.log(state.email, state.password);
+
+  return { state, submit };
+};
+
 export default {
   name: 'page-login',
   components: {
     PageLayout,
   },
   setup() {
-    const state = reactive({
-      email: 'email',
-      password: 'password',
-    });
-
-    const handleSubmit = () => console.log(state.email, state.password);
+    const { state: loginState, submit: handleSubmit } = useLoginForm();
     const handleSignup = () => console.log('SIGN UP');
 
     return {
-      state,
+      loginState,
       handleSubmit,
       handleSignup,
       console,
