@@ -37,9 +37,9 @@
       </div>
       <div class="links _flex">
         <div class="_grow"></div>
-        <vue-link class="link-item" color="text-regular" href="#">
+        <VueLink class="link-item" href="#" size="smaller" disabled>
           비밀번호 찾기
-        </vue-link>
+        </VueLink>
       </div>
     </div>
   </PageLayout>
@@ -84,10 +84,6 @@ export default {
 
   .field {
     margin: #{$spacing * 3}px 0px;
-  }
-
-  .link-item {
-    font-size: small;
   }
 
   .action {
