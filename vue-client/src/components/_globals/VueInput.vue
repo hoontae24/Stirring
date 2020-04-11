@@ -1,7 +1,7 @@
 <template>
   <input
     :class="{ 'full-width': fullWidth }"
-    v-bind="console.log(value, $attrs) || { ...$attrs }"
+    v-bind="{ ...$attrs }"
     :value="value"
     @input="$attrs['onUpdate:value']($event.target.value)"
   />
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'vue-input',
+  name: 'VueInput',
   props: {
     clearable: { type: Boolean, default: true },
     fullWidth: { type: Boolean, default: true },

@@ -8,13 +8,18 @@
 import { reactive, onMounted, onBeforeUnmount } from 'vue';
 
 export default {
-  name: 'backtop',
+  name: 'Backtop',
   setup(props, { emit }) {
     const state = reactive({
       show: false,
     });
 
-    const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    // const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    const scrollToTop = () => {
+      const target = document.querySelector('#app-top-target');
+      console.log(target);
+      target && target.scrollIntoView();
+    };
     const handleScroll = () => (state.show = window.scrollY > 80);
     const handleClick = e => {
       scrollToTop();

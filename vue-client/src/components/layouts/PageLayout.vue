@@ -1,21 +1,18 @@
 <template>
-  <appbar v-if="!hideAppbar" :hide-menu="hideAppbarMenu" />
-  <container component="main">
-    <slot />
-  </container>
-  <backtop />
+  <Appbar v-if="!hideAppbar" :hide-menu="hideAppbarMenu" />
+  <Container component="main" :style="$attrs.style">
+    <slot></slot>
+  </Container>
 </template>
 
 <script>
 import Appbar from '@/components/layouts/Appbar';
-import Backtop from '@/components/layouts/Backtop';
 import Container from '@/components/layouts/Container';
 
 export default {
-  name: 'page-layout',
+  name: 'PageLayout',
   components: {
     Appbar,
-    Backtop,
     Container,
   },
   props: {

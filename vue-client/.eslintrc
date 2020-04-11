@@ -7,8 +7,12 @@
   "rules": {
     "prefer-const": "warn",
     "no-unused-vars": "warn",
+    "prettier/prettier": "warn",
 
     "vue/comment-directive": "off",
     "vue/valid-template-root": "off"
+  },
+  "parserOptions": {
+    "parser": "babel-eslint"
   }
 }

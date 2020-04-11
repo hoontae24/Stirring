@@ -1,12 +1,12 @@
 <template>
-  <vue-link class="nav-link" color="text-regular" :href="nav.path">
-    {{ nav.label || toUpperCase }}
-  </vue-link>
+  <VueLink class="nav-link" color="text-regular" :href="nav.path">
+    {{ nav.label }}
+  </VueLink>
 </template>
 
 <script>
 export default {
-  name: 'nav-link',
+  name: 'NavLink',
   props: ['nav'],
 };
 </script>

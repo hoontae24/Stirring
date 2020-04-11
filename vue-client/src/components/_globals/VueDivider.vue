@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'vue-divider',
+  name: 'VueDivider',
 };
 </script>
 

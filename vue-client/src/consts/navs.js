@@ -2,7 +2,7 @@ const navs = [
   {
     name: 'home',
     path: '/',
-    label: 'HOME',
+    label: 'Home',
   },
   {
     name: 'login',
@@ -12,6 +12,6 @@ const navs = [
     requiredLogout: true,
     isSub: true,
   },
-];
+].map(nav => ({ ...nav, label: nav.label.toUpperCase() }));
 
 export default navs;

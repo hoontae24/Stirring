@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'vue-button',
+  name: 'VueButton',
   props: {
     fullWidth: Boolean,
   },

@@ -1,15 +1,15 @@
 <template>
-  <page-layout hide-appbar-menu>
+  <PageLayout hide-appbar-menu style="height: 5000px;">
     <div class="card-root">
       <div class="card-header">
         로그인
       </div>
-      <div class="field">
+      <!-- <div class="field">
         <vue-input
           class="input"
           label="email"
           placeholder="EMAIL"
-          v-model:value="loginState.email"
+          v-model:value="state.email"
           @focus="e => console.log('focus')"
         />
       </div>
@@ -19,7 +19,7 @@
           type="password"
           label="password"
           placeholder="PASSWORD"
-          v-model:value="loginState.password"
+          v-model:value="state.password"
         />
       </div>
       <vue-divider class="divider"></vue-divider>
@@ -36,44 +36,36 @@
           가입하기
         </vue-button>
       </div>
+      {{ state.email }}
       <div class="links _flex">
         <div class="_grow"></div>
-        <vue-link class="link-item" color="text-regular" href="#">
+        <vue-link
+          class="link-item"
+          color="text-regular"
+          href="#"
+          :value="state.email"
+        >
           비밀번호 찾기
         </vue-link>
-      </div>
+      </div> -->
+      {{ msg }}
+      <input :value="msg" @input="msg = $event.target.value" />
     </div>
-  </page-layout>
+  </PageLayout>
 </template>
 
 <script>
 import PageLayout from '@/components/layouts/PageLayout';
-import { reactive } from 'vue';
-
-const useLoginForm = () => {
-  const state = reactive({
-    email: 'email',
-    password: 'password',
-  });
-  const submit = () => console.log(state.email, state.password);
-
-  return { state, submit };
-};
+import { reactive, ref } from 'vue';
 
 export default {
-  name: 'page-login',
+  name: 'PageLogin',
   components: {
     PageLayout,
   },
-  setup() {
-    const { state: loginState, submit: handleSubmit } = useLoginForm();
-    const handleSignup = () => console.log('SIGN UP');
-
+  data() {
     return {
-      loginState,
-      handleSubmit,
-      handleSignup,
-      console,
+      msg: 'hello',
     };
   },
 };

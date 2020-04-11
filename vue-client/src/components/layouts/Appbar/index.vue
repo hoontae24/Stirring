@@ -1,33 +1,34 @@
 <template>
   <div class="root appbar">
-    <container>
+    <Container>
       <header class="header">
         <div class="wrapper">
-          <vue-link class="logo" href="/">
+          <VueLink class="logo" href="/">
             <img class="logo-img" :src="logo" alt="logo" />
-          </vue-link>
+          </VueLink>
           <div class="nav-wrapper" v-if="!hideMenu">
-            <nav-link v-for="nav in navs" :key="nav.name" :nav="nav" />
+            <NavLink v-for="nav in navs" :key="nav.name" :nav="nav" />
           </div>
           <div class="_grow"></div>
           <div class="sub-nav-wapper" v-if="!hideMenu">
-            <nav-link v-for="nav in subNavs" :key="nav.name" :nav="nav" />
+            <NavLink v-for="nav in subNavs" :key="nav.name" :nav="nav" />
           </div>
         </div>
       </header>
-    </container>
+    </Container>
     <vue-divider />
   </div>
 </template>
 
 <script>
-import { navs } from '@/consts';
+import navs from '@/consts/navs';
 import logo from '@/assets/logo.png';
 import Container from '@/components/layouts/Container';
 
 import NavLink from './NavLink';
 
 export default {
+  name: 'Appbar',
   components: {
     NavLink,
     Container,
@@ -35,10 +36,12 @@ export default {
   props: {
     'hide-menu': Boolean,
   },
-  computed: {
-    logo: () => logo,
-    navs: () => navs.filter(nav => !nav.isSub),
-    subNavs: () => navs.filter(nav => nav.isSub),
+  setup() {
+    return {
+      logo: logo,
+      navs: navs.filter(nav => !nav.isSub),
+      subNavs: navs.filter(nav => nav.isSub),
+    };
   },
 };
 </script>
