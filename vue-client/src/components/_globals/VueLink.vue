@@ -1,6 +1,5 @@
 <template>
   <router-link class="vue-link" :class="color" :to="href">
-    {{ value }}
     <slot></slot>
   </router-link>
 </template>
@@ -11,10 +10,6 @@ export default {
   props: {
     href: { type: String, default: '#' },
     color: { type: String, default: 'text-primary' },
-    value: String,
-  },
-  setup(props, ctx) {
-    // console.log(props, ctx);
   },
 };
 </script>

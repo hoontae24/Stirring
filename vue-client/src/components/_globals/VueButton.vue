@@ -1,6 +1,6 @@
 <template>
   <button class="vue-button" :class="classes" v-bind="$attrs">
-    <slot />
+    <slot></slot>
   </button>
 </template>
 

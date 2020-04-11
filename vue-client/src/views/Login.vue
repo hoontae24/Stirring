@@ -4,52 +4,43 @@
       <div class="card-header">
         로그인
       </div>
-      <!-- <div class="field">
-        <vue-input
+      <div class="field">
+        <VueInput
           class="input"
           label="email"
           placeholder="EMAIL"
-          v-model:value="state.email"
-          @focus="e => console.log('focus')"
+          v-model="state.email"
         />
       </div>
       <div class="field">
-        <vue-input
+        <VueInput
           class="input"
           type="password"
           label="password"
           placeholder="PASSWORD"
-          v-model:value="state.password"
+          v-model="state.password"
         />
       </div>
-      <vue-divider class="divider"></vue-divider>
+      <VueDivider class="divider"></VueDivider>
       <div class="action">
-        <vue-button
+        <VueButton
           class="action-btn _block"
           full-width
           type="primary"
           @click="handleSubmit"
         >
           로그인하기
-        </vue-button>
-        <vue-button class="action-btn _block" full-width @click="handleSignup">
+        </VueButton>
+        <VueButton class="action-btn _block" full-width @click="handleSignup">
           가입하기
-        </vue-button>
+        </VueButton>
       </div>
-      {{ state.email }}
       <div class="links _flex">
         <div class="_grow"></div>
-        <vue-link
-          class="link-item"
-          color="text-regular"
-          href="#"
-          :value="state.email"
-        >
+        <vue-link class="link-item" color="text-regular" href="#">
           비밀번호 찾기
         </vue-link>
-      </div> -->
-      {{ msg }}
-      <input :value="msg" @input="msg = $event.target.value" />
+      </div>
     </div>
   </PageLayout>
 </template>
@@ -63,9 +54,17 @@ export default {
   components: {
     PageLayout,
   },
-  data() {
+  setup() {
+    const state = reactive({
+      email: 'email',
+      password: '',
+    });
+
+    const handleSubmit = () => console.log(state);
+
     return {
-      msg: 'hello',
+      state,
+      handleSubmit,
     };
   },
 };
