@@ -49,7 +49,7 @@ export default {
   outline: none;
 
   &.vue-button-default {
-    border-color: #{$border-dark};
+    border-color: #{$border-color-dark};
     background-color: #{$background-white};
     color: #{$text-regular};
 

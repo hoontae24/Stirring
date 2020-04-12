@@ -15,11 +15,11 @@ $text-regular: #606266;
 $text-secondary: #909399;
 $text-placeholder: #c0c4cc;
 
-$border-base: #dcdfe6;
-$border-dark: #c2c4ca;
-$border-light: #e4e7ed;
-$border-lighter: #ebeef5;
-$border-extralight: #f2f6fc;
+$border-color-base: #dcdfe6;
+$border-color-dark: #c2c4ca;
+$border-color-light: #e4e7ed;
+$border-color-lighter: #ebeef5;
+$border-color-extralight: #f2f6fc;
 
 $background-black: #000000;
 $background-white: #ffffff;
@@ -27,3 +27,6 @@ $background-hazy: #ffffff50;
 $background: transparent;
 
 $divider: #dcdfe6;
+
+$shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$shadow-deep: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

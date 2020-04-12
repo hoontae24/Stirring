@@ -116,7 +116,7 @@ $input-btn-width: 40;
   border-style: solid;
   border-radius: 4px;
   border-width: 1px;
-  border-color: #{$border-dark};
+  border-color: #{$border-color-dark};
   outline: none;
 
   transition: border-color 0.2s ease-in;

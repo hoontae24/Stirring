@@ -4,6 +4,7 @@
       <div class="card-header">
         로그인
       </div>
+      <VueDivider />
       <div class="field">
         <VueInput
           class="input"
@@ -84,10 +85,15 @@ export default {
   max-width: 500px;
   margin: auto;
   margin-top: 10vh;
+  padding: #{$spacing * 3}px;
+  box-shadow: #{$shadow};
+  border: 1px solid #{$border-color-base};
+  border-radius: 8px;
 
   .card-header {
     font-size: xx-large;
     text-align: center;
+    margin-bottom: #{$spacing * 3}px;
   }
 
   .field {
