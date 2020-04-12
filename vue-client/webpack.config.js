@@ -33,7 +33,7 @@ const config = {
           {
             loader: 'sass-loader',
             options: {
-              prependData: `@import "@/scss/globals/_styles.scss";`,
+              prependData: `@import "@/scss/index.scss";`,
             },
           },
         ],
