@@ -2,7 +2,7 @@
   <div class="vue-input-wrapper" :class="{ 'full-width': fullWidth }">
     <div class="vue-input-icon-wrapper" v-if="Boolean(icon)">
       <keep-alive v-if="typeof icon === 'object'">
-        <component :is="icon"></component>
+        <component :is="icon" class="vue-input-icon"></component>
       </keep-alive>
       <i
         v-else-if="typeof icon === 'string'"
