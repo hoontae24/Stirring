@@ -7,6 +7,7 @@
       <div class="field">
         <VueInput
           class="input"
+          name="email"
           label="email"
           placeholder="EMAIL"
           v-model="state.email"
@@ -15,6 +16,7 @@
       <div class="field">
         <VueInput
           class="input"
+          name="password"
           type="password"
           label="password"
           placeholder="PASSWORD"
@@ -31,7 +33,12 @@
         >
           로그인하기
         </VueButton>
-        <VueButton class="action-btn _block" full-width @click="handleSignup">
+        <VueButton
+          to="/signup"
+          class="action-btn _block"
+          full-width
+          @click="handleSignup"
+        >
           가입하기
         </VueButton>
       </div>
@@ -46,8 +53,9 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
+
 import PageLayout from '@/components/layouts/PageLayout';
-import { reactive, ref } from 'vue';
 
 export default {
   name: 'PageLogin',

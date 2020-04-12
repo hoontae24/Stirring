@@ -1,5 +1,10 @@
 <template>
-  <button class="vue-button" :class="classes" v-bind="$attrs">
+  <VueLink v-if="routeTo" :href="routeTo.path">
+    <button class="vue-button" :class="classes" v-bind="$attrs">
+      <slot></slot>
+    </button>
+  </VueLink>
+  <button v-else class="vue-button" :class="classes" v-bind="$attrs">
     <slot></slot>
   </button>
 </template>
@@ -10,6 +15,7 @@ export default {
   props: {
     fullWidth: Boolean,
     type: { type: String, default: 'default' },
+    to: { type: [String, Object] },
   },
   setup(props) {
     const classes = [
@@ -18,7 +24,15 @@ export default {
         'full-width': props.fullWidth,
       },
     ];
-    return { classes };
+
+    const routeTo =
+      typeof props.to === 'string'
+        ? { path: props.to }
+        : typeof props.to === 'object'
+        ? props.to
+        : null;
+
+    return { classes, routeTo };
   },
 };
 </script>
