@@ -8,6 +8,7 @@
       <div class="field">
         <VueInput
           class="input"
+          full-width
           name="email"
           label="email"
           placeholder="EMAIL"
@@ -17,6 +18,7 @@
       <div class="field">
         <VueInput
           class="input"
+          full-width
           name="password"
           type="password"
           label="password"
@@ -25,6 +27,12 @@
         />
       </div>
       <VueDivider class="divider"></VueDivider>
+      <div class="links _flex">
+        <div class="_grow"></div>
+        <VueLink class="link-item" href="#" size="smaller" disabled>
+          비밀번호 재설정
+        </VueLink>
+      </div>
       <div class="action">
         <VueButton
           class="action-btn _block"
@@ -42,12 +50,6 @@
         >
           가입하기
         </VueButton>
-      </div>
-      <div class="links _flex">
-        <div class="_grow"></div>
-        <VueLink class="link-item" href="#" size="smaller" disabled>
-          비밀번호 찾기
-        </VueLink>
       </div>
     </div>
   </PageLayout>
@@ -68,7 +70,6 @@ export default {
       email: 'email',
       password: '',
     });
-
     const handleSubmit = () => console.log(state);
 
     return {
@@ -86,8 +87,8 @@ export default {
   margin: auto;
   margin-top: 10vh;
   padding: #{$spacing * 3}px;
-  box-shadow: #{$shadow};
-  border: 1px solid #{$border-color-base};
+  // box-shadow: #{$shadow};
+  // border: 1px solid #{$border-color-base};
   border-radius: 8px;
 
   .card-header {

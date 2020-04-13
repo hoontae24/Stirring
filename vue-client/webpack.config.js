@@ -33,7 +33,7 @@ const config = {
           {
             loader: 'sass-loader',
             options: {
-              prependData: `@import "@/scss/index.scss";`,
+              prependData: `@import "@/scss";`,
             },
           },
         ],
@@ -68,6 +68,7 @@ const config = {
   output: {
     filename: 'bundle.[hash].js',
     path: path.resolve(__dirname, 'dist', 'public'),
+    publicPath: '/',
   },
   devServer: {
     stats: 'errors-only',

@@ -15,7 +15,7 @@ const routes = [
   },
   {
     name: 'not-found',
-    path: '/*',
+    path: '/:data(.*)',
     component: NotFound,
   },
 ];

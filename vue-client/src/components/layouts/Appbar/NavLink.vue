@@ -1,5 +1,5 @@
 <template>
-  <VueLink class="nav-link" color="text-regular" :href="nav.path">
+  <VueLink class="nav-link" color="text-regular" size="large" :href="nav.path">
     {{ nav.label }}
   </VueLink>
 </template>
@@ -13,7 +13,7 @@ export default {
 
 <style scoped lang="scss">
 .nav-link {
-  font-size: large;
+  font-weight: 500;
   padding: #{$spacing * 0.5}px;
   margin: #{$spacing * 0.5}px;
 }

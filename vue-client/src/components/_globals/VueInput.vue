@@ -32,8 +32,8 @@ export default {
   name: 'VueInput',
   props: {
     modelValue: String,
-    clearable: { type: Boolean, default: true },
-    fullWidth: { type: Boolean, default: true },
+    clearable: { type: Boolean, default: false },
+    fullWidth: { type: Boolean, default: false },
     icon: { type: [Object, String] },
   },
   setup(props, { emit }) {
