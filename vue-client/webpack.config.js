@@ -15,15 +15,15 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        use: 'vue-loader',
-      },
-      {
-        test: /\.m?js$/,
+        test: /\.m?(js|ts)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
         },
+      },
+      {
+        test: /\.vue$/,
+        use: 'vue-loader',
       },
       {
         test: /\.(css|sass|scss)$/,
