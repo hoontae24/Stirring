@@ -4,10 +4,9 @@
       <div class="card-header">
         로그인
       </div>
-      <VueDivider />
+      <VueDivider class="divider" />
       <div class="field">
         <VueInput
-          class="input"
           full-width
           name="email"
           label="email"
@@ -17,7 +16,6 @@
       </div>
       <div class="field">
         <VueInput
-          class="input"
           full-width
           name="password"
           type="password"
@@ -26,11 +24,11 @@
           v-model="state.password"
         />
       </div>
-      <VueDivider class="divider"></VueDivider>
-      <div class="links _flex">
+      <VueDivider class="divider" />
+      <div class="_flex">
         <div class="_grow"></div>
         <VueLink class="link-item" href="#" size="smaller" disabled>
-          비밀번호 재설정
+          비밀번호를 잊으셨나요?
         </VueLink>
       </div>
       <div class="action">
@@ -87,9 +85,6 @@ export default {
   margin: auto;
   margin-top: 10vh;
   padding: #{$spacing * 3}px;
-  // box-shadow: #{$shadow};
-  // border: 1px solid #{$border-color-base};
-  border-radius: 8px;
 
   .card-header {
     font-size: xx-large;
@@ -98,7 +93,7 @@ export default {
   }
 
   .field {
-    margin: #{$spacing * 3}px 0px;
+    margin: #{$spacing * 1}px 0px;
   }
 
   .action {
@@ -108,7 +103,7 @@ export default {
   }
 
   &::v-deep(.divider) {
-    margin-bottom: #{$spacing * 3}px;
+    margin: #{$spacing * 3}px 0px;
   }
 }
 </style>
