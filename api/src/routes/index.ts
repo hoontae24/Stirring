@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 
-import { statusController } from 'controllers';
+import { statusController } from '@/controllers';
 
 import auth from './auth';
 import user from './user';

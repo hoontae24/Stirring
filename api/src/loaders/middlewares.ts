@@ -2,7 +2,7 @@ import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
 import cors from '@koa/cors';
 
-import { authController } from 'controllers';
+import { authController } from '@/controllers';
 
 const loader: AppInitializer = async ({ app }) => {
   // Initialize server app with middlewares

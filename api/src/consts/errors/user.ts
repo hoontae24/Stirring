@@ -1,4 +1,4 @@
-import ContextError from 'lib/errors/ContextError';
+import ContextError from '@/lib/errors/ContextError';
 
 const errorCases = {
   USER_REGISTER_DATA_EMPTY: new ContextError({

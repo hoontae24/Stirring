@@ -1,6 +1,6 @@
-import { userService } from 'services';
-import { Credentials } from 'services/user';
-import { errors } from 'consts';
+import { userService } from '@/services';
+import { Credentials } from '@/services/user';
+import { errors } from '@/consts';
 
 const register: Koa.Middleware = async ctx => {
   const { request } = ctx;

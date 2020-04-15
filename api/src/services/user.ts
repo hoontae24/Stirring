@@ -1,5 +1,5 @@
-import { User } from 'models';
-import { errors } from 'consts';
+import { User } from '@/models';
+import { errors } from '@/consts';
 
 export type Credentials = {
   email: string;

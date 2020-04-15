@@ -1,5 +1,5 @@
-import { authService } from 'services';
-import { config } from 'consts';
+import { authService } from '@/services';
+import { config } from '@/consts';
 
 const inspectAuth: Koa.Middleware = async (ctx, next) => {
   const token = ctx.cookies.get(config.ACCESS_TOKEN_NAME);

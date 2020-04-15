@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
-import crypto from 'lib/crypto';
-import { modelName } from 'consts';
+import crypto from '@/lib/crypto';
+import { modelName } from '@/consts';
 
 const UserSchema = new Schema(
   {

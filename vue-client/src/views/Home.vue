@@ -11,13 +11,15 @@
     HOME<br />
     HOME<br />
     <input v-model="value" />
-    {{ value }}
+
+    {{ value }}<br />
+    {{ value2 }}<br />
   </PageLayout>
 </template>
 
 <script>
 import PageLayout from '@/components/layouts/PageLayout';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 
 export default {
   name: 'PageHome',
@@ -25,9 +27,11 @@ export default {
     PageLayout,
   },
   setup() {
-    const value = reactive('');
-    console.log(value)
-    return { value };
+    const value = reactive({ value: '' });
+    const value2 = reactive(computed(() => value + '!!'));
+    console.log(value);
+    console.log(Proxy)
+    return { value, value2 };
   },
 };
 </script>

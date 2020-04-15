@@ -1,6 +1,6 @@
-import { User } from 'models';
-import jwt from 'lib/jwt';
-import { errors } from 'consts';
+import { User } from '@/models';
+import jwt from '@/lib/jwt';
+import { errors } from '@/consts';
 
 const login = async (email: string, password: string) => {
   const user = await User.findOne({ email });

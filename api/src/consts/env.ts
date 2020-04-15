@@ -21,7 +21,7 @@ const config = {
   DATABASE_PORT: process.env.DATABASE_PORT || ' 5432',
   HASH_SECRET: process.env.HASH_SECRET || 'hash_secret',
   JWT_SECRET: process.env.JWT_SECRET || 'jwt_secret',
-  PROVIDER: process.env.PROVIDER || 'dev_provider'
+  PROVIDER: process.env.PROVIDER || 'dev_provider',
 };
 
 export default config;

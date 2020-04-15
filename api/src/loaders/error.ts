@@ -1,4 +1,4 @@
-import ContextError from 'lib/errors/ContextError';
+import ContextError from '@/lib/errors/ContextError';
 
 const loader: AppInitializer = async ({ app }) => {
   app.use(async (ctx, next) => {

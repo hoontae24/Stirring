@@ -1,4 +1,4 @@
-import ContextError from 'lib/errors/ContextError';
+import ContextError from '@/lib/errors/ContextError';
 
 const errorCases = {
   AUTH_LOGIN_EMAIL_UNREGISTERED: new ContextError({

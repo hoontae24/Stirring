@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { env, config } from 'consts';
+import { env, config } from '@/consts';
 
 export interface Decoded {
   id?: string;

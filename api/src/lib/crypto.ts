@@ -1,5 +1,6 @@
 import crypto from 'crypto';
-import { env } from 'consts';
+
+import { env } from '@/consts';
 
 const createHash = (data: string) => {
   return crypto
