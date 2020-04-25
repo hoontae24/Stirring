@@ -3,8 +3,8 @@ import moment from 'moment';
 import Koa from 'koa';
 
 // Import internal modules
-import loaders from '@/loaders';
 import { env } from '@/consts';
+import loaders from '@/loaders';
 import routes from '@/routes';
 
 const start = async () => {
@@ -19,9 +19,10 @@ const start = async () => {
 
   // Start server application
   app.listen(env.PORT, () => {
-    const now = moment().format('YYYY-MM-DD HH:mm:ss');
+    const now = moment().format();
     console.log(`${now}> Server is started on port ${env.PORT}`); // eslint-disable-line
   });
 };
 
+console.log();
 start();

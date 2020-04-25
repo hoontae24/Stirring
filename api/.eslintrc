@@ -15,6 +15,7 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
+    "prettier/prettier": "off",
     "import/prefer-default-export": "off",
     "import/extensions": [
       "error",
@@ -27,7 +28,11 @@
     "lines-between-class-members": "off",
     "consistent-return": "off",
     "no-shadow": "off",
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "no-return-assign": "off",
+    "no-useless-constructor": "warn",
+    "no-empty-function": "warn",
+    "no-param-reassign": ["warn"]
   },
   "settings": {
     "import/resolver": {
@@ -38,7 +43,8 @@
     {
       "files": ["**/*.d.ts"],
       "rules": {
-        "no-unused-vars": "off"
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off"
       }
     }
   ]

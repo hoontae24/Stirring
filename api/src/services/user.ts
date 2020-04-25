@@ -1,40 +1,35 @@
-import { User } from '@/models';
 import { errors } from '@/consts';
 
-export type Credentials = {
-  email: string;
-  name: string;
-  password: string;
-};
+import Service from './Service';
 
-const validate = async (credentials: Credentials): Promise<boolean> => {
-  if (!credentials) throw errors.USER_REGISTER_DATA_EMPTY;
+// export type Credentials = {
+//   email: string;
+//   name: string;
+//   password: string;
+// };
 
-  const { email, name, password } = credentials;
-  if (!email) throw errors.USER_REGISTER_EMAIL_EMPTY;
-  if (!name) throw errors.USER_REGISTER_NAME_EMPTY;
-  if (!password) throw errors.USER_REGISTER_PASSWORD_EMPTY;
+// const validate = async (credentials: Credentials): Promise<boolean> => {
+//   if (!credentials) throw errors.USER_REGISTER_DATA_EMPTY;
 
-  // TODO: 구현, 유저 정보 형식 검증하기
+//   const { email, name, password } = credentials;
+//   if (!email) throw errors.USER_REGISTER_EMAIL_EMPTY;
+//   if (!name) throw errors.USER_REGISTER_NAME_EMPTY;
+//   if (!password) throw errors.USER_REGISTER_PASSWORD_EMPTY;
 
-  return true;
-};
+//   // TODO: 구현, 유저 정보 형식 검증하기
 
-const exists = async (email: string): Promise<boolean> => {
-  const user = await User.findOne({ email });
-  return Boolean(user);
-};
+//   return true;
+// };
 
-const register = async (user: User) => {
-  const exists = await User.findOne({ email: user.email });
-  if (exists) throw errors.USER_REGISTER_EMAIL_DUPLICATED;
+// const exists = async (email: string): Promise<boolean> => {
+//   const user = await User.findOne({ email });
+//   return Boolean(user);
+// };
 
-  if (!(user.password && user.password.trim())) {
-    throw errors.USER_REGISTER_PASSWORD_EMPTY;
-  }
+// export default {  validate, exists };
 
-  const newUser = await User.create(user);
-  return newUser;
-};
+class User extends Service {
+  //
+}
 
-export default { register, validate, exists };
+export default User;
