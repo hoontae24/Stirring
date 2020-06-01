@@ -22,9 +22,12 @@
       "always",
       { "js": "never", "ts": "never", "json": "never" }
     ],
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "_" }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "_" }
+    ],
     "no-console": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
     "lines-between-class-members": "off",
     "consistent-return": "off",
     "no-shadow": "off",
@@ -32,7 +35,11 @@
     "no-return-assign": "off",
     "no-useless-constructor": "warn",
     "no-empty-function": "warn",
-    "no-param-reassign": ["warn"]
+    "no-param-reassign": ["warn"],
+    "no-use-before-define": "off",
+    "no-underscore-dangle": "off",
+    "no-await-in-loop": "off",
+    "no-nested-ternary": "off"
   },
   "settings": {
     "import/resolver": {

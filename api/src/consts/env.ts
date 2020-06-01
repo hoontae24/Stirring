@@ -15,7 +15,7 @@ const config = {
   PROD: process.env.NODE_ENV === 'production',
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: Number(process.env.PORT) || 3001,
-  DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'mysql',
+  DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'postgres',
   DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'development',
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'development',
   DATABASE_NAME: process.env.DATABASE_NAME || 'stirring',

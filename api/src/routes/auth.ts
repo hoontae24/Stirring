@@ -1,8 +1,11 @@
-import Router from 'koa-router';
+const init: AppInitializer = async ({ app, routePrefix = '' }) => {
+  const { router, controllers } = app;
+  const authController = controllers.auth;
 
-const router = new Router();
+  router.post(`${routePrefix}/login`, authController.login);
+  router.get(`${routePrefix}/verify`, authController.verify);
 
-router.post('/login', authController.login);
-router.get('/verify', authController.verify);
+  return { app, router };
+};
 
-export default router;
+export default init;

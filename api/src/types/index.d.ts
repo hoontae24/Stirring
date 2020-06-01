@@ -1,7 +1,8 @@
 import Application, { Middleware as _Middleware } from 'koa';
+import Router from 'koa-router';
 import { Sequelize } from 'sequelize';
 
-import { models } from '@/db';
+import * as models from '@/models';
 import * as services from '@/services';
 import * as controllers from '@/controllers';
 
@@ -11,12 +12,15 @@ declare global {
   ) => Promise<AppInitialParams>;
   interface AppInitialParams {
     app: App;
+    routePrefix?: string;
   }
+
   interface App extends Application {
-    sequelize?: Sequelize;
-    models?: typeof models;
-    services?: mapInstances<typeof services>;
-    controllers?: mapInstances<typeof controllers>;
+    sequelize: Sequelize;
+    models: typeof models;
+    services: mapInstances<typeof services>;
+    controllers: mapInstances<typeof controllers>;
+    router: Router;
   }
 
   namespace Koa {

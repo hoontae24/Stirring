@@ -6,7 +6,9 @@ import Controller from './Controller';
 class Auth extends Controller {
   private authService: Services.auth;
 
-  public constructor(deps: { services?: mapInstances<typeof Services> }) {
+  public constructor(deps: {
+    services?: mapInstances<typeof Services>;
+  }) {
     super();
     if (!deps.services)
       throw new Error('No services in controller constructor');
@@ -25,11 +27,22 @@ class Auth extends Controller {
     await next();
   };
 
-  public login: Koa.Middleware = async ctx => {
+  public register: Koa.Middleware = async (ctx) => {
+    const { email, password } = ctx.request.body;
+
+    const account = await this.authService.register(email, password);
+
+    ctx.body = { account };
+  };
+
+  public login: Koa.Middleware = async (ctx) => {
     const { request } = ctx;
     const { email, password } = request.body;
 
-    const { user, token } = await this.authService.login(email, password);
+    const { user, token } = await this.authService.login(
+      email,
+      password,
+    );
 
     ctx.cookies.set(config.ACCESS_TOKEN_NAME, token, {
       httpOnly: true,
@@ -38,10 +51,12 @@ class Auth extends Controller {
     ctx.body = { user, token };
   };
 
-  public verify: Koa.Middleware = async ctx => {
+  public verify: Koa.Middleware = async (ctx) => {
     const token = ctx.cookies.get(config.ACCESS_TOKEN_NAME);
     if (token) {
-      const { account, decoded } = await this.authService.verifyToken(token);
+      const { account, decoded } = await this.authService.verifyToken(
+        token,
+      );
       if (account) {
         ctx.body = { account, decoded };
         return;

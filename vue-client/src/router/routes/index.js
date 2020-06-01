@@ -1,6 +1,6 @@
-import Home from '@/views/Home';
-import Login from '@/views/Login';
-import NotFound from '@/views/NotFound';
+import Home from '@/pages/Home';
+import Login from '@/pages/Login';
+import NotFound from '@/pages/NotFound';
 
 const routes = [
   {

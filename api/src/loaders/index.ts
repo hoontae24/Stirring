@@ -4,6 +4,7 @@ import error from './error';
 import model from './models';
 import service from './services';
 import controller from './controllers';
+import router from './router';
 
 const init: AppInitializer = async ({ app }) => {
   // Initialize loaders
@@ -15,6 +16,7 @@ const init: AppInitializer = async ({ app }) => {
   // Initialize middlewares
   await middlewares({ app });
   await error({ app });
+  await router({ app });
 
   return { app };
 };

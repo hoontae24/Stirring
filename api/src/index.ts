@@ -9,7 +9,7 @@ import routes from '@/routes';
 
 const start = async () => {
   // Create server instance such as Express, Koa
-  const app = new Koa();
+  const app = new Koa() as App;
 
   // Initialize by loaders(database, middlewares, etc...)
   await loaders.init({ app });
@@ -25,4 +25,4 @@ const start = async () => {
 };
 
 console.log();
-start();
+start().catch(console.error);

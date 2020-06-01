@@ -1,6 +1,6 @@
 import { Model, ModelAttributes, InitOptions, DataTypes } from 'sequelize';
 
-import { sequelize } from '..';
+import { sequelize } from '@/db';
 
 class User extends Model {
   public id!: number;

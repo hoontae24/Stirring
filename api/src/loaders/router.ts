@@ -1,7 +1,10 @@
-import * as models from '@/models';
+import Router from 'koa-router';
 
 const init: AppInitializer = async ({ app }) => {
-  app.models = models;
+  const router = new Router();
+
+  app.router = router;
+
   return { app };
 };
 
