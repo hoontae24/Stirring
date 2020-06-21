@@ -1,9 +1,33 @@
-import { reactive, computed } from 'vue';
+import { reactive, inject, computed } from 'vue';
 
-const store = reactive({
-  viewer: null,
-  viewerId: computed(() => store.viewer && store.viewer.id),
-  setViewer: v => (store.viewer = v),
-});
+import tokenStore from './token';
 
-export default store;
+export const AUTH_STORE_KEY = Symbol('AUTH_STORE');
+
+export const useAuthStore = () => inject(AUTH_STORE_KEY);
+
+export const createAuthStore = (account) => {
+  const state = reactive({
+    account: account || null,
+  });
+
+  const getViewer = () => computed(() => state.account);
+  const setViewer = (account) => {
+    state.account = account || null;
+  };
+  const login = (account) => {
+    setViewer(account);
+  };
+  const logout = () => {
+    setViewer(null);
+    tokenStore.setToken(null);
+  };
+
+  return {
+    getViewer,
+    setViewer,
+    login,
+    logout,
+  };
+};
+

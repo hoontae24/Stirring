@@ -7,10 +7,14 @@
   "rules": {
     "prefer-const": "warn",
     "no-unused-vars": "warn",
-    "prettier/prettier": "warn",
+    "promise/param-names": "off",
+    "no-control-regex": "off",
 
     "vue/comment-directive": "off",
-    "vue/valid-template-root": "off"
+    "vue/no-multiple-template-root": "off",
+    "vue/valid-template-root": "off",
+
+    "prettier/prettier": "off"
   },
   "parserOptions": {
     "parser": "babel-eslint"

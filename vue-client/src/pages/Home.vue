@@ -29,8 +29,6 @@ export default {
   setup() {
     const value = reactive({ value: '' });
     const value2 = reactive(computed(() => value + '!!'));
-    console.log(value);
-    console.log(Proxy)
     return { value, value2 };
   },
 };

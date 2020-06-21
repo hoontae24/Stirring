@@ -10,7 +10,7 @@ const options: { [nodeEnv: string]: Options } = {
     host: env.DATABASE_HOST,
     dialect: env.DATABASE_DIALECT as Options['dialect'],
     operatorsAliases: undefined,
-    logging: console.log,
+    logging: false,
     pool: {
       max: 5,
       min: 0,

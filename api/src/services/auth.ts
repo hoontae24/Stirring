@@ -10,26 +10,26 @@ import Service from './Service';
 
 class Auth extends Service {
   private accountModel: typeof models.Account;
-  private userModel: typeof models.User;
 
   public constructor(deps: { models?: typeof models }) {
     super();
-    if (!deps.models || !deps.models.Account || !deps.models.User) {
+    if (!deps.models || !deps.models.Account) {
       throw new Error(
         'No models injected on auth service constructor',
       );
     }
     this.accountModel = deps.models.Account;
-    this.userModel = deps.models.User;
   }
 
   public async register(
+    name: string,
     email: string,
     password: string,
     socialDomain: SocialDomainKey = socialDomains.LOCAL,
   ) {
-    if (!email.trim()) throw errors.AUTH_REGISTER_EMAIL_EMPTY;
-    if (!password.trim()) {
+    if (!name?.trim()) throw errors.AUTH_REGISTER_NAME_EMPTY;
+    if (!email?.trim()) throw errors.AUTH_REGISTER_EMAIL_EMPTY;
+    if (!password?.trim()) {
       throw errors.AUTH_REGISTER_PASSWORD_EMPTY;
     }
 
@@ -39,6 +39,7 @@ class Auth extends Service {
     if (exists) throw errors.AUTH_REGISTER_EMAIL_DUPLICATED;
 
     const newAccount = await this.accountModel.create({
+      name,
       email,
       password,
       socialDomain,
@@ -58,7 +59,7 @@ class Auth extends Service {
 
     const token = jwt.sign({ id: account.id, email: account.email });
 
-    return { user: account, token };
+    return { account, token };
   }
 
   public verifyToken = async (token: string) => {

@@ -11,7 +11,17 @@
           </div>
           <div class="_grow"></div>
           <div class="sub-nav-wapper" v-if="!hideMenu">
-            <NavLink v-for="nav in subNavs" :key="nav.name" :nav="nav" />
+            <NavLink
+              v-for="nav in subNavs.filter(
+                (nav) =>
+                  (!nav.requiredLogin ||
+                    (nav.requiredLogin && viewer)) &&
+                  (!nav.requiredLogout ||
+                    (nav.requiredLogout && !viewer)),
+              )"
+              :key="nav.name"
+              :nav="nav"
+            />
           </div>
         </div>
       </header>
@@ -21,9 +31,10 @@
 </template>
 
 <script>
-import navs from '@/consts/navs';
 import logo from '@/assets/logo.png';
 import Container from '@/components/layouts/Container';
+import navs from '@/consts/navs';
+import { useAuthStore } from '@/stores/viewer';
 
 import NavLink from './NavLink';
 
@@ -37,10 +48,14 @@ export default {
     'hide-menu': Boolean,
   },
   setup() {
+    const authStore = useAuthStore();
+    const viewer = authStore.getViewer();
     return {
+      viewer,
+      authStore,
       logo: logo,
-      navs: navs.filter(nav => !nav.isSub),
-      subNavs: navs.filter(nav => nav.isSub),
+      navs: navs.filter((nav) => !nav.isSub),
+      subNavs: navs.filter((nav) => nav.isSub),
     };
   },
 };

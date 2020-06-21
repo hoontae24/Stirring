@@ -1,29 +1,41 @@
 <template>
   <VueLink v-if="routeTo" :href="routeTo.path">
-    <button class="vue-button" :class="classes" v-bind="$attrs">
+    <button
+      class="vue-button"
+      :class="classes"
+      v-bind="{ ...$attrs, disabled }"
+    >
       <slot></slot>
     </button>
   </VueLink>
-  <button v-else class="vue-button" :class="classes" v-bind="$attrs">
+  <button
+    v-else
+    class="vue-button"
+    :class="classes"
+    v-bind="{ ...$attrs, disabled }"
+  >
     <slot></slot>
   </button>
 </template>
 
 <script>
+import { computed } from 'vue';
 export default {
   name: 'VueButton',
   props: {
-    fullWidth: Boolean,
+    fullWidth: { type: Boolean, default: false },
     type: { type: String, default: 'default' },
+    disabled: { type: Boolean, default: false },
     to: { type: [String, Object] },
   },
-  setup(props) {
-    const classes = [
+  setup(props, { attrs }) {
+    const classes = computed(() => [
       `vue-button-${props.type}`,
       {
         'full-width': props.fullWidth,
+        disabled: props.disabled,
       },
-    ];
+    ]);
 
     const routeTo =
       typeof props.to === 'string'
@@ -45,21 +57,24 @@ export default {
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;
-  cursor: pointer;
   outline: none;
+
+  &:not(.disabled) {
+    cursor: pointer;
+  }
 
   &.vue-button-default {
     border-color: #{$border-color-dark};
     background-color: #{$background-white};
     color: #{$text-regular};
 
-    &:hover {
+    &:hover:not(.disabled) {
       color: #{$primary};
       background-color: #{$primary-clear};
       border-color: #{$primary-light};
     }
 
-    &:active {
+    &:active:not(.disabled) {
       border-color: #{$primary-dark};
       color: #{$primary-dark};
     }
@@ -70,11 +85,16 @@ export default {
     background-color: #{$primary};
     color: white;
 
-    &:hover {
+    &:hover:not(.disabled) {
       filter: brightness(1.075);
     }
-    &:active {
+    &:active:not(.disabled) {
       filter: brightness(0.925);
+    }
+
+    &.disabled {
+      border-color: #{$primary-light};
+      background-color: #{$primary-light};
     }
   }
 }

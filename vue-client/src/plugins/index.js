@@ -1,9 +1,9 @@
 // import element from './element-ui';
 import components from './components';
-import properties from './properties';
+import mixins from './mixins';
 
 export default ({ app }) => {
   // element({ app });
   components({ app });
-  properties({ app });
+  mixins({ app });
 };

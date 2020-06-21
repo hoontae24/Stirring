@@ -5,23 +5,13 @@ import {
 } from 'sequelize';
 
 import { DB } from '@/types/db';
-import { Account, User } from '@/models';
-import {
-  commonAttrs,
-  createTableIfNotExist,
-  dropTableIfExist,
-} from './commons';
+import { Account } from '@/models';
+import { createTableIfNotExist, dropTableIfExist } from './commons';
 
 const up = async (
   queryInterface: QueryInterface,
   options?: DB.MigrationFunctionOptions,
 ) => {
-  await createTableIfNotExist(
-    queryInterface,
-    User.tableName,
-    userAttributes,
-    options,
-  );
   await createTableIfNotExist(
     queryInterface,
     Account.tableName,
@@ -35,13 +25,11 @@ const down = async (
   options?: DB.MigrationFunctionOptions,
 ) => {
   await dropTableIfExist(queryInterface, Account.tableName, options);
-  await dropTableIfExist(queryInterface, User.tableName, options);
 };
 
 export default { up, down };
 
 const accountAttributes: ModelAttributes = {
-  ...commonAttrs,
   socialDomain: {
     type: DataTypes.STRING,
   },
@@ -54,29 +42,15 @@ const accountAttributes: ModelAttributes = {
   password: {
     type: DataTypes.STRING,
   },
-  userId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'User',
-      key: 'id',
-    },
-  },
-};
-
-const userAttributes: ModelAttributes = {
-  ...commonAttrs,
   name: {
     type: DataTypes.STRING,
   },
   profileResourceId: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   tagNames: {
     type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: false,
     defaultValue: [],
-  },
-  tags: {
-    type: DataTypes.JSON,
   },
 };

@@ -1,11 +1,8 @@
 import axios from 'axios';
 
 import env from '@/consts/env';
-
-const protocol = env.DEV ? 'http' : 'https';
-const apiHost = env.API_HOST;
-const apiPort = env.API_PORT;
-const baseUrl = `${protocol}://${apiHost}:${apiPort}/api`;
+import { getApiBaseUrl } from '@/utils';
+import tokenStore from '@/stores/token';
 
 const methods = {
   GET: 'GET',
@@ -23,7 +20,7 @@ const methodTypes = [
 ];
 
 class Service {
-  static baseUrl = baseUrl;
+  static baseUrl = getApiBaseUrl();
   static methods = methods;
 
   base(path, method = 'GET', data, options) {
@@ -34,7 +31,9 @@ class Service {
 
   getMethodType(method) {
     if (!method || typeof method !== 'string') return null;
-    return methodTypes.find(type => type.method === method.toUpperCase());
+    return methodTypes.find(
+      (type) => type.method === method.toUpperCase(),
+    );
   }
 
   validateOnBase(path, methodType) {
@@ -56,27 +55,25 @@ class Service {
       ...options,
     };
 
-    return axios(config).catch(this.onError);
+    return axios(config)
+      .then(this.onSuccess)
+      .catch(this.onError);
+  }
+
+  onSuccess(res) {
+    return res.data;
   }
 
   onError(error) {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      console.log(error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('Error', error.message);
+    const result = error?.response?.data?.error || {};
+    if (env.DEV) {
+      console.error(result.message);
+      // console.log('Response', error.response);
+      // console.log('Request', error.request);
+      // console.log('Error', error.message);
+      // console.log('Config', error.config);
     }
-    console.log(error.config);
-    return { error };
+    return { error: result, message: result.message };
   }
 
   constructor(path) {
@@ -85,8 +82,11 @@ class Service {
 
   validateId(id) {
     if (id === undefined || id === null || id === '') {
-      throw new Error('Invalid target ID.');
+      throw new Error(
+        `Invalid parameter: "${id === '' ? 'blank' : String(id)}"`,
+      );
     }
+    return this;
   }
 
   create(data, options) {
@@ -125,3 +125,13 @@ class Service {
 }
 
 export default Service;
+
+axios.interceptors.request.use((config) => {
+  config.headers[env.ACCESS_TOKEN_KEY] = tokenStore.getToken();
+  return config;
+});
+
+axios.interceptors.response.use((response) => {
+  tokenStore.setToken(response.headers[env.ACCESS_TOKEN_KEY]);
+  return response;
+});

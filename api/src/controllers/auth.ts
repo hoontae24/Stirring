@@ -1,4 +1,4 @@
-import { config } from '@/consts';
+import { env } from '@/consts';
 import * as Services from '@/services';
 
 import Controller from './Controller';
@@ -10,28 +10,31 @@ class Auth extends Controller {
     services?: mapInstances<typeof Services>;
   }) {
     super();
-    if (!deps.services)
+    if (!deps.services) {
       throw new Error('No services in controller constructor');
+    }
     this.authService = deps.services.auth;
   }
 
   public inspectAuth: Koa.Middleware = async (ctx, next) => {
-    const token = ctx.cookies.get(config.ACCESS_TOKEN_NAME);
+    const token = ctx.headers[env.ACCESS_TOKEN_KEY];
     if (token) {
       const { account } = await this.authService.verifyToken(token);
       if (account) {
         ctx.account = account;
       }
     }
-
+    ctx.response.set(env.ACCESS_TOKEN_KEY, token);
     await next();
   };
 
   public register: Koa.Middleware = async (ctx) => {
-    const { email, password } = ctx.request.body;
-
-    const account = await this.authService.register(email, password);
-
+    const { name, email, password } = ctx.request.body;
+    const account = await this.authService.register(
+      name,
+      email,
+      password,
+    );
     ctx.body = { account };
   };
 
@@ -39,20 +42,17 @@ class Auth extends Controller {
     const { request } = ctx;
     const { email, password } = request.body;
 
-    const { user, token } = await this.authService.login(
+    const { account, token } = await this.authService.login(
       email,
       password,
     );
 
-    ctx.cookies.set(config.ACCESS_TOKEN_NAME, token, {
-      httpOnly: true,
-      maxAge: config.TOKEN_MAX_AGE,
-    });
-    ctx.body = { user, token };
+    ctx.response.set(env.ACCESS_TOKEN_KEY, token);
+    ctx.body = { account, token };
   };
 
   public verify: Koa.Middleware = async (ctx) => {
-    const token = ctx.cookies.get(config.ACCESS_TOKEN_NAME);
+    const token = ctx.headers[env.ACCESS_TOKEN_KEY];
     if (token) {
       const { account, decoded } = await this.authService.verifyToken(
         token,

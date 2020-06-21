@@ -5,7 +5,9 @@ import fs from 'fs';
 // Load environment variables
 const envPath = path.resolve(process.cwd(), '.env');
 const envDefaultPath = path.resolve(process.cwd(), '.env.defaults');
-dotenv.config({ path: fs.existsSync(envPath) ? envPath : envDefaultPath });
+dotenv.config({
+  path: fs.existsSync(envPath) ? envPath : envDefaultPath,
+});
 
 /**
  * Configure variables
@@ -24,6 +26,8 @@ const config = {
   HASH_SECRET: process.env.HASH_SECRET || 'hash_secret',
   JWT_SECRET: process.env.JWT_SECRET || 'jwt_secret',
   PROVIDER: process.env.PROVIDER || 'dev_provider',
+  ACCESS_TOKEN_KEY:
+    process.env.ACCESS_TOKEN_KEY || 'stirring-access-token',
 };
 
 export default config;

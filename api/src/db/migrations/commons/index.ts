@@ -5,12 +5,12 @@ import {
   QueryInterfaceCreateTableOptions,
 } from 'sequelize';
 
-export const commonAttrs = {
+export const commonAttrs: ModelAttributes = {
   id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
+    defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true,
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -42,7 +42,11 @@ export const createTableIfNotExist = async (
     console.log(`Fail to create table: ${tableName}`);
   } else {
     return queryInterface
-      .createTable(tableName, attributes, options)
+      .createTable(
+        tableName,
+        { ...commonAttrs, ...attributes },
+        options,
+      )
       .then(() =>
         console.log(`Successfully created table: ${tableName}`),
       );

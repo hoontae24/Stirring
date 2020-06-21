@@ -1,48 +1,82 @@
 <template>
-  <div class="vue-input-wrapper" :class="{ 'full-width': fullWidth }">
-    <div class="vue-input-icon-wrapper" v-if="Boolean(icon)">
-      <keep-alive v-if="typeof icon === 'object'">
-        <component :is="icon" class="vue-input-icon"></component>
-      </keep-alive>
-      <i
-        v-else-if="typeof icon === 'string'"
-        class="vue-input-icon"
-        :class="icon"
-      ></i>
+  <div
+    class="vue-input-container"
+    :class="{ 'full-width': fullWidth }"
+  >
+    <div class="vue-input-wrapper">
+      <div class="vue-input-icon-wrapper" v-if="Boolean(icon)">
+        <keep-alive v-if="typeof icon === 'object'">
+          <component :is="icon" class="vue-input-icon"></component>
+        </keep-alive>
+        <i
+          v-else-if="typeof icon === 'string'"
+          class="vue-input-icon"
+          :class="icon"
+        ></i>
+      </div>
+      <input
+        class="vue-input"
+        :class="{ clearable, 'has-icon': Boolean(icon) }"
+        v-bind="{
+          title: '',
+          ...$attrs,
+          ...(state.visibility ? { type: 'text' } : {}),
+          ...inputProps,
+        }"
+        v-model="value"
+        :ref="inputRef"
+      />
+      <div class="vue-input-btn-wrapper">
+        <i
+          v-if="clearable && Boolean(value)"
+          class="vue-input-btn far fa-times-circle"
+          @click="$emit('update:modelValue', '')"
+        ></i>
+        <i
+          v-if="$attrs.type === 'password'"
+          class="vue-input-btn fas fa-eye"
+          :class="state.visibility ? 'fa-eye-slash' : 'fa-eye'"
+          @click="toggleVisiblity()"
+        ></i>
+      </div>
     </div>
-    <input
-      class="vue-input"
-      :class="{ clearable, 'has-icon': Boolean(icon) }"
-      v-bind="{ ...$attrs }"
-      v-model="value"
-    />
-    <div class="vue-input-btn-wrapper" v-show="clearable && Boolean(value)">
-      <i
-        class="vue-input-btn far fa-times-circle"
-        @click="$emit('update:modelValue', '')"
-      ></i>
-    </div>
+    <span class="vue-input-helper-text" :class="{ error }">
+      {{ helperText || '' }}
+    </span>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 
 export default {
   name: 'VueInput',
   props: {
     modelValue: String,
+    required: { type: Boolean, default: false },
     clearable: { type: Boolean, default: false },
     fullWidth: { type: Boolean, default: false },
     icon: { type: [Object, String] },
+    helperText: { type: String },
+    error: { type: Boolean },
+    inputRef: { type: Function },
   },
-  setup(props, { emit }) {
+  inheritAttrs: false,
+  setup(props, { emit, attrs }) {
+    const inputProps = {
+      required: props.required,
+      placeholder: (props.required ? '*' : '') + (attrs.label || ''),
+    };
     const value = computed({
       get: () => props.modelValue,
-      set: v => emit('update:modelValue', v),
+      set: (v) => emit('update:modelValue', v),
     });
-
-    return { value };
+    const state = reactive({
+      visibility: attrs.type !== 'password',
+    });
+    const toggleVisiblity = () =>
+      (state.visibility = !state.visibility);
+    return { inputProps, value, state, toggleVisiblity };
   },
 };
 </script>
@@ -51,20 +85,32 @@ export default {
 $input-padding: 12;
 $input-btn-width: 40;
 
-.vue-input-wrapper {
-  position: relative;
+.vue-input-container {
   display: inline-block;
-
   &.full-width {
     display: block;
   }
+}
+
+.vue-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  padding: 0px #{$spacing * 0.5}px;
+  border-style: solid;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #{$border-color-dark};
+  transition: border-color 0.2s ease-in;
+
+  &:focus-within {
+    border-color: #{$primary};
+  }
 
   .vue-input-icon-wrapper {
-    position: absolute;
-    width: #{$input-btn-width}px;
-    height: 100%;
-    left: 0px;
-
+    padding: #{$spacing * 0.5}px;
+    margin-left: #{$spacing * 0.5}px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -76,16 +122,13 @@ $input-btn-width: 40;
   }
 
   .vue-input-btn-wrapper {
-    position: absolute;
-    width: #{$input-btn-width}px;
-    height: 100%;
-    right: 0px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
     & .vue-input-btn {
+      padding: #{$spacing * 0.5}px;
+      margin-right: #{$spacing * 0.5}px;
       display: inline-block;
       color: #{$text-placeholder};
       transition: color 0.2s ease-in;
@@ -99,31 +142,18 @@ $input-btn-width: 40;
 }
 
 .vue-input {
+  flex-grow: 2;
   display: inline-block;
-  padding: 0 #{$input-padding}px;
-  &.has-icon {
-    padding-left: #{$input-btn-width}px;
-  }
-  &.clearable {
-    padding-right: #{$input-btn-width}px;
-  }
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
+  margin: #{$spacing * 0.5}px #{$spacing * 1}px;
+  padding: 0px;
+  height: calc(40px - #{$spacing * 0.5}px);
+  line-height: calc(40px - #{$spacing * 0.5}px);
 
   color: #{$text-regular};
 
-  border-style: solid;
-  border-radius: 4px;
-  border-width: 1px;
-  border-color: #{$border-color-dark};
+  border: none;
   outline: none;
 
-  transition: border-color 0.2s ease-in;
-
-  &:focus {
-    border-color: #{$primary};
-  }
   &::placeholder {
     color: #{$text-placeholder};
   }
@@ -132,6 +162,17 @@ $input-btn-width: 40;
   }
   &::-webkit-input-placeholder {
     color: #{$text-placeholder};
+  }
+}
+
+.vue-input-helper-text {
+  display: block;
+  padding: 0px #{$spacing * 1}px;
+  color: #{$text-regular};
+  font-size: smaller;
+
+  &.error {
+    color: #{$danger};
   }
 }
 </style>

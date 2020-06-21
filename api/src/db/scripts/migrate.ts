@@ -15,7 +15,7 @@ const prompt = inquirer.createPromptModule();
 
 const logging = false;
 const DOWN_ALL = Symbol('__down_all_miagraions__');
-const UNINITIAL = 'Uninitialized';
+const UNINITIAL = 'No Migrations';
 
 const main = async ({
   init,
