@@ -1,0 +1,17 @@
+@mixin paper-border {
+  border-radius: #{$paper-border-radius};
+}
+
+@mixin absolute($top: 0px, $bottom: 0px, $left: 0px, $right: 0px) {
+  position: absolute;
+  top: $top;
+  bottom: $bottom;
+  left: $left;
+  right: $right;
+}
+
+@mixin flex($justify-content: center, $align-items: center) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}

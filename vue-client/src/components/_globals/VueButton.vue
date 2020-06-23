@@ -1,7 +1,7 @@
 <template>
   <VueLink v-if="routeTo" :href="routeTo.path">
     <button
-      class="vue-button"
+      class="vue-btn"
       :class="classes"
       v-bind="{ ...$attrs, disabled }"
     >
@@ -10,7 +10,7 @@
   </VueLink>
   <button
     v-else
-    class="vue-button"
+    class="vue-btn"
     :class="classes"
     v-bind="{ ...$attrs, disabled }"
   >
@@ -20,17 +20,26 @@
 
 <script>
 import { computed } from 'vue';
+
+export const vueButtonSizes = ['small', 'default', 'large'];
+
 export default {
   name: 'VueButton',
   props: {
     fullWidth: { type: Boolean, default: false },
     type: { type: String, default: 'default' },
     disabled: { type: Boolean, default: false },
+    size: {
+      type: String,
+      default: 'default',
+      validator: (v) => vueButtonSizes.includes(v),
+    },
     to: { type: [String, Object] },
   },
   setup(props, { attrs }) {
     const classes = computed(() => [
-      `vue-button-${props.type}`,
+      `vue-btn-type-${props.type}`,
+      `vue-btn-size-${props.size}`,
       {
         'full-width': props.fullWidth,
         disabled: props.disabled,
@@ -50,8 +59,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.vue-button {
-  padding: #{$spacing * 1.5}px #{$spacing * 2.5}px;
+.vue-btn + .vue-btn {
+  margin-left: #{$spacing}px;
+}
+
+.vue-btn {
   display: inline-flex;
   justify-content: center;
   border-style: solid;
@@ -63,7 +75,7 @@ export default {
     cursor: pointer;
   }
 
-  &.vue-button-default {
+  &.vue-btn-type-default {
     border-color: #{$border-color-dark};
     background-color: #{$background-white};
     color: #{$text-regular};
@@ -80,7 +92,7 @@ export default {
     }
   }
 
-  &.vue-button-primary {
+  &.vue-btn-type-primary {
     border-color: #{$primary};
     background-color: #{$primary};
     color: white;
@@ -97,6 +109,19 @@ export default {
       background-color: #{$primary-light};
     }
   }
+}
+
+.vue-btn-size-small {
+  padding: #{$spacing * 1}px #{$spacing * 2}px;
+  font-size: 0.9rem;
+}
+.vue-btn-size-default {
+  padding: #{$spacing * 1.25}px #{$spacing * 2.25}px;
+  font-size: 1rem;
+}
+.vue-btn-size-large {
+  padding: #{$spacing * 1.5}px #{$spacing * 2.5}px;
+  font-size: 1.15rem;
 }
 
 .full-width {

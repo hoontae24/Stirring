@@ -10,6 +10,9 @@
             <NavLink v-for="nav in navs" :key="nav.name" :nav="nav" />
           </div>
           <div class="_grow"></div>
+          <button @click="state.uploadDialogOpen = true">
+            upload {{ state.uploadDialogOpen }}
+          </button>
           <div class="sub-nav-wapper" v-if="!hideMenu">
             <NavLink
               v-for="nav in subNavs.filter(
@@ -27,22 +30,31 @@
       </header>
     </Container>
     <vue-divider />
+    <UploadDialog
+      :open="state.uploadDialogOpen"
+      @close="state.uploadDialogOpen = false"
+    >
+    </UploadDialog>
   </div>
 </template>
 
 <script>
-import logo from '@/assets/logo.png';
+import { reactive } from 'vue';
+
 import Container from '@/components/layouts/Container';
+import UploadDialog from '@/components/post/UploadDialog';
+import NavLink from './NavLink';
+
+import logo from '@/assets/logo.png';
 import navs from '@/consts/navs';
 import { useAuthStore } from '@/stores/viewer';
-
-import NavLink from './NavLink';
 
 export default {
   name: 'Appbar',
   components: {
     NavLink,
     Container,
+    UploadDialog,
   },
   props: {
     'hide-menu': Boolean,
@@ -50,12 +62,17 @@ export default {
   setup() {
     const authStore = useAuthStore();
     const viewer = authStore.getViewer();
+
+    const state = reactive({
+      uploadDialogOpen: false,
+    });
     return {
       viewer,
       authStore,
       logo: logo,
       navs: navs.filter((nav) => !nav.isSub),
       subNavs: navs.filter((nav) => nav.isSub),
+      state,
     };
   },
 };

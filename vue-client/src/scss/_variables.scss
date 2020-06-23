@@ -24,9 +24,19 @@ $border-color-extralight: #f2f6fc;
 $background-black: #000000;
 $background-white: #ffffff;
 $background-hazy: #ffffff50;
+$background-hazy-dark: #00000050;
 $background: transparent;
 
 $divider: #dcdfe6;
 
 $shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-$shadow-deep: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+$shadow-deep: 0 10px 16px 0 rgba(0, 0, 0, 0.2),
+  0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+$z-index-appBar: 1100;
+$z-index-drawer: 1200;
+$z-index-dialog: 1300;
+$z-index-snackbar: 1400;
+$z-index-tooltip: 1500;
+
+$paper-border-radius: 4px;
