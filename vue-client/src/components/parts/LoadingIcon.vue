@@ -1,16 +1,19 @@
 <template>
-  <div class="root" :style="{ width: `${fontSize}px` }">
-    <div class="pad"></div>
-    <div class="wrapper">
-      <div class="dot">
-        <div class="pad rising rising-1"></div>
-      </div>
-      <div class="dot">
-        <div class="pad rising rising-2"></div>
-      </div>
-      <div class="dot">
-        <div class="pad rising rising-3"></div>
-      </div>
+  <div
+    class="root"
+    :style="{
+      width: `${fontSize}px`,
+      height: `${fontSize}px`,
+    }"
+  >
+    <div class="dot">
+      <div class="pad rising rising-1"></div>
+    </div>
+    <div class="dot">
+      <div class="pad rising rising-2"></div>
+    </div>
+    <div class="dot">
+      <div class="pad rising rising-3"></div>
     </div>
   </div>
 </template>
@@ -42,17 +45,10 @@ export default {
 
 <style scoped lang="scss">
 .root {
+  display: inline-flex;
+  align-items: center;
   position: relative;
-  display: block;
-}
-
-.pad {
-  padding-bottom: 100%;
-}
-
-.wrapper {
-  @include absolute;
-  @include flex();
+  z-index: -1;
 }
 
 .dot {
@@ -60,8 +56,11 @@ export default {
   margin: 5%;
 
   .pad {
+    position: relative;
+    padding-bottom: 100%;
     background-color: $primary;
     border-radius: 50%;
+    will-change: transform;
     &.rising {
       animation: rise 300ms alternate infinite;
       @keyframes rise {

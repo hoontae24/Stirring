@@ -1,5 +1,6 @@
 import auth from './auth';
 import user from './user';
+import resource from './resource';
 
 const init: AppInitializer = async ({ app }) => {
   const { router } = app;
@@ -10,6 +11,7 @@ const init: AppInitializer = async ({ app }) => {
 
   await auth({ app, routePrefix: '/api/auth' });
   await user({ app, routePrefix: '/api/user' });
+  await resource({ app, routePrefix: '/api/resource' });
 
   app.use(router.routes()).use(router.allowedMethods());
   return { app };

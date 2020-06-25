@@ -109,7 +109,7 @@ export default {
   max-width: 100%;
   max-height: 100%;
   overflow-y: auto;
-  z-index: #{$z-index-dialog};
+  z-index: calc(#{$z-index-dialog});
   display: flex;
   justify-content: center;
   align-items: flex-start;

@@ -5,7 +5,7 @@ import {
 } from 'sequelize';
 
 import { DB } from '@/types/db';
-import { Account, Post } from '@/models';
+import { Account, Post, Resource } from '@/models';
 import { createTableIfNotExist, dropTableIfExist } from './commons';
 
 const up = async (
@@ -19,8 +19,11 @@ const up = async (
     accountAttrs,
     options,
   );
-  await queryInterface.addIndex(Account.tableName, ['id'], options);
-  await queryInterface.addIndex(Account.tableName, ['email'], options);
+  await queryInterface.addIndex(
+    Account.tableName,
+    ['email'],
+    options,
+  );
 
   // CREATE TABLE "Post"
   await createTableIfNotExist(
@@ -29,22 +32,33 @@ const up = async (
     postAttrs,
     options,
   );
-  await queryInterface.addIndex(Post.tableName, ['id'], options);
-  await queryInterface.addIndex(Post.tableName, ['authorId'], options);
-  await queryInterface.addIndex(Post.tableName, ['tagNames'], options);
+  await queryInterface.addIndex(
+    Post.tableName,
+    ['authorId'],
+    options,
+  );
+  await queryInterface.addIndex(
+    Post.tableName,
+    ['tagNames'],
+    options,
+  );
+
+  // CREATE TABLE "Resource"
+  await createTableIfNotExist(
+    queryInterface,
+    Resource.tableName,
+    resourceAttrs,
+    options,
+  );
 };
 
 const down = async (
   queryInterface: QueryInterface,
   options?: DB.MigrationFunctionOptions,
 ) => {
+  await dropTableIfExist(queryInterface, Resource.tableName, options);
   await dropTableIfExist(queryInterface, Post.tableName, options);
-  await queryInterface.removeIndex(Post.tableName, ['id'], options);
-  await queryInterface.removeIndex(Post.tableName, ['authorId'], options);
-  await queryInterface.removeIndex(Post.tableName, ['tagNames'], options);
-
   await dropTableIfExist(queryInterface, Account.tableName, options);
-  await queryInterface.removeIndex(Account.tableName, ['id'], options);
 };
 
 export default { up, down };
@@ -86,4 +100,13 @@ const postAttrs: ModelAttributes = {
     type: DataTypes.ARRAY(DataTypes.STRING),
     defaultValue: [],
   },
+};
+
+const resourceAttrs: ModelAttributes = {
+  filename: { type: DataTypes.STRING, allowNull: false },
+  originalname: { type: DataTypes.STRING, allowNull: false },
+  size: { type: DataTypes.INTEGER },
+  mimetype: { type: DataTypes.STRING },
+  extension: { type: DataTypes.STRING },
+  meta: { type: DataTypes.JSONB, defaultValue: {} },
 };

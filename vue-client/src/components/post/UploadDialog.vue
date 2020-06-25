@@ -1,15 +1,15 @@
 <template>
   <VueDialog :open="open" @close="handleClose">
-    <template v-slot:header>사진 올리기 {{ state.loading }}</template>
+    <template v-slot:header>사진 올리기</template>
     <Dropzone
       v-if="!state.previews.length"
+      multiple
       :disabled="state.loading"
       @change="(files) => (state.files = state.files.concat(files))"
       v-slot="{ 'drag-over': dragOver }"
     >
       <div class="image" :class="{ 'drag-over': dragOver }">
         IMAGE HERE
-        {{ String(dragOver) }}
       </div>
     </Dropzone>
     <img
@@ -23,7 +23,7 @@
         초기화
       </VueButton>
       <VueButton @click="handleClose">취소</VueButton>
-      <VueButton type="primary">확인</VueButton>
+      <VueButton type="primary" @click="handleSubmit">확인</VueButton>
     </template>
   </VueDialog>
 </template>
@@ -33,6 +33,7 @@ import { reactive, watchEffect } from 'vue';
 
 import Dropzone from '@/components/parts/Dropzone';
 
+import resourceService from '@/services/resource';
 import { getImageDataFromFile } from '@/utils';
 
 export default {
@@ -50,19 +51,35 @@ export default {
     });
 
     const handleClose = () => emit('close');
+    const handleSubmit = async () => {
+      const formData = new FormData();
+      state.files.forEach((file) => {
+        formData.append('files', file);
+      });
+      const res = await resourceService.create(formData);
+      console.log(res)
+    };
 
-    watchEffect(() => props.open && (state.files = []));
+    watchEffect(() => {
+      if (props.open) {
+        state.files = [];
+        state.loading = false;
+      }
+    });
     watchFileForPreview(state);
     return {
       state,
       handleClose,
+      handleSubmit,
     };
   },
 };
 
 const watchFileForPreview = (state) =>
   watchEffect(() => {
-    state.loading = true;
+    if (state.files.length) {
+      state.loading = true;
+    }
     return Promise.all(state.files.map(getImageDataFromFile))
       .then((results) => (state.previews = results))
       .then(() => (state.loading = false));

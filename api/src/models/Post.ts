@@ -33,11 +33,7 @@ Post.init(
     },
   },
   {
-    indexes: [
-      { fields: ['id'] },
-      { fields: ['authorId'] },
-      { fields: ['tagNames'] },
-    ],
+    indexes: [{ fields: ['authorId'] }, { fields: ['tagNames'] }],
     sequelize,
     paranoid: true,
     freezeTableName: true,

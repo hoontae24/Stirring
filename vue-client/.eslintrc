@@ -9,6 +9,7 @@
     "no-unused-vars": "warn",
     "promise/param-names": "off",
     "no-control-regex": "off",
+    "prefer-destructuring": "off",
 
     "vue/comment-directive": "off",
     "vue/no-multiple-template-root": "off",

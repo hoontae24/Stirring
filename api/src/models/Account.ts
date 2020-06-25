@@ -45,7 +45,7 @@ Account.init(
     },
   },
   {
-    indexes: [{ fields: ['id'] }, { fields: ['email'] }],
+    indexes: [{ fields: ['email'] }],
     sequelize,
     paranoid: true,
     freezeTableName: true,
