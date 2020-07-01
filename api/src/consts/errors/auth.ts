@@ -43,6 +43,12 @@ const errorCases = {
     message: '이미 등록된 이메일입니다.',
     status: 403,
   }),
+  AUTH_REQUIRED_LOGIN: new ContextError({
+    id: 'AUTH_008',
+    name: 'AUTH_REQUIRED_LOGIN',
+    message: '로그인이 필요한 서비스입니다.',
+    status: 403,
+  }),
 };
 
 export default errorCases;

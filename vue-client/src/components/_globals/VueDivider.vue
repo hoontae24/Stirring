@@ -13,6 +13,5 @@ export default {
   display: block;
   height: 1px;
   background-color: #{$divider};
-  position: relative;
 }
 </style>

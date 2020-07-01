@@ -1,4 +1,4 @@
-import { env } from '@/consts';
+import { env, errors } from '@/consts';
 import * as Services from '@/services';
 
 import Controller from './Controller';
@@ -65,6 +65,13 @@ class Auth extends Controller {
 
     ctx.status = 401;
     ctx.body = 'No authorization';
+  };
+
+  public requireLogin: Koa.Middleware = async (ctx, next) => {
+    if (!ctx.account) {
+      throw errors.AUTH_REQUIRED_LOGIN;
+    }
+    return next();
   };
 }
 

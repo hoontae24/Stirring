@@ -33,7 +33,8 @@ import { reactive, watchEffect } from 'vue';
 
 import Dropzone from '@/components/parts/Dropzone';
 
-import resourceService from '@/services/resource';
+import postService from '@/services/post';
+import { useUtilStore } from '@/stores/util';
 import { getImageDataFromFile } from '@/utils';
 
 export default {
@@ -44,6 +45,7 @@ export default {
     open: { type: Boolean, require: true, default: false },
   },
   setup(props, { emit }) {
+    const utilStore = useUtilStore();
     const state = reactive({
       files: [],
       previews: [],
@@ -53,11 +55,13 @@ export default {
     const handleClose = () => emit('close');
     const handleSubmit = async () => {
       const formData = new FormData();
-      state.files.forEach((file) => {
-        formData.append('files', file);
-      });
-      const res = await resourceService.create(formData);
-      console.log(res)
+      state.files.forEach((file) => formData.append('files', file));
+      const res = await postService.create(formData);
+      if (res.message) {
+        utilStore.alert(res.message);
+        return;
+      }
+      console.log(res);
     };
 
     watchEffect(() => {

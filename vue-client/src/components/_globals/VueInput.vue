@@ -93,7 +93,6 @@ $input-btn-width: 40;
 }
 
 .vue-input-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
 

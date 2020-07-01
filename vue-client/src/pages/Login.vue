@@ -80,7 +80,7 @@ import { reactive, ref } from 'vue';
 import PageLayout from '@/components/layouts/PageLayout';
 import authService from '@/services/auth';
 import { useAuthStore } from '@/stores/viewer';
-import { useUtilStore } from '@/stores/util'
+import { useUtilStore } from '@/stores/util';
 
 export default {
   name: 'PageLogin',
