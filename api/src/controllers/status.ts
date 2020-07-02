@@ -1,7 +1,7 @@
 import Controller from './Controller';
 
 class Status extends Controller {
-  public check: Koa.Middleware = async ctx => {
+  public check: Middleware = async (ctx) => {
     ctx.body = 'OK';
   };
 }

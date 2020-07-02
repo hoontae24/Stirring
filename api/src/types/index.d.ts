@@ -1,4 +1,9 @@
-import Application, { Middleware as _Middleware } from 'koa';
+import Application, {
+  Middleware as _Middleware,
+  DefaultState,
+  DefaultContext,
+  ParameterizedContext as _ParameterizedContext,
+} from 'koa';
 import Router from 'koa-router';
 import { Sequelize } from 'sequelize';
 
@@ -23,16 +28,16 @@ declare global {
     router: Router;
   }
 
-  namespace Koa {
-    export interface CustomState {}
-    export interface CustomContext {
-      account?: models.Account;
-    }
-    export type Middleware = _Middleware<CustomState, CustomContext>;
-  }
+  interface Middleware extends Router.IMiddleware {}
 
   type valueof<T> = T extends any[] ? T[number] : T[keyof T];
   type mapInstances<T extends {}> = {
     [key in keyof T]: valueof<T[key]>;
   };
+}
+
+declare module 'koa-router' {
+  export interface IRouterParamContext {
+    account?: models.Account;
+  }
 }

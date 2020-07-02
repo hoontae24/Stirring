@@ -1,6 +1,7 @@
-import * as models from '@/models';
-
+import { createReadStream } from 'fs';
 import multer from '@koa/multer';
+
+import * as models from '@/models';
 
 import Service from './Service';
 
@@ -33,6 +34,18 @@ class Resource extends Service {
       }),
     );
     return data;
+  };
+
+  public retrieve = async (id: string) => {
+    return this.resourceModel.findByPk(id);
+  };
+
+  public getReadStreamById = async (id: string) => {
+    const resource = await this.resourceModel.findByPk(id);
+    if (!resource) {
+      return null;
+    }
+    return createReadStream('uploads/'.concat(resource.filename));
   };
 }
 

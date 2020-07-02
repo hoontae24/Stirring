@@ -21,6 +21,10 @@ class Post extends Service {
   }) => {
     return this.postModel.create(data);
   };
+
+  public list = async () => {
+    return this.postModel.findAll();
+  };
 }
 
 export default Post;

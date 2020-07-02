@@ -8,6 +8,7 @@ const init: AppInitializer = async ({ app, routePrefix = '' }) => {
     authController.requireLogin,
     postController.create,
   );
+  router.get(`${routePrefix}`, postController.list);
   return { app, router };
 };
 

@@ -10,19 +10,27 @@
     HOME<br />
     HOME<br />
     HOME<br />
-    <input v-model="value.value" />
-
-    {{ value.value }}<br />
-    {{ value2 }}<br />
     <LoadingIcon />
+    <div v-for="post in state.posts" :key="post.id">
+      <img
+        :src="
+          `http://localhost:3001/api/resource/download/${post.resourceIds[0]}`
+        "
+        alt=""
+        :style="{ width: '300px', height: '300px' }"
+      />
+      {{ post.id }}
+    </div>
   </PageLayout>
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
+import { reactive } from 'vue';
 
 import PageLayout from '@/components/layouts/PageLayout';
 import LoadingIcon from '@/components/parts/LoadingIcon';
+
+import postService from '@/services/post';
 
 export default {
   name: 'PageHome',
@@ -31,9 +39,11 @@ export default {
     LoadingIcon,
   },
   setup() {
-    const value = reactive({ value: '' });
-    const value2 = computed(() => value.value + '!!');
-    return { value, value2 };
+    const state = reactive({ posts: [] });
+
+    postService.list().then(({ posts }) => (state.posts = posts));
+
+    return { state };
   },
 };
 </script>

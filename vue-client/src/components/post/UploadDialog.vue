@@ -61,7 +61,8 @@ export default {
         utilStore.alert(res.message);
         return;
       }
-      console.log(res);
+      utilStore.alert('사진이 업로드 되었습니다.');
+      handleClose();
     };
 
     watchEffect(() => {

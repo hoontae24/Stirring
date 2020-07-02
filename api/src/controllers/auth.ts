@@ -16,7 +16,7 @@ class Auth extends Controller {
     this.authService = deps.services.auth;
   }
 
-  public inspectAuth: Koa.Middleware = async (ctx, next) => {
+  public inspectAuth: Middleware = async (ctx, next) => {
     const token = ctx.headers[env.ACCESS_TOKEN_KEY];
     if (token) {
       const { account } = await this.authService.verifyToken(token);
@@ -28,7 +28,7 @@ class Auth extends Controller {
     await next();
   };
 
-  public register: Koa.Middleware = async (ctx) => {
+  public register: Middleware = async (ctx) => {
     const { name, email, password } = ctx.request.body;
     const account = await this.authService.register(
       name,
@@ -38,7 +38,7 @@ class Auth extends Controller {
     ctx.body = { account };
   };
 
-  public login: Koa.Middleware = async (ctx) => {
+  public login: Middleware = async (ctx) => {
     const { request } = ctx;
     const { email, password } = request.body;
 
@@ -51,7 +51,7 @@ class Auth extends Controller {
     ctx.body = { account, token };
   };
 
-  public verify: Koa.Middleware = async (ctx) => {
+  public verify: Middleware = async (ctx) => {
     const token = ctx.headers[env.ACCESS_TOKEN_KEY];
     if (token) {
       const { account, decoded } = await this.authService.verifyToken(
@@ -67,7 +67,7 @@ class Auth extends Controller {
     ctx.body = 'No authorization';
   };
 
-  public requireLogin: Koa.Middleware = async (ctx, next) => {
+  public requireLogin: Middleware = async (ctx, next) => {
     if (!ctx.account) {
       throw errors.AUTH_REQUIRED_LOGIN;
     }

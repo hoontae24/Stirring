@@ -15,10 +15,23 @@ class Resource extends Controller {
     this.resourceService = deps.services.resource;
   }
 
-  public create: Koa.Middleware = async (ctx) => {
+  public create: Middleware = async (ctx) => {
     const files = ctx.request.files;
     const resources = await this.resourceService.create(files);
     ctx.body = { resources };
+  };
+
+  public download: Middleware = async (ctx) => {
+    const { id } = ctx.params;
+    
+    const readStream = await this.resourceService.getReadStreamById(
+      id,
+    );
+    const resource = await this.resourceService.retrieve(id);
+    if (!resource) return;
+
+    ctx.type = resource.mimetype;
+    ctx.body = readStream;
   };
 }
 

@@ -17,7 +17,7 @@ class Post extends Controller {
     this.resourceService = deps.services.resource;
   }
 
-  public create: Koa.Middleware = async (ctx) => {
+  public create: Middleware = async (ctx) => {
     const files = ctx.request.files;
     const resources = await this.resourceService.create(files);
     const post = await this.postService.create({
@@ -26,6 +26,12 @@ class Post extends Controller {
     });
 
     ctx.body = { post };
+  };
+
+  public list: Middleware = async (ctx) => {
+    const posts = await this.postService.list();
+
+    ctx.body = { posts };
   };
 }
 
