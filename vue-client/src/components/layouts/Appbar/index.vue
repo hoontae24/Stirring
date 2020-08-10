@@ -98,7 +98,7 @@ export default {
       &::v-deep(.logo) {
         height: 100%;
         display: inline-block;
-        padding: #{$spacing}px 0px;
+        padding: #{$spacing * 0.5}px 0px;
 
         .logo-img {
           height: 100%;

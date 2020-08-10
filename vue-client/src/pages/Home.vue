@@ -21,30 +21,28 @@
         v-slot="{ column, row, columnCount }"
       >
         <Constant
-          :index="row * columnCount + column"
-          v-slot="{ index }"
+          :post="state.posts[row * columnCount + column]"
+          v-slot="{ post }"
         >
-          <Constant :post="state.posts[index]" v-slot="{ post }">
-            <template v-if="post">
-              <IntersectionBox
-                :style="{
-                  position: 'relative',
-                  width: '100%',
-                  paddingBottom: `${(post.resources[0].meta.height /
-                    post.resources[0].meta.width) *
-                    100}%`,
-                  backgroundColor: 'lightblue',
-                }"
-                v-slot="{ intersected }"
-              >
-                <ImageView
-                  v-if="intersected"
-                  :resourceId="post.resourceIds[0]"
-                  style="position: absolute; display: block; width: 100%; height: 100%"
-                />
-              </IntersectionBox>
-            </template>
-          </Constant>
+          <template v-if="post">
+            <IntersectionBox
+              :style="{
+                position: 'relative',
+                width: '100%',
+                paddingBottom: `${(post.resources[0].meta.height /
+                  post.resources[0].meta.width) *
+                  100}%`,
+                backgroundColor: 'lightblue',
+              }"
+              v-slot="{ intersected }"
+            >
+              <ImageView
+                v-if="intersected"
+                :resourceId="post.resourceIds[0]"
+                style="position: absolute; display: block; width: 100%; height: 100%"
+              />
+            </IntersectionBox>
+          </template>
         </Constant>
       </ColumnGrid>
     </div>
@@ -88,7 +86,7 @@ export default {
 <style scoped lang="scss">
 // .list {
 ::v-deep(.col) {
-  margin: 0 1%;
+  margin: 0 #{$spacing * 1}px;
 }
 
 ::v-deep(.row) {

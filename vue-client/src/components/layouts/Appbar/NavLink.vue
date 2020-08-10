@@ -1,5 +1,5 @@
 <template>
-  <VueLink class="nav-link" color="text-regular" size="large" :href="nav.path">
+  <VueLink class="nav-link" color="text-regular" :href="nav.path">
     {{ nav.label }}
   </VueLink>
 </template>
