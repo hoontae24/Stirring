@@ -83,6 +83,7 @@ export default {
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
+  z-index: #{$z-index-appBar};
 
   .header {
     height: #{$appbar-height}px;

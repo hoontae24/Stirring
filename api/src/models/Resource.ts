@@ -10,7 +10,10 @@ class Resource extends Model {
   public size!: number;
   public mimetype!: string;
   public extension!: string;
-  public meta?: any;
+  public meta!: Partial<{
+    width: number;
+    height: number;
+  }>;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;

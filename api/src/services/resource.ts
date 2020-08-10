@@ -2,6 +2,7 @@ import { createReadStream } from 'fs';
 import multer from '@koa/multer';
 
 import * as models from '@/models';
+import { getImageSize } from '@/lib/image';
 
 import Service from './Service';
 
@@ -22,13 +23,17 @@ class Resource extends Service {
     if (!files || !files.length) return [];
     const data = await Promise.all(
       files.map(async (file) => {
+        const imageSize = await getImageSize(file.path);
         const resource = {
           filename: file.filename,
           originalname: file.originalname,
           size: file.size,
           mimetype: file.mimetype,
           extension: file.originalname.split('.').pop(),
-          meta: {},
+          meta: {
+            width: imageSize.width,
+            height: imageSize.height,
+          },
         };
         return this.resourceModel.create(resource);
       }),

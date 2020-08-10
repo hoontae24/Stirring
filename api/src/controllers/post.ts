@@ -17,15 +17,39 @@ class Post extends Controller {
     this.resourceService = deps.services.resource;
   }
 
+  /**
+   *
+   * IF req.body.mode === 'multiple' THEN \
+   * create a post with multiple images, \
+   * ELSE \
+   * create posts with each image. \
+   * ENDIF
+   *
+   */
   public create: Middleware = async (ctx) => {
+    const { mode } = ctx.request.body;
     const files = ctx.request.files;
     const resources = await this.resourceService.create(files);
-    const post = await this.postService.create({
-      authorId: ctx.account!.id,
-      resourceIds: resources.map(({ id }) => id),
-    });
 
-    ctx.body = { post };
+    const authorId = ctx.account!.id;
+    const multiple = mode === 'multiple';
+    const result = {
+      [multiple ? 'posts' : 'post']: multiple
+        ? await this.postService.create({
+            authorId,
+            resourceIds: resources.map(({ id }) => id),
+          })
+        : await Promise.all(
+            resources.map((rsc) =>
+              this.postService.create({
+                authorId,
+                resourceIds: [rsc.id],
+              }),
+            ),
+          ),
+    };
+
+    ctx.body = { ...result };
   };
 
   public list: Middleware = async (ctx) => {

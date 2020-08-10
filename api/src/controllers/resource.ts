@@ -23,7 +23,7 @@ class Resource extends Controller {
 
   public download: Middleware = async (ctx) => {
     const { id } = ctx.params;
-    
+
     const readStream = await this.resourceService.getReadStreamById(
       id,
     );

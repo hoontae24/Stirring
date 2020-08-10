@@ -2,13 +2,14 @@ import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '@/db';
 import { commonAttrs } from '@/db/migrations/commons';
-import { Account } from '@/models';
+import { Account, Resource } from '@/models';
 
 class Post extends Model {
   public id!: string;
-  public authorId?: string;
-  public resourceIds?: string[];
+  public authorId!: string;
+  public resourceIds!: string[];
   public tagNames?: string[];
+  public readonly resources!: Resource[];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;

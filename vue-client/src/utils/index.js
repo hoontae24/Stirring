@@ -3,11 +3,16 @@ import env from '@/consts/env';
 export const getApiBaseUrl = () => {
   const protocol =
     (typeof location !== 'undefined' && location.protocol) ||
-    (env.DEV ? 'http' : 'https');
+    (env.DEV ? 'http:' : 'https:');
+  const port = typeof location !== 'undefined' && location.port;
+
   const apiHost = env.API_HOST;
   const apiPort = env.API_PORT;
   const baseUrl = `${protocol}//${apiHost}${
-    env.DEV ? `:${apiPort}` : ``
+    (port ? `:${apiPort}` : '') ||
+      // (env.DEV ?
+      `:${apiPort}`
+    // : ``  )
   }/api`;
 
   return baseUrl;

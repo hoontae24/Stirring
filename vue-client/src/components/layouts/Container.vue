@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <component :is="component" class="container" :style="style">
+    <component :is="component" class="container" :style="passedStyle">
       <slot />
     </component>
   </keep-alive>
@@ -17,14 +17,14 @@ export default {
     style: [Object, String],
   },
   setup(props) {
-    const style = {
+    const passedStyle = {
       margin: '0 10%',
       maxWidth: '1440px',
       ...props.style,
     };
 
     return {
-      style,
+      passedStyle,
     };
   },
 };

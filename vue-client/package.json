@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm-run-all build:clean build:vue build:server",
-    "build:clean": "rm -rf dist/",
-    "build:server": "cross-env NODE_ENV=production babel --out-dir dist src/server",
-    "build:vue": "cross-env NODE_ENV=production webpack",
+    "build:dev": "cross-env NODE_ENV=development npm-run-all build:vue build:server",
+    "build:prod": "cross-env NODE_ENV=production npm-run-all build:vue build:server",
+    "build:server": "babel --out-dir dist src/server",
+    "build:vue": "webpack",
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
-    "lint:check": "eslint src/**/*",
-    "lint:fix": "eslint --fix src/**/*"
+    "lint:check": "eslint --fix-dry-run --ext .js,.ts,.vue src/ ",
+    "lint:fix": "eslint --fix --ext .js,.ts,.vue src/ "
   },
   "author": "hoontae24",
   "license": "MIT",
