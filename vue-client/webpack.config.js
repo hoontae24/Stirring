@@ -70,7 +70,7 @@ const config = {
     }),
   ],
   entry: {
-    app: path.resolve(__dirname, 'src/main.js'),
+    app: path.resolve(__dirname, 'src/main.ts'),
   },
   output: {
     filename: 'bundle.[hash].js',
