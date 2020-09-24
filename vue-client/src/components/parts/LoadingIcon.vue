@@ -1,44 +1,25 @@
 <template>
-  <div
-    class="root"
-    :style="{
-      width: `${fontSize}px`,
-      height: `${fontSize}px`,
-    }"
-  >
-    <div class="dot">
-      <div class="pad rising rising-1"></div>
-    </div>
-    <div class="dot">
-      <div class="pad rising rising-2"></div>
-    </div>
-    <div class="dot">
-      <div class="pad rising rising-3"></div>
+  <div class="root" :style="{ width: _size, height: _size }">
+    <div v-for="i in [1, 2, 3]" :key="i" class="dot">
+      <div :class="['pad', 'rising', `rising-${i}`]"></div>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, onMounted, ref, onBeforeUnmount } from 'vue';
+import { computed } from 'vue';
+
 export default {
   name: 'LoadingIcon',
   props: {
-    fontSize: { type: Number, default: 30 },
+    size: { type: [Number, String], default: 30 },
   },
-  setup() {
-    const interval = ref(null);
-    const state = reactive({ index: 0 });
-    onMounted(() => {
-      interval.value = setInterval(() => {
-        ++state.index;
-        if (state.index > 3) clearInterval(interval.value);
-      }, 110);
-    });
+  setup(props) {
+    const _size = computed(
+      () => props.size + (!isNaN(Number(props.size)) ? 'px' : ''),
+    );
 
-    onBeforeUnmount(() => {
-      clearInterval(interval.value);
-    });
-    return { state };
+    return { _size };
   },
 };
 </script>
