@@ -112,7 +112,6 @@ export default {
   justify-content: space-evenly;
 
   .grid-column {
-    border: 1px solid red;
   }
 }
 </style>

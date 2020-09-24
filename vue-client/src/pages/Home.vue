@@ -1,19 +1,6 @@
 <template>
   <PageLayout style="text-align: center;">
-    HOME<br />
-    HOME<br />
-    HOME<br />
-    HOME<br />
-    HOME<br />
-    HOME<br />
-    HOME<br />
-    HOME<br />
-    HOME<br />
-    HOME<br />
     <LoadingIcon />
-    <Constant name="namename" v-slot="{ name: value }">
-      123{{ value }}
-    </Constant>
     <div class="list">
       <ColumnGrid
         :classes="{ column: 'col', row: 'row' }"
