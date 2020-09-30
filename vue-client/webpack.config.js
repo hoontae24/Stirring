@@ -6,10 +6,12 @@ const Dotenv = require('dotenv-webpack');
 
 // Load environment variables
 const dotenv = require('dotenv');
-const fs = require('fs')
+const fs = require('fs');
 const envPath = path.resolve(process.cwd(), '.env');
 const envDefaultPath = path.resolve(process.cwd(), '.env.defaults');
-dotenv.config({ path: fs.existsSync(envPath) ? envPath : envDefaultPath });
+dotenv.config({
+  path: fs.existsSync(envPath) ? envPath : envDefaultPath,
+});
 
 const config = {
   mode: process.env.NODE_ENV,
@@ -36,7 +38,12 @@ const config = {
         test: /\.(css|sass|scss)$/,
         use: [
           'vue-style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              // modules: true,
+            },
+          },
           {
             loader: 'sass-loader',
             options: {

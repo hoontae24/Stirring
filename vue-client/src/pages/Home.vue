@@ -19,7 +19,6 @@
                 paddingBottom: `${(post.resources[0].meta.height /
                   post.resources[0].meta.width) *
                   100}%`,
-                backgroundColor: 'lightblue',
               }"
               v-slot="{ intersected }"
             >
@@ -33,7 +32,7 @@
         </Constant>
       </ColumnGrid>
     </div>
-    <div style="height:8000px;"></div>
+    <div class="row"></div>
   </PageLayout>
 </template>
 
@@ -71,13 +70,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// .list {
 ::v-deep(.col) {
   margin: 0 #{$spacing * 1}px;
 }
 
-::v-deep(.row) {
+::v-deep(.grid-row) {
   margin-bottom: #{$spacing * 2}px;
 }
-// }
 </style>

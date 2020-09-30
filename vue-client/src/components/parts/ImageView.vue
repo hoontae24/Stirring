@@ -1,6 +1,6 @@
 <template>
-  <img class="root" :src="src" />
-  <!-- <span v-else>loading...</span> -->
+  <img v-if="state.loaded" class="root" :src="src" />
+  <div v-else class="fallback"></div>
 </template>
 
 <script>
@@ -37,5 +37,9 @@ export default {
 <style scoped lang="scss">
 .root {
   object-fit: contain;
+}
+
+.fallback {
+  @include loading-wave();
 }
 </style>

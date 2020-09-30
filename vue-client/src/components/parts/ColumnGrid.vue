@@ -110,8 +110,5 @@ export default {
 .grid-root {
   display: flex;
   justify-content: space-evenly;
-
-  .grid-column {
-  }
 }
 </style>
