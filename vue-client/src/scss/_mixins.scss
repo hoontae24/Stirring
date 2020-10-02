@@ -15,10 +15,11 @@
   right: $right;
 }
 
-@mixin flex($justify-content: center, $align-items: center) {
+@mixin flex($justify-content: center, $align-items: center, $flex-direction: row) {
   display: flex;
   justify-content: $justify-content;
   align-items: $align-items;
+  flex-direction: $flex-direction;
 }
 
 @mixin loading-wave() {

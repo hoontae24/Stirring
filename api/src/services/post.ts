@@ -28,7 +28,9 @@ class Post extends Service {
   };
 
   public list = async () => {
-    let posts = await this.postModel.findAll();
+    let posts = await this.postModel.findAll({
+      include: [{ association: this.postModel.associations.author }],
+    });
 
     posts = await this.withResource(posts);
 

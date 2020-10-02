@@ -11,24 +11,7 @@
           :post="state.posts[row * columnCount + column]"
           v-slot="{ post }"
         >
-          <template v-if="post">
-            <IntersectionBox
-              :style="{
-                position: 'relative',
-                width: '100%',
-                paddingBottom: `${(post.resources[0].meta.height /
-                  post.resources[0].meta.width) *
-                  100}%`,
-              }"
-              v-slot="{ intersected }"
-            >
-              <ImageView
-                v-if="intersected"
-                :resourceId="post.resourceIds[0]"
-                style="position: absolute; display: block; width: 100%; height: 100%"
-              />
-            </IntersectionBox>
-          </template>
+          <PostListItem v-if="post" :post="post" />
         </Constant>
       </ColumnGrid>
     </div>
@@ -37,34 +20,33 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 
 import PageLayout from '@/components/layouts/PageLayout';
 import LoadingIcon from '@/components/parts/LoadingIcon';
-import ImageView from '@/components/parts/ImageView';
 import ColumnGrid from '@/components/parts/ColumnGrid';
 import Constant from '@/components/parts/Constant';
-import IntersectionBox from '@/components/parts/IntersectionBox';
+import PostListItem from '@/components/post/PostListItem';
 
 import postService from '@/services/post';
-import { getApiBaseUrl } from '@/utils';
 
 export default {
   name: 'PageHome',
   components: {
     PageLayout,
     LoadingIcon,
-    ImageView,
     ColumnGrid,
     Constant,
-    IntersectionBox,
+    PostListItem,
   },
   setup() {
-    const state = reactive({ posts: [], loaded: [] });
+    const state = reactive({ posts: [] });
 
-    postService.list().then(({ posts }) => (state.posts = posts));
+    onMounted(() =>
+      postService.list().then(({ posts }) => (state.posts = posts)),
+    );
 
-    return { state, getApiBaseUrl };
+    return { state };
   },
 };
 </script>
