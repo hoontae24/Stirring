@@ -9,6 +9,9 @@ const init: AppInitializer = async ({ app, routePrefix = '' }) => {
     actionController.create,
   );
 
+  router.get(`${routePrefix}`, actionController.list);
+  router.delete(`${routePrefix}/:id`, actionController.remove);
+
   return { app, router };
 };
 

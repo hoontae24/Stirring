@@ -10,14 +10,11 @@
     </div>
     <div class="item _grow" />
     <div class="item action">
-      <button
-        class="icon-btn"
-        @click.prevent.stop="state.isLiked = !state.isLiked"
-      >
+      <button class="icon-btn" @click.prevent.stop="toggleLike">
         <component
           v-bind="actionIconCommonProps"
-          :class="{ 'btn-like-liked': state.isLiked }"
-          :is="state.isLiked ? 'HeartIcon' : 'HeartEmptyIcon'"
+          :class="{ 'btn-like-liked': liked }"
+          :is="liked ? 'HeartIcon' : 'HeartEmptyIcon'"
         />
       </button>
     </div>
@@ -35,7 +32,7 @@
 </template>
 
 <script>
-import { computed, reactive } from 'vue';
+import { computed } from 'vue';
 
 import {
   HeartIcon,
@@ -54,15 +51,18 @@ export default {
   },
   props: {
     post: { type: Object, required: true },
+    liked: Boolean,
   },
-  setup(props) {
-    const state = reactive({
-      isLiked: false,
-    });
+  setup(props, { emit }) {
     const actionIconCommonProps = computed(() => ({
       fontSize: 'medium',
     }));
-    return { state, actionIconCommonProps };
+
+    const toggleLike = () => {
+      emit('like');
+    };
+
+    return { actionIconCommonProps, toggleLike };
   },
 };
 </script>

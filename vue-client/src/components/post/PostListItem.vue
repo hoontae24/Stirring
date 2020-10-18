@@ -4,7 +4,11 @@
       <ImageView class="image" :resourceId="resourceId" />
     </VueLink>
     <div class="overlay">
-      <PostListItemInfo :post="post" />
+      <PostListItemInfo
+        :post="post"
+        :liked="liked"
+        @like="emit('like')"
+      />
     </div>
   </div>
 </template>
@@ -23,9 +27,10 @@ export default {
   },
   props: {
     post: { type: Object, required: true },
+    liked: Boolean,
     href: String,
   },
-  setup(props) {
+  setup(props, {emit}) {
     const cssVars = computed(() => ({
       '--post-height-ratio':
         (props.post.resources[0].meta.height /
@@ -38,6 +43,7 @@ export default {
     return {
       resourceId,
       cssVars,
+      emit
     };
   },
 };

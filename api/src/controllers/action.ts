@@ -34,6 +34,27 @@ class Action extends Controller {
 
     ctx.body = { action };
   };
+
+  public list: Middleware = async (ctx) => {
+    const { type, actorId, targetId, targetKind } = ctx.request.query;
+
+    const actions = await this.actionService.list({
+      type,
+      actorId,
+      targetId,
+      targetKind,
+    });
+
+    ctx.body = { actions };
+  };
+
+  public remove: Middleware = async (ctx) => {
+    const { id } = ctx.params;
+
+    const action = await this.actionService.remove(id);
+
+    ctx.body = { action };
+  };
 }
 
 export default Action;

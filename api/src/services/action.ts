@@ -1,3 +1,5 @@
+import { WhereOptions } from 'sequelize';
+
 import * as models from '@/models';
 
 import Service from './Service';
@@ -22,6 +24,27 @@ class Action extends Service {
     >,
   ) => {
     return this.actionModel.create(data);
+  };
+
+  public list = async (params?: Partial<models.Action>) => {
+    const { type, actorId, targetId, targetKind, deletedAt } =
+      params || {};
+    const where: WhereOptions = {};
+    if (type !== undefined) where.type = type;
+    if (actorId !== undefined) where.actorId = actorId;
+    if (targetId !== undefined) where.targetId = targetId;
+    if (targetKind !== undefined) where.targetKind = targetKind;
+    if (deletedAt !== undefined) where.deletedAt = deletedAt;
+
+    return this.actionModel.findAll({ where });
+  };
+
+  public remove = async (id: string) => {
+    const action = this.actionModel.findByPk(id);
+    if (action) {
+      await this.actionModel.destroy({ where: { id } });
+    }
+    return action;
   };
 }
 
