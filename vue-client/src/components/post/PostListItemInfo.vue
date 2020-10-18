@@ -12,7 +12,7 @@
     <div class="item action">
       <button
         class="icon-btn"
-        @click="state.isLiked = !state.isLiked"
+        @click.prevent.stop="state.isLiked = !state.isLiked"
       >
         <component
           v-bind="actionIconCommonProps"
@@ -22,12 +22,12 @@
       </button>
     </div>
     <div class="item action">
-      <button class="icon-btn">
+      <button class="icon-btn" @click.prevent.stop>
         <PlusIcon v-bind="actionIconCommonProps" />
       </button>
     </div>
     <div class="item action">
-      <button class="icon-btn">
+      <button class="icon-btn" @click.prevent.stop>
         <DownloadIcon v-bind="actionIconCommonProps" />
       </button>
     </div>
@@ -80,10 +80,12 @@ export default {
 }
 
 .info .item .profile-name {
+  pointer-events: initial;
   color: inherit;
 }
 
 .icon-btn {
+  pointer-events: initial;
   padding: $spacing * 1px;
   display: inline-flex;
   justify-content: center;

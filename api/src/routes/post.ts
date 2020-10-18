@@ -9,6 +9,7 @@ const init: AppInitializer = async ({ app, routePrefix = '' }) => {
     postController.create,
   );
   router.get(`${routePrefix}`, postController.list);
+  router.get(`${routePrefix}/:id`, postController.retrieve);
   return { app, router };
 };
 

@@ -1,6 +1,8 @@
 <template>
   <div class="root post-list-item" :style="cssVars">
-    <ImageView class="image" :resourceId="resourceId" />
+    <VueLink :href="href || '#'">
+      <ImageView class="image" :resourceId="resourceId" />
+    </VueLink>
     <div class="overlay">
       <PostListItemInfo :post="post" />
     </div>
@@ -21,6 +23,7 @@ export default {
   },
   props: {
     post: { type: Object, required: true },
+    href: String,
   },
   setup(props) {
     const cssVars = computed(() => ({
@@ -58,6 +61,7 @@ export default {
   @include absolute(0px);
   @include flex(flex-end, null, column);
 
+  pointer-events: none;
   background: $overlay-gradient;
   transition: visibility 100ms linear, opacity 100ms linear;
   visibility: hidden;

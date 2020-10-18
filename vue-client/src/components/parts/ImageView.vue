@@ -1,5 +1,5 @@
 <template>
-  <img v-if="state.loaded" class="root" :src="src" />
+  <img v-if="state.loaded" class="image-view-root" :src="src" />
   <div v-else class="fallback"></div>
 </template>
 
@@ -35,7 +35,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.root {
+.image-view-root {
+  display: inline-block;
+  max-width: 100%;
   object-fit: contain;
 }
 

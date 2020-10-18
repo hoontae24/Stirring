@@ -37,6 +37,16 @@ class Post extends Service {
     return posts;
   };
 
+  public retrieve = async (postId: string) => {
+    let post = await this.postModel.findByPk(postId, {
+      include: [{ association: this.postModel.associations.author }],
+    });
+
+    post = post && (await this.withResource(post));
+
+    return post;
+  };
+
   public async withResource(posts: models.Post): Promise<models.Post>;
   public async withResource(
     posts: models.Post[],

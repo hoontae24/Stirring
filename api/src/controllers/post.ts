@@ -57,6 +57,14 @@ class Post extends Controller {
 
     ctx.body = { posts };
   };
+
+  public retrieve: Middleware = async (ctx) => {
+    const { id } = ctx.params;
+
+    const post = id ? await this.postService.retrieve(id) : null;
+
+    ctx.body = { post };
+  };
 }
 
 export default Post;

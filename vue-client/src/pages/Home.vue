@@ -11,7 +11,11 @@
           :post="state.posts[row * columnCount + column]"
           v-slot="{ post }"
         >
-          <PostListItem v-if="post" :post="post" />
+          <PostListItem
+            v-if="post"
+            :post="post"
+            :href="`/post/${post.id}`"
+          />
         </Constant>
       </ColumnGrid>
     </div>
