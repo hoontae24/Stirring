@@ -1,5 +1,6 @@
 import Account from './Account';
 import Post from './Post';
+import Action from './Action';
 
 Post.belongsTo(Account, {
   constraints: false,
@@ -8,5 +9,9 @@ Post.belongsTo(Account, {
   as: 'author',
 });
 
-// User.hasMany(Account, { sourceKey: 'userId' });
-// Account.belongsTo(User, { foreignKey: 'userId' });
+Action.belongsTo(Account, {
+  constraints: false,
+  foreignKeyConstraint: false,
+  foreignKey: 'actorId',
+  as: 'actor',
+});
